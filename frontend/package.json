@@ -20,8 +20,10 @@
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
+    "vue-cli-plugin-vuetify": "^2.0.5",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.2.21"
+    "vuetify": "^2.2.21",
+    "vuetify-loader": "^1.4.3"
   },
   "eslintConfig": {
     "root": true,
