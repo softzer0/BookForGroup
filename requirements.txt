@@ -1,2 +1,6 @@
 django
+django-cors-headers
 django-allauth
+djangorestframework
+dj-rest-auth
+djangorestframework-simplejwt
