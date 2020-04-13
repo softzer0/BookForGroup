@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'main',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -131,7 +131,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 SITE_ID = 1
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
@@ -146,11 +146,11 @@ REST_FRAMEWORK = {
 }
 
 REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'main.serializers.LoginSerializer',
-    'USER_DETAILS_SERIALIZER': 'main.serializers.UserDetailsSerializer'
+    'LOGIN_SERIALIZER': 'authentication.serializers.LoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'authentication.serializers.UserDetailsSerializer'
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'main.serializers.RegisterSerializer'
+    'REGISTER_SERIALIZER': 'authentication.serializers.RegisterSerializer'
 }
 REST_USE_JWT = True
 
