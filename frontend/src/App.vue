@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header/>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view/>
   </v-app>
 </template>
 
