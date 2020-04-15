@@ -10,9 +10,6 @@ class Hotel(models.Model):
     class Meta:
         ordering = ['address']
 
-    def __str__(self):
-        return self.text
-
 
 class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='rooms')
@@ -24,5 +21,3 @@ class Room(models.Model):
     class Meta:
         ordering = ['time']
 
-    def __str__(self):
-        return self.text

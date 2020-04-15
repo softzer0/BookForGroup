@@ -13,5 +13,3 @@ class Arrangement(models.Model):
     class Meta:
         ordering = ['numberOfPeople']
 
-    def __str__(self):
-        return self.text
