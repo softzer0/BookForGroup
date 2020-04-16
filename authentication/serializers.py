@@ -2,8 +2,10 @@ from rest_framework import serializers
 from dj_rest_auth.serializers import LoginSerializer as DefaultLoginSerializer, \
     UserDetailsSerializer as DefaultUserDetailsSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer as DefaultRegisterSerializer
+import re
 from .models import User
 
+PHONE_REGEX = re.compile(r'^\+?\d+$')
 
 class NoUsername:
     def __init__(self, *args, **kwargs):
@@ -17,7 +19,14 @@ class LoginSerializer(NoUsername, DefaultLoginSerializer):
 
 
 class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
-    pass
+    first_name = serializers.CharField(max_length=20)
+    last_name = serializers.CharField(max_length=20)
+    phone = serializers.CharField()
+
+    def validate_phone(self, value):
+        if not PHONE_REGEX.match(value):
+            raise serializers.ValidationError("Invalid phone number!")
+        return value
 
 
 class UserDetailsSerializer(DefaultUserDetailsSerializer):
