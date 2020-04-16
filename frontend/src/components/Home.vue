@@ -1,11 +1,9 @@
 <template>
     <v-container>
-        <v-container>
-            <a href="/login">Login</a>
-        </v-container>
-        <v-container>
-            <a href="/register">Register</a>
-        </v-container>
+        <v-row>
+            <v-col class="text-center"><a href="/login">Login</a></v-col>
+            <v-col class="text-center"><a href="/register">Register</a></v-col>
+        </v-row>
     </v-container>
 </template>
 

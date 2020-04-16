@@ -25,6 +25,6 @@ class UserAdmin(DefaultUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('email', 'email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name', 'email')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
