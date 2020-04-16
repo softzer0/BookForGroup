@@ -30,6 +30,12 @@ export default {
             axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
             // console.log(await auth.userInfo())
             commit('SET_DATA', response.data)
+        },
+        async register ({ commit }, data) {
+            const response = await auth.register(data)
+            axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
+            // console.log(await auth.userInfo())
+            commit('SET_DATA', response.data)
         }
     }
 }

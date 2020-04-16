@@ -46,6 +46,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
+
+    phone = models.CharField(_('phone number'), max_length=10)
+
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,

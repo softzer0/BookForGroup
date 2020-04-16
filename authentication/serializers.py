@@ -6,6 +6,8 @@ import re
 from .models import User
 
 PHONE_REGEX = re.compile(r'^\+?\d+$')
+NAME_REGEX = re.compile(r'\d')
+
 
 class NoUsername:
     def __init__(self, *args, **kwargs):
@@ -28,9 +30,22 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
             raise serializers.ValidationError("Invalid phone number!")
         return value
 
+    def validate(self, data):
+        super().validate(data)
+        if NAME_REGEX.match(data['first_name']) or NAME_REGEX.match(data['last_name']):
+            raise serializers.ValidationError("Invalid name!")
+        return data
+
+    def get_cleaned_data(self):
+        return {
+            **super().get_cleaned_data(), **{
+                'first_name': self.validated_data.get('first_name', ''),
+                'last_name': self.validated_data.get('last_name', ''),
+                'phone': self.validated_data.get('phone', '')}}
+
 
 class UserDetailsSerializer(DefaultUserDetailsSerializer):
     class Meta:
         model = User
-        fields = ('pk', 'email', 'first_name', 'last_name')
+        fields = ('pk', 'email', 'first_name', 'last_name', 'phone')
         read_only_fields = ('email', )
