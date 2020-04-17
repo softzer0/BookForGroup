@@ -24,6 +24,7 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
     first_name = serializers.CharField(max_length=20)
     last_name = serializers.CharField(max_length=20)
     phone = serializers.CharField()
+    address = serializers.CharField()
 
     def validate_phone(self, value):
         if not PHONE_REGEX.match(value):
@@ -41,11 +42,12 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
             **super().get_cleaned_data(), **{
                 'first_name': self.validated_data.get('first_name', ''),
                 'last_name': self.validated_data.get('last_name', ''),
-                'phone': self.validated_data.get('phone', '')}}
+                'phone': self.validated_data.get('phone', ''),
+                'address': self.validated_data.get('address', '')}}
 
 
 class UserDetailsSerializer(DefaultUserDetailsSerializer):
     class Meta:
         model = User
-        fields = ('pk', 'email', 'first_name', 'last_name', 'phone')
+        fields = ('pk', 'email', 'first_name', 'last_name', 'phone', 'address')
         read_only_fields = ('email', )
