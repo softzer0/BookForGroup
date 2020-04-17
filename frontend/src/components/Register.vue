@@ -94,7 +94,7 @@
                 this.valid = this.rules.required(this.email) === true && this.rules.required(this.password) === true &&
                              this.rules.required(this.firstName) === true && this.rules.required(this.lastName) === true &&
                              this.rules.required(this.confirmPassword) === true && this.rules.required(this.phone) === true &&
-                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.address) &&
+                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.address) === true &&
                              this.rules.lettersOnly(this.firstName) === true && this.rules.lettersOnly(this.lastName) === true &&
                              this.rules.nameLength(this.firstName) === true && this.rules.nameLength(this.lastName) === true &&
                              this.rules.digitsOnly(this.phone) === true && this.rules.email(this.email) === true
