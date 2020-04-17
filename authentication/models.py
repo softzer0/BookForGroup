@@ -49,6 +49,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     phone = models.CharField(_('phone number'), max_length=10)
 
+    address = models.CharField(_('address'), max_length=30)
+
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,

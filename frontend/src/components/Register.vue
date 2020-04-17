@@ -50,6 +50,13 @@
                                 @input="validate"
                                 validate-on-blur
                             />
+                            <v-text-field
+                                label="Address"
+                                v-model="address"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
+                            />
                         </v-card-text>
                         <v-card-actions><v-btn :disabled="!valid" @click="register()">Register</v-btn></v-card-actions>
                     </v-form>
@@ -79,6 +86,7 @@
             password: '',
             confirmPassword: '',
             phone: '',
+            address: '',
             valid: false
         }),
         methods: {
@@ -86,15 +94,15 @@
                 this.valid = this.rules.required(this.email) === true && this.rules.required(this.password) === true &&
                              this.rules.required(this.firstName) === true && this.rules.required(this.lastName) === true &&
                              this.rules.required(this.confirmPassword) === true && this.rules.required(this.phone) === true &&
-                             this.rules.email(this.email) === true && this.rules.confirmPassword(this.confirmPassword) === true &&
+                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.address) &&
                              this.rules.lettersOnly(this.firstName) === true && this.rules.lettersOnly(this.lastName) === true &&
                              this.rules.nameLength(this.firstName) === true && this.rules.nameLength(this.lastName) === true &&
-                             this.rules.digitsOnly(this.phone) === true
+                             this.rules.digitsOnly(this.phone) === true && this.rules.email(this.email) === true
             },
             async register () {
                 await this.$store.dispatch('user/register', { email: this.email, password1: this.password,
                                                                             password2: this.confirmPassword, first_name: this.firstName,
-                                                                            last_name: this.lastName, phone: this.phone })
+                                                                            last_name: this.lastName, phone: this.phone, address: this.address })
                 this.$router.push({ name: 'User' })
             }
         }
