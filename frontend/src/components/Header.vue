@@ -22,13 +22,41 @@
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
+
+      <router-link to="/register" v-if="!userIsLoggedIn">
+        <v-btn icon>
+            <v-icon>mdi-file-document-edit-outline</v-icon>
+        </v-btn>
+      </router-link>
+
+      <router-link to="/login" v-if="!userIsLoggedIn">
+        <v-btn icon>
+            <v-icon>mdi-login</v-icon>
+        </v-btn>
+      </router-link>
+
+      <v-btn icon @click="logout()" v-if="userIsLoggedIn">
+          <v-icon>mdi-logout</v-icon>
+      </v-btn>
+
     </v-toolbar>
   </v-card>
 </template>
 
 <script>
     export default {
-        name: "Header"
+        name: "Header",
+        computed: {
+            userIsLoggedIn() {
+              return !!(this.$store.getters['user/getAccessToken']())
+            }
+        },
+        methods: {
+            async logout () {
+                await this.$store.dispatch('user/logout', { })
+                this.$router.push({ name: 'Home' })
+            }
+        }
     }
 </script>
 
