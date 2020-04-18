@@ -17,6 +17,12 @@ export default {
             state.refreshToken = data.refresh_token
             state.data.firstName = data.user.first_name
             state.data.lastName = data.user.last_name
+        },
+        CLEAR_DATA: (state) => {
+            state.accessToken = null
+            state.refreshToken = null
+            state.data.firstName = null
+            state.data.lastName = null
         }
     },
     getters: {
@@ -36,6 +42,11 @@ export default {
             axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
             // console.log(await auth.userInfo())
             commit('SET_DATA', response.data)
+        },
+        async logout ({ commit }) {
+            await auth.logout()
+            axios.defaults.headers.common = {}
+            commit('CLEAR_DATA')
         }
     }
 }
