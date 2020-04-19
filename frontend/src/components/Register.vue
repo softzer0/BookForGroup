@@ -51,8 +51,8 @@
                                 validate-on-blur
                             />
                             <v-text-field
-                                label="Address"
-                                v-model="address"
+                                label="Company name"
+                                v-model="company"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -86,7 +86,7 @@
             password: '',
             confirmPassword: '',
             phone: '',
-            address: '',
+            company: '',
             valid: false
         }),
         methods: {
@@ -94,7 +94,7 @@
                 this.valid = this.rules.required(this.email) === true && this.rules.required(this.password) === true &&
                              this.rules.required(this.firstName) === true && this.rules.required(this.lastName) === true &&
                              this.rules.required(this.confirmPassword) === true && this.rules.required(this.phone) === true &&
-                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.address) === true &&
+                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.company) === true &&
                              this.rules.lettersOnly(this.firstName) === true && this.rules.lettersOnly(this.lastName) === true &&
                              this.rules.nameLength(this.firstName) === true && this.rules.nameLength(this.lastName) === true &&
                              this.rules.digitsOnly(this.phone) === true && this.rules.email(this.email) === true
@@ -102,7 +102,7 @@
             async register () {
                 await this.$store.dispatch('user/register', { email: this.email, password1: this.password,
                                                                             password2: this.confirmPassword, first_name: this.firstName,
-                                                                            last_name: this.lastName, phone: this.phone, address: this.address })
+                                                                            last_name: this.lastName, phone: this.phone, company_name: this.company })
                 this.$router.push({ name: 'User' })
             }
         }
