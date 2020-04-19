@@ -13,6 +13,7 @@ export default {
   name: 'App',
   components: {
     Header,
+    // eslint-disable-next-line vue/no-unused-components
     HelloWorld
   }
 }
