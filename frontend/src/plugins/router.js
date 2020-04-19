@@ -7,6 +7,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from "@/components/Register"
 import User from "@/components/User"
+import UserAttributes from "@/components/UserAttributes";
 
 Vue.use(Router)
 
@@ -51,6 +52,12 @@ export default new Router({
             path: '/user',
             name: 'User',
             component: User,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/userattributes',
+            name: 'UserAttributes',
+            component: UserAttributes,
             beforeEnter: isAuthenticated
         }
     ]

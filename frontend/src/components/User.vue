@@ -8,6 +8,9 @@
             <v-col>Last name:</v-col>
             <v-col>{{ user.lastName }}</v-col>
         </v-row>
+        <v-row>
+            <v-btn @click="completeProfile()">Complete the profile</v-btn>
+        </v-row>
     </v-container>
 </template>
 
@@ -15,7 +18,12 @@
     export default {
         name: "User",
         computed: {
-            user() { return this.$store.getters['user/getUserData']() }
+            user() { return this.$store.getters['user/getUserData']() },
+        },
+        methods: {
+            async completeProfile () {
+                this.$router.push({ name: 'UserAttributes' })
+            }
         }
     }
 </script>
