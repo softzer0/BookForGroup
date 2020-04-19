@@ -43,24 +43,24 @@
 <script>
     export default {
         name: "Home",
-        data () { return {
-          autoUpdate: true,
-          places: [],
-          searchInput: '',
-          cities: [
-            { header: 'Srbija' },
-            { name: 'Beograd' },
-            { name: 'Vranje' },
-            { name: 'Surdulica' },
-            { name: 'Nis' },
-            { divider: true },
-            { header: 'Crna Gora' },
-            { name: 'Podgorica' },
-            { name: 'Bar' },
-            { name: 'Kotor' },
-            { name: 'Tivat' },
-          ],
-        }},
+        data: () => ({
+            autoUpdate: true,
+            places: [],
+            searchInput: '',
+            cities: [
+              { header: 'Srbija' },
+              { name: 'Beograd' },
+              { name: 'Vranje' },
+              { name: 'Surdulica' },
+              { name: 'Nis' },
+              { divider: true },
+              { header: 'Crna Gora' },
+              { name: 'Podgorica' },
+              { name: 'Bar' },
+              { name: 'Kotor' },
+              { name: 'Tivat' },
+            ],
+          }),
           methods: {
             remove (item) {
               const index = this.places.indexOf(item.name)
