@@ -55,7 +55,7 @@ export default new Router({
             beforeEnter: isAuthenticated
         },
         {
-            path: '/userattributes',
+            path: '/completeUser',
             name: 'UserAttributes',
             component: UserAttributes,
             beforeEnter: isAuthenticated

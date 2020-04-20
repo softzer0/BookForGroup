@@ -49,8 +49,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     company_name = models.CharField(_('company name'), max_length=30)
     phone = models.CharField(_('phone number'), max_length=10)
-    city = models.CharField(_('city name'), max_length=30)
-    address = models.CharField(_('address'), max_length=30)
 
     is_staff = models.BooleanField(
         _('staff status'),
@@ -95,3 +93,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class CompleteUser(models.Model):
+    city = models.CharField(_('city name'), max_length=30)
+    address = models.CharField(_('address'), max_length=30)
+    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
