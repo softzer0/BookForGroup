@@ -18,5 +18,6 @@ urlpatterns = [
     # URLs that require a user to be logged in with a valid session / token.
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('logout/', LogoutView.as_view(), name='rest_logout')
+    path('logout/', LogoutView.as_view(), name='rest_logout'),
+    path('user/<int:pk>/', CompleteUserView.as_view())
 ]

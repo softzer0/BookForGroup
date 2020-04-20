@@ -6,5 +6,6 @@ export default {
     login: data => axios.post(`${BASE_PATH}login/`, data),
     register: data => axios.post(`${BASE_PATH}registration/`, data),
     userInfo: () => axios.get(`${BASE_PATH}user/`),
-    logout: () => axios.post(`${BASE_PATH}logout/`)
+    logout: () => axios.post(`${BASE_PATH}logout/`),
+    completeUser: () => axios.post(`${BASE_PATH}`),
 }
