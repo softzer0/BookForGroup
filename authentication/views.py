@@ -2,10 +2,10 @@ from dj_rest_auth import views
 from dj_rest_auth.registration import views as registration_views
 from rest_framework.permissions import IsAuthenticated
 
-from .permissions import IsGuest as IsGuestPermission
-from authentication.serializers import CompleteUserSerializer
-from .models import CompleteUser
-from rest_framework.views import APIView
+
+from .permissions import IsGuest as IsGuestPermission, IsOwnerOrReadOnly as IsOwnerOrReadOnlyPermission
+from authentication.serializers import UserDetailsSerializer
+from .models import User
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 
 
@@ -37,6 +37,11 @@ class VerifyEmailView(IsGuest, registration_views.VerifyEmailView):
 
 
 class CompleteUserView(CreateAPIView, RetrieveUpdateAPIView):
-    queryset = CompleteUser.objects.all()
-    serializer_class = CompleteUserSerializer
-    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = UserDetailsSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnlyPermission]
+
+    def get_object(self):
+        if self.request.method in ('PUT', 'PATCH'):
+            return self.request.user
+        return super().get_object()

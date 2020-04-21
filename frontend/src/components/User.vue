@@ -8,6 +8,14 @@
             <v-col>Last name:</v-col>
             <v-col>{{ user.lastName }}</v-col>
         </v-row>
+        <v-row v-if="user.city">
+            <v-col>City:</v-col>
+            <v-col>{{ user.city }}</v-col>
+        </v-row>
+        <v-row v-if="user.address">
+            <v-col>Address:</v-col>
+            <v-col>{{ user.address }}</v-col>
+        </v-row>
         <v-row>
             <v-btn @click="completeProfile()">Complete the profile</v-btn>
         </v-row>

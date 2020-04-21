@@ -35,7 +35,7 @@ class EmailUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class AbstractUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         _('email address'),
         unique=True,
@@ -72,6 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
+        abstract = True
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
@@ -95,7 +96,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class CompleteUser(models.Model):
-    city = models.CharField(_('city name'), max_length=30)
-    address = models.CharField(_('address'), max_length=30)
-    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
+class User(AbstractUser):
+    city = models.CharField(_('city name'), max_length=30, null=True, blank=True)
+    address = models.CharField(_('address'), max_length=30, null=True, blank=True)

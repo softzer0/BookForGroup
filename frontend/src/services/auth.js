@@ -7,5 +7,5 @@ export default {
     register: data => axios.post(`${BASE_PATH}registration/`, data),
     userInfo: () => axios.get(`${BASE_PATH}user/`),
     logout: () => axios.post(`${BASE_PATH}logout/`),
-    completeUser: () => axios.post(`${BASE_PATH}`),
+    completeUser: (id, data) => axios.patch(`${BASE_PATH}user/${id}/`, data),
 }
