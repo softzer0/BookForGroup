@@ -34,7 +34,7 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                selected: () => this.selected != '' || "Required.",
+                selected: () => !! this.selected || "Required.",
             }}
         },
         data: () => ({
@@ -61,7 +61,7 @@
                         this.rules.selected(this.selected) === true
               },
               async addProperties() {
-                await this.$store.dispatch('user/', {  })
+                await this.$store.dispatch('user/completeUser', { city: this.selected, address: this.address })
                 this.$router.push({ name: 'User' })
               }
           },
