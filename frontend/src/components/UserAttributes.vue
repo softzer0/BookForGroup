@@ -7,18 +7,18 @@
                     <v-form>
                         <v-card-text>
                             <v-combobox
-                                v-model="selected"
+                                v-model="user.city"
                                 :items="cities"
-                                :rules="[rules.required, rules.selected]"
+                                :rules="[rules.selected]"
                                 label="Select a city"
-                              ></v-combobox>
+                            ></v-combobox>
                             <v-text-field
-                            label="Address"
-                            v-model="address"
-                            :rules="[rules.required]"
-                            @input="validate"
-                            validate-on-blur
-                        />
+                                label="Address"
+                                v-model="user.address"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
+                            />
                         </v-card-text>
                     </v-form>
                     <v-card-actions><v-btn :disabled="!valid" @click="addProperties()">Complete</v-btn></v-card-actions>
@@ -34,13 +34,12 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                selected: () => !! this.selected || "Required.",
-            }}
+                selected: () => !!this.user.city || "Required.",
+            }},
+            user() { return this.$store.getters['user/getUserData']() }
         },
         data: () => ({
             autoUpdate: true,
-            selected: '',
-            address: '',
             valid: false,
             cities: [
               'Srbija',
@@ -57,11 +56,10 @@
           }),
           methods: {
               validate () {
-                this.valid = this.rules.required(this.address) === true && this.rules.required(this.selected) === true &&
-                        this.rules.selected(this.selected) === true
+                this.valid = this.rules.required(this.user.address) === true && this.rules.selected(this.user.city) === true
               },
               async addProperties() {
-                await this.$store.dispatch('user/completeUser', { city: this.selected, address: this.address })
+                await this.$store.dispatch('user/completeUser', { city: this.user.city, address: this.user.address })
                 this.$router.push({ name: 'User' })
               }
           },

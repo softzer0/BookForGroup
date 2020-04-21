@@ -6,6 +6,7 @@
                     <v-card-title>Login</v-card-title>
                     <v-form @keyup.enter.native="valid && login()">
                         <v-card-text>
+                            <v-alert v-if="showError" type="error">Invalid login</v-alert>
                             <v-text-field
                                     label="Email"
                                     v-model="email"
@@ -42,6 +43,7 @@
         data: () => ({
             email: null,
             password: null,
+            showError: false,
             valid: false
         }),
         methods: {
@@ -49,8 +51,12 @@
                 this.valid =  this.rules.required(this.email) === true && this.rules.email(this.email) === true && this.rules.required(this.password) === true
             },
             async login () {
-                await this.$store.dispatch('user/login', { email: this.email, password: this.password })
-                this.$router.push({ name: 'User' })
+                try {
+                    await this.$store.dispatch('user/login', {email: this.email, password: this.password})
+                    this.$router.push({name: 'User'})
+                } catch (e) {
+                    this.showError = true
+                }
             }
         }
     }

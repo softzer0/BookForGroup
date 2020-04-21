@@ -28,7 +28,10 @@ export default {
             state.refreshToken = null
             state.data = {}
         },
-        SET_EXTRA: (state, data) => {
+        SET_USER: (state, data) => {
+            state.data.id = data.pk
+            state.data.firstName = data.first_name
+            state.data.lastName = data.last_name
             state.data.city = data.city
             state.data.address = data.address
         }
@@ -52,13 +55,13 @@ export default {
             commit('SET_DATA', response.data)
         },
         async logout ({ commit }) {
-            await auth.logout()
             axios.defaults.headers.common = {}
+            await auth.logout()
             commit('CLEAR_DATA')
         },
         async completeUser({ commit, state }, data) {
             const response = await auth.completeUser(state.data.id, data)
-            commit('SET_EXTRA', response.data)
+            commit('SET_USER', response.data)
         }
     }
 }

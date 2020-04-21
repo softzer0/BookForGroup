@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsGuest as IsGuestPermission, IsOwnerOrReadOnly as IsOwnerOrReadOnlyPermission
 from authentication.serializers import UserDetailsSerializer
 from .models import User
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.viewsets import ModelViewSet
 
 
 class IsGuest:
@@ -36,12 +36,8 @@ class VerifyEmailView(IsGuest, registration_views.VerifyEmailView):
     pass
 
 
-class CompleteUserView(CreateAPIView, RetrieveUpdateAPIView):
+class CompleteUserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserDetailsSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnlyPermission]
 
-    def get_object(self):
-        if self.request.method in ('PUT', 'PATCH'):
-            return self.request.user
-        return super().get_object()
