@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from '@/plugins/axios'
 
 import store from '@/store'
 
@@ -27,7 +28,7 @@ const isGuest = (to, from, next) => {
     }
 }
 
-export default new Router({
+const router = new Router({
     // mode: 'history',
     routes: [
         {
@@ -62,3 +63,15 @@ export default new Router({
         }
     ]
 })
+
+const waitForStorageToBeReady = async (to, from, next) => {
+    await store.restored
+    const token = store.getters['user/getAccessToken']()
+    if (token) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+    }
+    next()
+}
+router.beforeEach(waitForStorageToBeReady)
+
+export default router
