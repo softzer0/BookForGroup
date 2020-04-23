@@ -42,12 +42,10 @@
             autoUpdate: true,
             valid: false,
             cities: [
-              'Srbija',
               'Beograd',
               'Vranje',
               'Surdulica',
               'Nis',
-              'Crna Gora',
               'Podgorica',
               'Bar',
               'Kotor',

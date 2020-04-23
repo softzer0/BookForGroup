@@ -15,8 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from Hotel.urls import router as hotel_router
+from Arrangement.urls import router as arrangement_router
+
+
+router = DefaultRouter()
+
+router.registry.extend(hotel_router.registry)
+router.registry.extend(arrangement_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
+    path('main/', include(router.urls))
 ]
