@@ -10,3 +10,4 @@ class HotelViewSet(ModelViewSet):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    filterset_fields = ['user']
