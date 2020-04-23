@@ -29,7 +29,7 @@ const isGuest = (to, from, next) => {
 }
 
 const router = new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: [
         {
             path: '/',
