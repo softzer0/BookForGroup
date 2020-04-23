@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
 
 import user from './modules/user'
+import hotel from './modules/hotel'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,6 @@ const vuexLocalStorage = new VuexPersist({
 })
 
 export default new Vuex.Store({
-    modules: { user },
+    modules: { user, hotel },
     plugins: [vuexLocalStorage.plugin]
 })

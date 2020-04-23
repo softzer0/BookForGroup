@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'authentication',
     'Arrangement',
     'Hotel',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -143,6 +144,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication'
