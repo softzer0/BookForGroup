@@ -17,18 +17,23 @@
             <v-col>{{ user.address }}</v-col>
         </v-row>
         <v-row>
-            <ul>
-                <li v-for="hotel in this.hotels" :key="hotel.name">
-                    {{ hotel.name }}
-                </li>
-            </ul>
-        </v-row>
-        <v-row>
-            <v-btn @click="completeProfile()">Complete the profile</v-btn>
+            <v-col>Hotels:</v-col>
+            <v-col>
+                <ul>
+                    <li v-for="hotel in this.hotels" :key="hotel.name">
+                        {{ hotel.name }}
+                    </li>
+                </ul>
+            </v-col>
         </v-row>
         <br>
         <v-row>
-            <v-btn @click="createHotel()">Create new hotel</v-btn>
+            <v-col>
+                <v-btn @click="completeProfile()">Complete the profile</v-btn>
+            </v-col>
+            <v-col>
+                <v-btn @click="createHotel()">Create new hotel</v-btn>
+            </v-col>
         </v-row>
     </v-container>
 </template>

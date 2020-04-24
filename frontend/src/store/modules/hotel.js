@@ -6,7 +6,7 @@ export default {
         list: []
     },
     mutations: {
-        SET_HOTEL: (state, data) => {
+        SET_HOTELS: (state, data) => {
             state.list = data
         }
     },
@@ -16,7 +16,11 @@ export default {
     actions: {
         async userhotels({ commit }, id) {
             const response = await hotelserv.userhotels(id)
-            commit('SET_HOTEL', response.data)
+            commit('SET_HOTELS', response.data)
+        },
+        async createhotel({commit}, data) {
+            const response = await hotelserv.createhotel(data)
+            commit('SET_USER', response.data)
         }
     }
 }
