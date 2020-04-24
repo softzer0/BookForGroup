@@ -8,7 +8,9 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from "@/components/Register"
 import User from "@/components/User"
-import UserAttributes from "@/components/UserAttributes";
+import UserAttributes from "@/components/UserAttributes"
+import CreateHotel from "../components/hotelComponents/CreateHotel"
+import Hotel from "../components/hotelComponents/Hotel"
 
 Vue.use(Router)
 
@@ -60,6 +62,18 @@ const router = new Router({
             name: 'UserAttributes',
             component: UserAttributes,
             beforeEnter: isAuthenticated
+        },
+        {
+            path: '/createhotel',
+            name: 'CreateHotel',
+            component: CreateHotel,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/hotel',
+            name: 'Hotel',
+            component: Hotel,
+            beforeEnter: isGuest
         }
     ]
 })

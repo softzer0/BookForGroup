@@ -19,6 +19,8 @@ export default {
                 id: data.user.pk,
                 firstName: data.user.first_name,
                 lastName: data.user.last_name,
+                phone: data.user.phone,
+                company_name: data.user.company_name,
                 city: data.user.city,
                 address: data.user.address
             }
@@ -32,6 +34,8 @@ export default {
             state.data.id = data.pk
             state.data.firstName = data.first_name
             state.data.lastName = data.last_name
+            state.data.phone = data.phone
+            state.data.company_name = data.company_name
             state.data.city = data.city
             state.data.address = data.address
         }
