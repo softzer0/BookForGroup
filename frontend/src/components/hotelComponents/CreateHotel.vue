@@ -112,7 +112,7 @@
                              this.rules.required(this.website) === true && this.rules.selected(this.city) === true
               },
               async createHotel() {
-                await this.$store.dispatch('hotel/createhotel', { user: this.user, name: this.name, city: this.city,
+                await this.$store.dispatch('hotel/createhotel', {  name: this.name, city: this.city,
                                                                                address: this.address, web_site: this.website, free_parking: this.cbParking,
                                                                                free_wifi: this.cbWifi, breakfast: this.cbBreakfast, swimming_pool: this.cbSwimmingPool,
                                                                                spa: this.cbSpa, gym: this.cbGym})

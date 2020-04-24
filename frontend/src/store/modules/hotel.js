@@ -8,6 +8,9 @@ export default {
     mutations: {
         SET_HOTELS: (state, data) => {
             state.list = data
+        },
+        SET_HOTEL: (state, data) => {
+            state.list.push(data)
         }
     },
     getters: {
@@ -20,7 +23,7 @@ export default {
         },
         async createhotel({commit}, data) {
             const response = await hotelserv.createhotel(data)
-            commit('SET_USER', response.data)
+            commit('SET_HOTEL', response.data)
         }
     }
 }
