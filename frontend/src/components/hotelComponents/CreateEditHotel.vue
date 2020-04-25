@@ -3,67 +3,68 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card>
-                    <v-card-title>Create new hotel</v-card-title>
+                    <v-card-title>{{ pk ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
                                 label="Name"
-                                v-model="name"
+                                v-model="hotel.name"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-combobox
-                                v-model="city"
+                                v-model="hotel.city"
                                 :items="cities"
                                 :rules="[rules.selected]"
+                                @input="validate"
                                 label="Select a city"
                             ></v-combobox>
                             <v-text-field
                                 label="Address"
-                                v-model="address"
+                                v-model="hotel.address"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-text-field
                                 label="Web site"
-                                v-model="website"
+                                v-model="hotel.webSite"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="cbWifi" :label="`Wifi`">
+                                    <v-checkbox v-model="hotel.freeWifi" :label="`Wifi`">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="cbParking" :label="`Parking`">
+                                    <v-checkbox v-model="hotel.freeParking" :label="`Parking`">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="cbBreakfast" :label="`Breakfast`">
+                                    <v-checkbox v-model="hotel.breakfast" :label="`Breakfast`">
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="cbSwimmingPool" :label="`Swimming pool`">
+                                    <v-checkbox v-model="hotel.swimmingPool" :label="`Swimming pool`">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="cbSpa" :label="`Spa`">
+                                    <v-checkbox v-model="hotel.spa" :label="`Spa`">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="cbGym" :label="`Gym`">
+                                    <v-checkbox v-model="hotel.gym" :label="`Gym`">
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
-                    <v-card-actions><v-btn :disabled="!valid" @click="createHotel()">Complete</v-btn></v-card-actions>
+                    <v-card-actions><v-btn :disabled="!valid" @click="changeHotel()">Complete</v-btn></v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -73,27 +74,15 @@
 <script>
     export default {
         name: "CreateHotel",
+        props: ['pk'],
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                selected: () => !!this.city || "Required.",
+                selected: () => !!this.hotel.city || "Required.",
             }},
-            user() { return this.$store.getters['user/getUserData']() },
+            hotel() { return this.$store.getters['hotel/getHotelData']() },
         },
         data: () => ({
-            name: '',
-            city: '',
-            address: '',
-            website: '',
-            cbWifi: false,
-            cbParking: false,
-            cbBreakfast: false,
-            cbSwimmingPool: false,
-            cbSpa: false,
-            cbGym: false,
-            checkbox1: true,
-            checkbox2: false,
-            autoUpdate: true,
             valid: false,
             cities: [
               'Beograd',
@@ -106,17 +95,29 @@
               'Tivat',
             ],
           }),
-          methods: {
+        mounted() {
+            if (this.pk) {
+                this.$store.dispatch('hotel/gethotel', this.pk)
+            } else {
+                this.$store.dispatch('hotel/clearhotel')
+            }
+        },
+        methods: {
               validate () {
-                this.valid = this.rules.required(this.address) === true && this.rules.required(this.name) === true &&
-                             this.rules.required(this.website) === true && this.rules.selected(this.city) === true
+                    this.valid = this.rules.required(this.hotel.address) === true && this.rules.required(this.hotel.name) === true &&
+                                 this.rules.required(this.hotel.webSite) === true && this.rules.selected() === true
               },
-              async createHotel() {
-                await this.$store.dispatch('hotel/createhotel', {  name: this.name, city: this.city,
-                                                                               address: this.address, web_site: this.website, free_parking: this.cbParking,
-                                                                               free_wifi: this.cbWifi, breakfast: this.cbBreakfast, swimming_pool: this.cbSwimmingPool,
-                                                                               spa: this.cbSpa, gym: this.cbGym})
-                this.$router.push({ name: 'User' })
+              async changeHotel() {
+                    const data = { name: this.hotel.name, city: this.hotel.city,
+                           address: this.hotel.address, web_site: this.hotel.webSite, free_parking: this.hotel.freeParking,
+                           free_wifi: this.hotel.freeWifi, breakfast: this.hotel.breakfast, swimming_pool: this.hotel.swimmingPool,
+                           spa: this.hotel.spa, gym: this.hotel.gym }
+                    if (this.pk) {
+                        await this.$store.dispatch('hotel/updatehotel', { pk: this.pk, data })
+                    } else {
+                        await this.$store.dispatch('hotel/createhotel', data)
+                    }
+                    this.$router.push({ name: 'User' })
               }
           },
     }

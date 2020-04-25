@@ -21,7 +21,7 @@
             <v-col>
                 <ul>
                     <li v-for="hotel in this.hotels" :key="hotel.name">
-                        {{ hotel.name }}
+                        <a href="javascript:" @click="showHotel(hotel.pk)">{{ hotel.name }}</a>
                     </li>
                 </ul>
             </v-col>
@@ -50,7 +50,10 @@
                 this.$router.push({ name: 'UserAttributes' })
             },
             async createHotel () {
-                this.$router.push({ name: 'CreateHotel' })
+                this.$router.push({ name: 'CreateEditHotel' })
+            },
+            async showHotel (pk) {
+                this.$router.push({ name: 'Hotel', params: { pk } })
             }
         },
         mounted() {
