@@ -4,3 +4,4 @@ django-allauth
 djangorestframework
 dj-rest-auth
 djangorestframework-simplejwt
+django-filter

@@ -23,17 +23,13 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
 
-      <router-link to="/register" v-if="!userIsLoggedIn">
-        <v-btn icon>
-            <v-icon>mdi-file-document-edit-outline</v-icon>
-        </v-btn>
-      </router-link>
+      <v-btn icon v-if="!userIsLoggedIn" @click="register()">
+          <v-icon>mdi-file-document-edit-outline</v-icon>
+      </v-btn>
 
-      <router-link to="/login" v-if="!userIsLoggedIn">
-        <v-btn icon>
-            <v-icon>mdi-login</v-icon>
-        </v-btn>
-      </router-link>
+      <v-btn icon v-if="!userIsLoggedIn" @click="login()">
+          <v-icon>mdi-login</v-icon>
+      </v-btn>
 
       <v-btn icon @click="logout()" v-if="userIsLoggedIn">
           <v-icon>mdi-logout</v-icon>
@@ -52,8 +48,14 @@
             }
         },
         methods: {
+            async login () {
+                this.$router.push({ name: 'Login' })
+            },
+            async register () {
+                this.$router.push({ name: 'Register' })
+            },
             async logout () {
-                await this.$store.dispatch('user/logout', { })
+                await this.$store.dispatch('user/logout')
                 this.$router.push({ name: 'Home' })
             }
         }

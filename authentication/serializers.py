@@ -23,8 +23,8 @@ class LoginSerializer(NoUsername, DefaultLoginSerializer):
 class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
     first_name = serializers.CharField(max_length=20)
     last_name = serializers.CharField(max_length=20)
-    phone = serializers.CharField()
-    address = serializers.CharField()
+    phone = serializers.CharField(max_length=10)
+    company_name = serializers.CharField(max_length=20)
 
     def validate_phone(self, value):
         if not PHONE_REGEX.match(value):
@@ -33,7 +33,8 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
 
     def validate(self, data):
         super().validate(data)
-        if NAME_REGEX.match(data['first_name']) or NAME_REGEX.match(data['last_name']):
+        if NAME_REGEX.match(data['first_name']) or NAME_REGEX.match(data['last_name']) \
+                or NAME_REGEX.match(data['company_name']):
             raise serializers.ValidationError("Invalid name!")
         return data
 
@@ -42,12 +43,15 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
             **super().get_cleaned_data(), **{
                 'first_name': self.validated_data.get('first_name', ''),
                 'last_name': self.validated_data.get('last_name', ''),
-                'phone': self.validated_data.get('phone', ''),
-                'address': self.validated_data.get('address', '')}}
+                'company_name': self.validated_data.get('company_name', ''),
+                'phone': self.validated_data.get('phone', '')}}
 
 
 class UserDetailsSerializer(DefaultUserDetailsSerializer):
+    city = serializers.CharField(max_length=20)
+    address = serializers.CharField(max_length=20)
+
     class Meta:
         model = User
-        fields = ('pk', 'email', 'first_name', 'last_name', 'phone', 'address')
+        fields = ('pk', 'email', 'first_name', 'last_name', 'phone', 'company_name', 'city', 'address')
         read_only_fields = ('email',)

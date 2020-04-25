@@ -35,7 +35,7 @@ class EmailUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class AbstractUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         _('email address'),
         unique=True,
@@ -47,9 +47,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
 
+    company_name = models.CharField(_('company name'), max_length=30)
     phone = models.CharField(_('phone number'), max_length=10)
-
-    address = models.CharField(_('address'), max_length=30)
 
     is_staff = models.BooleanField(
         _('staff status'),
@@ -73,6 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
+        abstract = True
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
@@ -94,3 +94,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class User(AbstractUser):
+    city = models.CharField(_('city name'), max_length=30, null=True, blank=True)
+    address = models.CharField(_('address'), max_length=30, null=True, blank=True)

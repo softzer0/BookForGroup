@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'authentication',
     'Arrangement',
     'Hotel',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -143,8 +144,10 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     )
 }
 
@@ -156,6 +159,12 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'authentication.serializers.RegisterSerializer'
 }
 REST_USE_JWT = True
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5)
+}
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
