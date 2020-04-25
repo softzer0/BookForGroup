@@ -7,7 +7,7 @@ class RoomAdmin(admin.ModelAdmin):
 
 
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ('user', 'address', 'webSite')
+    list_display = ('user', 'name', 'city', 'address', 'web_site')
 
 
 admin.site.register(Room, RoomAdmin)

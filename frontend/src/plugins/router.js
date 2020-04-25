@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import axios from '@/plugins/axios'
 
 import store from '@/store'
 
@@ -7,6 +8,9 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from "@/components/Register"
 import User from "@/components/User"
+import UserAttributes from "@/components/UserAttributes"
+import CreateEditHotel from "@/components/hotelComponents/CreateEditHotel"
+import Hotel from "@/components/hotelComponents/Hotel"
 
 Vue.use(Router)
 
@@ -26,8 +30,8 @@ const isGuest = (to, from, next) => {
     }
 }
 
-export default new Router({
-    // mode: 'history',
+const router = new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -52,6 +56,37 @@ export default new Router({
             name: 'User',
             component: User,
             beforeEnter: isAuthenticated
+        },
+        {
+            path: '/completeUser',
+            name: 'UserAttributes',
+            component: UserAttributes,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/changehotel/:pk?',
+            props: true,
+            name: 'CreateEditHotel',
+            component: CreateEditHotel,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/hotel/:pk',
+            props: true,
+            name: 'Hotel',
+            component: Hotel
         }
     ]
 })
+
+const waitForStorageToBeReady = async (to, from, next) => {
+    await store.restored
+    const token = store.getters['user/getAccessToken']()
+    if (token) {
+        axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+    }
+    next()
+}
+router.beforeEach(waitForStorageToBeReady)
+
+export default router
