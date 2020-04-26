@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'authentication',
     'Arrangement',
     'Hotel',
-    'django_filters'
+    'django_filters',
+    'Company'
 ]
 
 MIDDLEWARE = [
