@@ -48,10 +48,8 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
 
 
 class UserDetailsSerializer(DefaultUserDetailsSerializer):
-    city = serializers.CharField(max_length=20)
-    address = serializers.CharField(max_length=20)
 
     class Meta:
         model = User
-        fields = ('pk', 'email', 'first_name', 'last_name', 'phone', 'company_name', 'city', 'address')
+        fields = ('pk', 'email', 'first_name', 'last_name')
         read_only_fields = ('email',)

@@ -19,12 +19,14 @@ from rest_framework.routers import DefaultRouter
 
 from Hotel.urls import router as hotel_router
 from Arrangement.urls import router as arrangement_router
+from Company.urls import router as company_router
 
 
 router = DefaultRouter()
 
 router.registry.extend(hotel_router.registry)
 router.registry.extend(arrangement_router.registry)
+router.registry.extend(company_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
