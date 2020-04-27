@@ -17,6 +17,10 @@
             <v-col>{{ user.address }}</v-col>
         </v-row>
         <v-row>
+            <v-col>Company:</v-col>
+            <v-col><a v-if="this.company" href="javascript:" @click="showCompany()">{{ this.company.name }}</a></v-col>
+        </v-row>
+        <v-row>
             <v-col>Hotels:</v-col>
             <v-col>
                 <ul>
@@ -29,7 +33,7 @@
         <br>
         <v-row>
             <v-col>
-                <v-btn @click="completeProfile()">Complete the profile</v-btn>
+                <v-btn v-if="!this.companyExists" @click="createCompany()">Create company</v-btn>
             </v-col>
             <v-col>
                 <v-btn @click="createHotel()">Create new hotel</v-btn>
@@ -43,21 +47,28 @@
         name: "User",
         computed: {
             user() { return this.$store.getters['user/getUserData']() },
-            hotels() { return this.$store.getters['hotel/getHotelList']() }
+            hotels() { return this.$store.getters['hotel/getHotelList']() },
+
+            company() { return this.$store.getters['company/getCompanyData']() },
+            companyExists() { return this.$store.getters['company/doesExist']() },
         },
         methods: {
-            async completeProfile () {
-                this.$router.push({ name: 'UserAttributes' })
+            async createCompany () {
+                this.$router.push({ name: 'CreateEditCompany' })
             },
             async createHotel () {
                 this.$router.push({ name: 'CreateEditHotel' })
             },
             async showHotel (pk) {
                 this.$router.push({ name: 'Hotel', params: { pk } })
+            },
+            async showCompany () {
+                this.$router.push({ name: 'Company' })
             }
         },
         mounted() {
             this.$store.dispatch('hotel/userhotels', this.user.id)
+            this.$store.dispatch('company/getusercompany')
         }
     }
 </script>
