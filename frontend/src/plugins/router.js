@@ -11,6 +11,8 @@ import User from "@/components/User"
 import UserAttributes from "@/components/UserAttributes"
 import CreateEditHotel from "@/components/hotelComponents/CreateEditHotel"
 import Hotel from "@/components/hotelComponents/Hotel"
+import CreateEditCompany from "@/components/companyComponents/CreateEditCompany"
+import Company from "@/components/companyComponents/Company"
 
 Vue.use(Router)
 
@@ -75,6 +77,17 @@ const router = new Router({
             props: true,
             name: 'Hotel',
             component: Hotel
+        },
+        {
+            path: '/changecompany',
+            name: 'CreateEditCompany',
+            component: CreateEditCompany,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/company',
+            name: 'Company',
+            component: Company
         }
     ]
 })

@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from authentication.models import User
 from authentication.serializers import UserDetailsSerializer
 from .models import Hotel
 
