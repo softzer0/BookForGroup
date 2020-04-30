@@ -43,22 +43,8 @@
                                     @input="validate"
                                     validate-on-blur
                             />
-                            <v-text-field
-                                label="Phone"
-                                v-model="phone"
-                                :rules="[rules.required, rules.digitsOnly]"
-                                @input="validate"
-                                validate-on-blur
-                            />
-                            <v-text-field
-                                label="Company name"
-                                v-model="company"
-                                :rules="[rules.required]"
-                                @input="validate"
-                                validate-on-blur
-                            />
+                            <v-card-actions><v-btn :disabled="!valid" @click="register()">Register</v-btn></v-card-actions>
                         </v-card-text>
-                        <v-card-actions><v-btn :disabled="!valid" @click="register()">Register</v-btn></v-card-actions>
                     </v-form>
                 </v-card>
             </v-col>
@@ -75,7 +61,6 @@
                 email: value => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value) || "Invalid e-mail.",
                 lettersOnly: v => ! /\d/.test(v) || 'Name contains just characters!',
                 nameLength: v => v.length <= 20 || 'Name must be less than 20 characters!',
-                digitsOnly: v => /^\+?\d+$/.test(v) || 'Phone contains just digits!',
                 confirmPassword: v => v === this.password || 'Passwords must match!'
             }}
         },
@@ -85,24 +70,21 @@
             email: '',
             password: '',
             confirmPassword: '',
-            phone: '',
-            company: '',
             valid: false
         }),
         methods: {
             validate () {
                 this.valid = this.rules.required(this.email) === true && this.rules.required(this.password) === true &&
                              this.rules.required(this.firstName) === true && this.rules.required(this.lastName) === true &&
-                             this.rules.required(this.confirmPassword) === true && this.rules.required(this.phone) === true &&
-                             this.rules.confirmPassword(this.confirmPassword) === true && this.rules.required(this.company) === true &&
+                             this.rules.required(this.confirmPassword) === true && this.rules.confirmPassword(this.confirmPassword) === true &&
                              this.rules.lettersOnly(this.firstName) === true && this.rules.lettersOnly(this.lastName) === true &&
                              this.rules.nameLength(this.firstName) === true && this.rules.nameLength(this.lastName) === true &&
-                             this.rules.digitsOnly(this.phone) === true && this.rules.email(this.email) === true
+                             this.rules.email(this.email) === true
             },
             async register () {
                 await this.$store.dispatch('user/register', { email: this.email, password1: this.password,
                                                                             password2: this.confirmPassword, first_name: this.firstName,
-                                                                            last_name: this.lastName, phone: this.phone, company_name: this.company })
+                                                                            last_name: this.lastName })
                 this.$router.push({ name: 'User' })
             }
         }

@@ -4,7 +4,7 @@
     flat
     tile
   >
-    <v-toolbar dense>
+    <v-toolbar dense flat>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>Title</v-toolbar-title>

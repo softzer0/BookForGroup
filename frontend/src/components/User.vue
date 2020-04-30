@@ -36,7 +36,7 @@
                 <v-btn v-if="!this.companyExists" @click="createCompany()">Create company</v-btn>
             </v-col>
             <v-col>
-                <v-btn @click="createHotel()">Create new hotel</v-btn>
+                <v-btn @click="createHotel()" class="cyan darken-1 white--text">Create new hotel</v-btn>
             </v-col>
         </v-row>
     </v-container>
