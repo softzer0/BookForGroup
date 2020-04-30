@@ -13,6 +13,8 @@ import CreateEditHotel from "@/components/hotelComponents/CreateEditHotel"
 import Hotel from "@/components/hotelComponents/Hotel"
 import CreateEditCompany from "@/components/companyComponents/CreateEditCompany"
 import Company from "@/components/companyComponents/Company"
+import CreateEditRoom from "@/components/roomComponents/CreateEditRoom"
+import Room from "@/components/roomComponents/Room"
 
 Vue.use(Router)
 
@@ -88,6 +90,19 @@ const router = new Router({
             path: '/company',
             name: 'Company',
             component: Company
+        },
+        {
+            path: '/changeroom/:pk?',
+            props: true,
+            name: 'CreateEditRoom',
+            component: CreateEditRoom,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/room/:pk',
+            props: true,
+            name: 'Room',
+            component: Room
         }
     ]
 })

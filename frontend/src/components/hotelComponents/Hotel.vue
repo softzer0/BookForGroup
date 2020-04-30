@@ -36,8 +36,21 @@
             <v-col v-if="hotel.gym">Gym</v-col>
             <v-col v-if="!hotel.gym">No gym</v-col>
         </v-row>
+        <br>
+        <br>
+        <v-row>
+            <v-col>Rooms:</v-col>
+            <v-col>
+                <ul>
+                    <li v-for="room in this.rooms" :key="room.room_number">
+                        <a href="javascript:" @click="showRoom(room.pk)">{{ room.room_number }}</a>
+                    </li>
+                </ul>
+            </v-col>
+        </v-row>
         <v-row>
             <v-col><v-btn v-if="userIsLoggedIn" @click="editHotel()">Edit hotel</v-btn></v-col>
+            <v-col><v-btn @click="createRoom()">Create room</v-btn></v-col>
             <v-col><v-btn @click="goToUserPage()">Go back</v-btn></v-col>
         </v-row>
     </v-container>
@@ -51,10 +64,12 @@
             hotel() { return this.$store.getters['hotel/getHotelData']() },
             userIsLoggedIn() {
               return !!(this.$store.getters['user/getAccessToken']())
-            }
+            },
+            rooms() { return this.$store.getters['room/getRoomList']() },
         },
         mounted() {
             this.$store.dispatch('hotel/gethotel', this.pk)
+            this.$store.dispatch('room/hotelrooms', this.pk)
         },
         methods: {
             editHotel () {
@@ -62,6 +77,12 @@
             },
             goToUserPage () {
                 this.$router.push({ name: 'User' })
+            },
+            showRoom (pk) {
+                this.$router.push({ name: 'Room', params: { pk } })
+            },
+            createRoom () {
+                this.$router.push({ name: 'CreateEditRoom'})
             }
         }
     }
