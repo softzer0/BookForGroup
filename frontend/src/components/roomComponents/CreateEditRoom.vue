@@ -30,7 +30,7 @@
                             <v-text-field
                                 label="Price"
                                 v-model="room.price"
-                                :rules="[rules.required, rules]"
+                                :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
@@ -78,7 +78,7 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                digitsOnly: v => /^\d+$/.test(v) || 'PIB contains just digits.',
+                digitsOnly: v => /^\d+$/.test(v) || 'Just digits.',
             }},
             room() { return this.$store.getters['room/getRoomData']() },
             hotel() { return this.$store.getters['hotel/getHotelData']() }
@@ -112,7 +112,7 @@
                     } else {
                         await this.$store.dispatch('room/createroom', data)
                     }
-                    this.$router.push({ name: 'Hotel' })
+                    this.$router.push({ name: 'Hotel', params: { pk: this.hotel.pk } })
               }
           },
     }

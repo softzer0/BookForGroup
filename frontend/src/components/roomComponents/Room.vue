@@ -47,6 +47,7 @@
             userIsLoggedIn() {
               return !!(this.$store.getters['user/getAccessToken']())
             },
+            hotel() { return this.$store.getters['hotel/getHotelData']() }
         },
         mounted() {
             this.$store.dispatch('room/getroom', this.pk)
@@ -56,7 +57,7 @@
                 this.$router.push({ name: 'CreateEditRoom', params: { pk: this.room.pk } })
             },
             goToHotelPage () {
-                this.$router.push({ name: 'Hotel' })
+                this.$router.push({ name: 'Hotel', params: { pk: this.hotel.pk } })
             }
         }
     }
