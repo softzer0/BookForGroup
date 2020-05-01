@@ -68,8 +68,8 @@ export default {
         }
     },
     getters: {
-        getRoomList: state => () => state.list,
-        getRoomData: state => () => state.data
+        getRoomList: state => state.list,
+        getRoomData: state => state.data
     },
     actions: {
         async hotelrooms({ commit }, id) {

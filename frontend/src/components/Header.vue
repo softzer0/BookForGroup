@@ -31,7 +31,7 @@
           <v-icon>mdi-login</v-icon>
       </v-btn>
 
-      <v-btn icon @click="logout()" v-if="userIsLoggedIn">
+      <v-btn icon v-if="userIsLoggedIn" @click="logout()">
           <v-icon>mdi-logout</v-icon>
       </v-btn>
 
