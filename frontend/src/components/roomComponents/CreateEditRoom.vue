@@ -2,13 +2,14 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card>
-                    <v-card-title>{{ pk ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
+                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                    <v-card-title class="justify-center">{{ pk ? 'Edit room' : 'Create new room' }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
                                 label="Choice"
                                 v-model="room.choice"
+                                prepend-icon="mdi-pencil-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -16,6 +17,7 @@
                             <v-text-field
                                 label="Bed number"
                                 v-model="room.bed_numbers"
+                                prepend-icon="mdi-bed"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
                                 validate-on-blur
@@ -23,6 +25,7 @@
                             <v-text-field
                                 label="Floor number"
                                 v-model="room.floor_number"
+                                prepend-icon="mdi-format-list-bulleted"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
                                 validate-on-blur
@@ -30,6 +33,7 @@
                             <v-text-field
                                 label="Price"
                                 v-model="room.price"
+                                prepend-icon="mdi-cash"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -37,6 +41,7 @@
                             <v-text-field
                                 label="Room number"
                                 v-model="room.room_number"
+                                prepend-icon="mdi-numeric"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
                                 validate-on-blur
@@ -44,27 +49,30 @@
                             <v-text-field
                                 label="Room size"
                                 v-model="room.room_size"
+                                prepend-icon="mdi-pencil-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-row>
-                                <v-col><v-checkbox v-model="room.smoking_allowed" :label="`Smoking`"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.people_with_disabilities_adapted" :label="`Disabilities adapted`"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.terrace" :label="`Terrace`"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.smoking_allowed" :label="`Smoking`" prepend-icon="mdi-smoking"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.people_with_disabilities_adapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility"></v-checkbox></v-col>
                             </v-row>
                             <v-row>
-                                <v-col><v-checkbox v-model="room.air_conditioning" :label="`Air conditioning`"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.tv" :label="`TV`"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.sound_isolation" :label="`Sound isolation`"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.terrace" :label="`Terrace`" prepend-icon="mdi-flower"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.air_conditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner"></v-checkbox></v-col>
                             </v-row>
                             <v-row>
-                                <v-col><v-checkbox v-model="room.heating" :label="`Heating`"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.kitchen" :label="`Kitchen`"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.tv" :label="`TV`" prepend-icon="mdi-television-classic"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.sound_isolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off"></v-checkbox></v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col><v-checkbox v-model="room.heating" :label="`Heating`" prepend-icon="mdi-radiator"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware"></v-checkbox></v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
-                    <v-card-actions><v-btn :disabled="!valid" @click="changeRoom()">Complete</v-btn></v-card-actions>
+                    <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="changeRoom()">Complete</v-btn></v-card-actions>
                 </v-card>
             </v-col>
         </v-row>

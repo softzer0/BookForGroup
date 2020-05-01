@@ -2,28 +2,32 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card>
-                    <v-card-title>Login</v-card-title>
+                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                    <v-card-title class="justify-center">Login</v-card-title>
                     <v-form @keyup.enter.native="valid && login()">
                         <v-card-text>
                             <v-alert v-if="showError" type="error">Invalid login</v-alert>
                             <v-text-field
-                                    label="Email"
-                                    v-model="email"
-                                    :rules="[rules.required, rules.email]"
-                                    @input="validate"
-                                    validate-on-blur
+                                label="Email"
+                                v-model="email"
+                                prepend-icon="mdi-email-outline"
+                                :rules="[rules.required, rules.email]"
+                                @input="validate"
+                                validate-on-blur
                             />
                             <v-text-field
-                                    type="password"
-                                    label="Password"
-                                    v-model="password"
-                                    :rules="[rules.required]"
-                                    @input="validate"
-                                    validate-on-blur
+                                :type="showPassword ? 'text' : 'password'"
+                                label="Password"
+                                v-model="password"
+                                prepend-icon="mdi-lock-outline"
+                                :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                                @click:append="showPassword = !showPassword"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
                             />
                         </v-card-text>
-                        <v-card-actions><v-btn :disabled="!valid" @click="login()">Login</v-btn></v-card-actions>
+                        <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="login()">Login</v-btn></v-card-actions>
                     </v-form>
                 </v-card>
             </v-col>
@@ -44,6 +48,7 @@
             email: null,
             password: null,
             showError: false,
+            showPassword: false,
             valid: false
         }),
         methods: {
