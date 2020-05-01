@@ -111,7 +111,7 @@ const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
     const token = store.getters['user/getAccessToken']()
     if (token) {
-        axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+        axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
     }
     next()
 }

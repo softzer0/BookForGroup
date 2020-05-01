@@ -76,6 +76,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         name: "CreateHotel",
         props: ['pk'],
@@ -84,7 +86,7 @@
                 required: value => !!value || "Required.",
                 selected: () => !!this.hotel.city || "Required.",
             }},
-            hotel() { return this.$store.getters['hotel/getHotelData']() },
+            ...mapGetters({ hotel: 'hotel/getHotelData' })
         },
         data: () => ({
             valid: false,

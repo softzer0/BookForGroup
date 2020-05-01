@@ -20,15 +20,15 @@
         <br>
         <v-row>
             <v-col v-if="room.smoking_allowed">Smoking allowed</v-col>
-            <v-col v-if="!room.smoking_allowed">Smoking is not allowed</v-col>
+            <v-col v-else>Smoking is not allowed</v-col>
             <v-col v-if="room.air_conditioning">Air conditioning</v-col>
-            <v-col v-if="!room.air_conditioning">No air conditioning</v-col>
+            <v-col v-else>No air conditioning</v-col>
         </v-row>
         <v-row>
             <v-col v-if="room.tv">TV</v-col>
-            <v-col v-if="!room.tv">No TV</v-col>
+            <v-col v-else>No TV</v-col>
             <v-col v-if="room.sound_isolation">Sound isolation</v-col>
-            <v-col v-if="!room.sound_isolation">No sound isolation</v-col>
+            <v-col v-else>No sound isolation</v-col>
         </v-row>
         <br>
         <v-row>
@@ -39,16 +39,16 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "Room",
         props: ['pk'],
-        computed: {
-            room() { return this.$store.getters['room/getRoomData']() },
-            userIsLoggedIn() {
-              return !!(this.$store.getters['user/getAccessToken']())
-            },
-            hotel() { return this.$store.getters['hotel/getHotelData']() }
-        },
+        computed: mapGetters({
+            room: 'room/getRoomData',
+            userIsLoggedIn: 'user/isLoggedIn',
+            hotel: 'hotel/getHotelData'
+        }),
         mounted() {
             this.$store.dispatch('room/getroom', this.pk)
         },

@@ -23,7 +23,7 @@ class CompanySerializer(serializers.ModelSerializer):
         return CompanyUser.objects.create(user=self.context['request'].user, **validated_data)
 
     def update(self, instance, validated_data):
-        for field in self.Meta.fields:
+        for field in self.Meta.fields[1:]:
             setattr(instance, field, validated_data.get(field, getattr(instance, field)))
         instance.save()
         return instance

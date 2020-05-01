@@ -55,6 +55,8 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "CreateCompany",
         computed: {
@@ -64,8 +66,10 @@
                 digitsWithPlus: v => /^\+?\d+$/.test(v) || 'Phone contains just digits.',
                 digitsOnly: v => /^\d+$/.test(v) || 'PIB contains just digits.',
             }},
-            exists() { return this.$store.getters['company/doesExist']() },
-            company() { return this.$store.getters['company/getCompanyData']() },
+            ...mapGetters({
+                exists: 'company/doesExist',
+                company: 'company/getCompanyData'
+            })
         },
         data: () => ({
             valid: false,

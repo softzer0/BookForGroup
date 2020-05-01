@@ -40,18 +40,16 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "Header",
-        computed: {
-            userIsLoggedIn() {
-              return !!(this.$store.getters['user/getAccessToken']())
-            }
-        },
+        computed: mapGetters({ userIsLoggedIn: 'user/isLoggedIn' }),
         methods: {
-            async login () {
+            login () {
                 this.$router.push({ name: 'Login' })
             },
-            async register () {
+            register () {
                 this.$router.push({ name: 'Register' })
             },
             async logout () {

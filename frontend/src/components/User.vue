@@ -43,26 +43,28 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "User",
-        computed: {
-            user() { return this.$store.getters['user/getUserData']() },
-            hotels() { return this.$store.getters['hotel/getHotelList']() },
+        computed: mapGetters({
+            user: 'user/getUserData',
+            hotels: 'hotel/getHotelList',
 
-            company() { return this.$store.getters['company/getCompanyData']() },
-            companyExists() { return this.$store.getters['company/doesExist']() },
-        },
+            company: 'company/getCompanyData',
+            companyExists: 'company/doesExist'
+        }),
         methods: {
-            async createCompany () {
+            createCompany () {
                 this.$router.push({ name: 'CreateEditCompany' })
             },
-            async createHotel () {
+            createHotel () {
                 this.$router.push({ name: 'CreateEditHotel' })
             },
-            async showHotel (pk) {
+            showHotel (pk) {
                 this.$router.push({ name: 'Hotel', params: { pk } })
             },
-            async showCompany () {
+            showCompany () {
                 this.$router.push({ name: 'Company' })
             }
         },

@@ -80,6 +80,8 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "CreateEditRoom",
         props: ['pk'],
@@ -88,12 +90,14 @@
                 required: value => !!value || "Required.",
                 digitsOnly: v => /^\d+$/.test(v) || 'Just digits.',
             }},
-            room() { return this.$store.getters['room/getRoomData']() },
-            hotel() { return this.$store.getters['hotel/getHotelData']() }
+            ...mapGetters({
+                room: 'room/getRoomData',
+                hotel: 'hotel/getHotelData'
+            })
         },
         data: () => ({
             valid: false,
-          }),
+        }),
         mounted() {
             if (this.pk) {
                 this.$store.dispatch('room/getroom', this.pk)
