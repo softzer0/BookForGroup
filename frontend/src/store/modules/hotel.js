@@ -53,8 +53,8 @@ export default {
         }
     },
     getters: {
-        getHotelList: state => () => state.list,
-        getHotelData: state => () => state.data
+        getHotelList: state => state.list,
+        getHotelData: state => state.data
     },
     actions: {
         async userhotels({ commit }, id) {

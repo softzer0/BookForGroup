@@ -2,7 +2,6 @@ from dj_rest_auth import views
 from dj_rest_auth.registration import views as registration_views
 from rest_framework.permissions import IsAuthenticated
 
-
 from .permissions import IsGuest as IsGuestPermission, IsOwnerOrReadOnly as IsOwnerOrReadOnlyPermission
 from authentication.serializers import UserDetailsSerializer
 from .models import User
@@ -36,7 +35,7 @@ class VerifyEmailView(IsGuest, registration_views.VerifyEmailView):
     pass
 
 
-class CompleteUserViewSet(ModelViewSet):
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserDetailsSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnlyPermission]

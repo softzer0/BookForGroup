@@ -11,11 +11,15 @@ import User from "@/components/User"
 import UserAttributes from "@/components/UserAttributes"
 import CreateEditHotel from "@/components/hotelComponents/CreateEditHotel"
 import Hotel from "@/components/hotelComponents/Hotel"
+import CreateEditCompany from "@/components/companyComponents/CreateEditCompany"
+import Company from "@/components/companyComponents/Company"
+import CreateEditRoom from "@/components/roomComponents/CreateEditRoom"
+import Room from "@/components/roomComponents/Room"
 
 Vue.use(Router)
 
 const isAuthenticated = (to, from, next) => {
-    if (!store.getters['user/getAccessToken']()) {
+    if (!store.getters['user/isLoggedIn']) {
         next({ name: 'Login' })
     } else {
         next()
@@ -23,7 +27,7 @@ const isAuthenticated = (to, from, next) => {
 }
 
 const isGuest = (to, from, next) => {
-    if (!store.getters['user/getAccessToken']()) {
+    if (!store.getters['user/isLoggedIn']) {
         next()
     } else {
         next({ name: 'User' })
@@ -75,15 +79,39 @@ const router = new Router({
             props: true,
             name: 'Hotel',
             component: Hotel
+        },
+        {
+            path: '/changecompany',
+            name: 'CreateEditCompany',
+            component: CreateEditCompany,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/company',
+            name: 'Company',
+            component: Company
+        },
+        {
+            path: '/changeroom/:pk?',
+            props: true,
+            name: 'CreateEditRoom',
+            component: CreateEditRoom,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/room/:pk',
+            props: true,
+            name: 'Room',
+            component: Room
         }
     ]
 })
 
 const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
-    const token = store.getters['user/getAccessToken']()
+    const token = store.getters['user/getAccessToken']
     if (token) {
-        axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+        axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
     }
     next()
 }
