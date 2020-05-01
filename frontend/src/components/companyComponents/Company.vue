@@ -28,14 +28,14 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "Company",
-        computed: {
-            company() { return this.$store.getters['company/getCompanyData']() },
-            userIsLoggedIn() {
-              return !!(this.$store.getters['user/getAccessToken']())
-            }
-        },
+        computed: mapGetters({
+            company: 'company/getCompanyData',
+            userIsLoggedIn: 'user/isLoggedIn'
+        }),
         mounted() {
             this.$store.dispatch('company/getusercompany')
         },

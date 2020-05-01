@@ -41,6 +41,7 @@ export default {
         }
     },
     getters: {
+        isLoggedIn: () => () => !!(axios.defaults.headers.common.Authorization),
         getAccessToken: state => () => state.accessToken,
         getRefreshToken: state => () => state.refreshToken,
         getUserData: state => () => state.data
@@ -48,13 +49,13 @@ export default {
     actions: {
         async login ({ commit }, data) {
             const response = await auth.login(data)
-            axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
+            axios.defaults.headers.common = {Authorization: `Bearer ${response.data.access_token}`}
             // console.log(await auth.userInfo())
             commit('SET_DATA', response.data)
         },
         async register ({ commit }, data) {
             const response = await auth.register(data)
-            axios.defaults.headers.common = {'Authorization': `Bearer ${response.data.access_token}`}
+            axios.defaults.headers.common = {Authorization: `Bearer ${response.data.access_token}`}
             // console.log(await auth.userInfo())
             commit('SET_DATA', response.data)
         },
