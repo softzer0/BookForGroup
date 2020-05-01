@@ -2,13 +2,14 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card>
-                    <v-card-title>{{ pk ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
+                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                    <v-card-title class="justify-center">{{ pk ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
                                 label="Name"
                                 v-model="hotel.name"
+                                prepend-icon="mdi-pencil-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -16,6 +17,7 @@
                             <v-combobox
                                 v-model="hotel.city"
                                 :items="cities"
+                                prepend-icon="mdi-city"
                                 :rules="[rules.selected]"
                                 @input="validate"
                                 label="Select a city"
@@ -23,6 +25,7 @@
                             <v-text-field
                                 label="Address"
                                 v-model="hotel.address"
+                                prepend-icon="mdi-map-marker-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -30,41 +33,42 @@
                             <v-text-field
                                 label="Web site"
                                 v-model="hotel.webSite"
+                                prepend-icon="mdi-pencil-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.freeWifi" :label="`Wifi`">
+                                    <v-checkbox v-model="hotel.freeWifi" :label="`Wifi`" prepend-icon="mdi-wifi">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.freeParking" :label="`Parking`">
+                                    <v-checkbox v-model="hotel.freeParking" :label="`Parking`" prepend-icon="mdi-parking">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.breakfast" :label="`Breakfast`">
+                                    <v-checkbox v-model="hotel.breakfast" :label="`Breakfast`" prepend-icon="mdi-food-variant">
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.swimmingPool" :label="`Swimming pool`">
+                                    <v-checkbox v-model="hotel.swimmingPool" :label="`Swimming pool`" prepend-icon="mdi-swim">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.spa" :label="`Spa`">
+                                    <v-checkbox v-model="hotel.spa" :label="`Spa`" prepend-icon="mdi-spa">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.gym" :label="`Gym`">
+                                    <v-checkbox v-model="hotel.gym" :label="`Gym`" prepend-icon="mdi-dumbbell">
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
-                    <v-card-actions><v-btn :disabled="!valid" @click="changeHotel()">Complete</v-btn></v-card-actions>
+                    <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="changeHotel()">Complete</v-btn></v-card-actions>
                 </v-card>
             </v-col>
         </v-row>

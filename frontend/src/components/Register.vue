@@ -2,13 +2,15 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card>
-                    <v-card-title>Register</v-card-title>
+                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                    <v-card-title class="justify-center">Registration</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
                                 label="First name"
                                 v-model="firstName"
+                                prepend-icon="mdi-account-outline"
+                                counter="20"
                                 :rules="[rules.required, rules.lettersOnly, rules.nameLength]"
                                 @input="validate"
                                 validate-on-blur
@@ -16,6 +18,8 @@
                             <v-text-field
                                 label="Last name"
                                 v-model="lastName"
+                                prepend-icon="mdi-account-outline"
+                                counter="20"
                                 :rules="[rules.required, rules.lettersOnly, rules.nameLength]"
                                 @input="validate"
                                 validate-on-blur
@@ -23,27 +27,34 @@
                             <v-text-field
                                 label="Email"
                                 v-model="email"
+                                prepend-icon="mdi-email-outline"
                                 :rules="[rules.required, rules.email]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-text-field
-                                    type="password"
-                                    label="Password"
-                                    v-model="password"
-                                    :rules="[rules.required]"
-                                    @input="validate"
-                                    validate-on-blur
+                                :type="showPassword ? 'text' : 'password'"
+                                label="Password"
+                                v-model="password"
+                                prepend-icon="mdi-lock-outline"
+                                :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                                @click:append="showPassword = !showPassword"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
                             />
                             <v-text-field
-                                    type="password"
-                                    label="Confirm password"
-                                    v-model="confirmPassword"
-                                    :rules="[rules.required, this.rules.confirmPassword]"
-                                    @input="validate"
-                                    validate-on-blur
+                                :type="showConfirmPassword ? 'text' : 'password'"
+                                label="Confirm password"
+                                v-model="confirmPassword"
+                                prepend-icon="mdi-lock-outline"
+                                :append-icon="showConfirmPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                                @click:append="showConfirmPassword = !showConfirmPassword"
+                                :rules="[rules.required, this.rules.confirmPassword]"
+                                @input="validate"
+                                validate-on-blur
                             />
-                            <v-card-actions><v-btn :disabled="!valid" @click="register()">Register</v-btn></v-card-actions>
+                            <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="register()">Register</v-btn></v-card-actions>
                         </v-card-text>
                     </v-form>
                 </v-card>
@@ -70,6 +81,8 @@
             email: '',
             password: '',
             confirmPassword: '',
+            showPassword: false,
+            showConfirmPassword: false,
             valid: false
         }),
         methods: {
