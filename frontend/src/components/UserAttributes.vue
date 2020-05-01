@@ -29,6 +29,8 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "UserAttributes",
         computed: {
@@ -36,7 +38,7 @@
                 required: value => !!value || "Required.",
                 selected: () => !!this.user.city || "Required.",
             }},
-            user() { return this.$store.getters['user/getUserData']() }
+            ...mapGetters({ user: 'user/getUserData' })
         },
         data: () => ({
             autoUpdate: true,
@@ -51,16 +53,16 @@
               'Kotor',
               'Tivat',
             ],
-          }),
-          methods: {
-              validate () {
+        }),
+        methods: {
+            validate () {
                 this.valid = this.rules.required(this.user.address) === true && this.rules.selected(this.user.city) === true
-              },
-              async addProperties() {
+            },
+            async addProperties() {
                 await this.$store.dispatch('user/completeUser', { city: this.user.city, address: this.user.address })
                 this.$router.push({ name: 'User' })
-              }
-          },
+            }
+        }
     }
 </script>
 

@@ -4,7 +4,7 @@
     flat
     tile
   >
-    <v-toolbar dense>
+    <v-toolbar dense flat>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>Title</v-toolbar-title>
@@ -31,7 +31,7 @@
           <v-icon>mdi-login</v-icon>
       </v-btn>
 
-      <v-btn icon @click="logout()" v-if="userIsLoggedIn">
+      <v-btn icon v-if="userIsLoggedIn" @click="logout()">
           <v-icon>mdi-logout</v-icon>
       </v-btn>
 
@@ -40,18 +40,16 @@
 </template>
 
 <script>
+    import { mapGetters } from "vuex"
+
     export default {
         name: "Header",
-        computed: {
-            userIsLoggedIn() {
-              return !!(this.$store.getters['user/getAccessToken']())
-            }
-        },
+        computed: mapGetters({ userIsLoggedIn: 'user/isLoggedIn' }),
         methods: {
-            async login () {
+            login () {
                 this.$router.push({ name: 'Login' })
             },
-            async register () {
+            register () {
                 this.$router.push({ name: 'Register' })
             },
             async logout () {

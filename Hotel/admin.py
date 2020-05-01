@@ -1,14 +1,9 @@
 from django.contrib import admin
-from .models import Hotel, Room
-
-
-class RoomAdmin(admin.ModelAdmin):
-    list_display = ('hotel', 'numberOfPeople', 'time')
+from .models import Hotel
 
 
 class HotelAdmin(admin.ModelAdmin):
     list_display = ('user', 'name', 'city', 'address', 'web_site')
 
 
-admin.site.register(Room, RoomAdmin)
 admin.site.register(Hotel, HotelAdmin)
