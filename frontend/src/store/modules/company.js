@@ -31,8 +31,8 @@ export default {
         }
     },
     getters: {
-        doesExist: state => () => state.exists,
-        getCompanyData: state => () => state.data
+        doesExist: state => state.exists,
+        getCompanyData: state => state.data
     },
     actions: {
         async setusercompany({ commit, state }, data) {

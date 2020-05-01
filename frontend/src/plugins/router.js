@@ -19,7 +19,7 @@ import Room from "@/components/roomComponents/Room"
 Vue.use(Router)
 
 const isAuthenticated = (to, from, next) => {
-    if (!store.getters['user/getAccessToken']()) {
+    if (!store.getters['user/isLoggedIn']) {
         next({ name: 'Login' })
     } else {
         next()
@@ -27,7 +27,7 @@ const isAuthenticated = (to, from, next) => {
 }
 
 const isGuest = (to, from, next) => {
-    if (!store.getters['user/getAccessToken']()) {
+    if (!store.getters['user/isLoggedIn']) {
         next()
     } else {
         next({ name: 'User' })
@@ -109,7 +109,7 @@ const router = new Router({
 
 const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
-    const token = store.getters['user/getAccessToken']()
+    const token = store.getters['user/getAccessToken']
     if (token) {
         axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
     }

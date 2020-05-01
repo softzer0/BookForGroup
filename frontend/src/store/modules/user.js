@@ -41,10 +41,10 @@ export default {
         }
     },
     getters: {
-        isLoggedIn: () => () => !!(axios.defaults.headers.common.Authorization),
-        getAccessToken: state => () => state.accessToken,
-        getRefreshToken: state => () => state.refreshToken,
-        getUserData: state => () => state.data
+        isLoggedIn: state => !!(state.accessToken),
+        getAccessToken: state => state.accessToken,
+        getRefreshToken: state => state.refreshToken,
+        getUserData: state => state.data
     },
     actions: {
         async login ({ commit }, data) {
