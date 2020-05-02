@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-import axios, { accessTokenLifetime } from '@/plugins/axios'
+import axios, { ACCESS_TOKEN_LIFETIME } from '@/plugins/axios'
 
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import User from '@/components/User'
 import UserAttributes from '@/components/UserAttributes'
-import CreateEditHotel from '@/components/hotelComponents/CreateEditHotel'
-import Hotel from '@/components/hotelComponents/Hotel'
-import CreateEditCompany from '@/components/companyComponents/CreateEditCompany'
-import Company from '@/components/companyComponents/Company'
-import CreateEditRoom from '@/components/roomComponents/CreateEditRoom'
-import Room from '@/components/roomComponents/Room'
+import HotelForm from '@/components/Hotel/HotelForm'
+import HotelView from '@/components/Hotel/HotelView'
+import CompanyForm from '@/components/Company/CompanyForm'
+import CompanyView from '@/components/Company/CompanyView'
+import RoomForm from '@/components/Room/RoomForm'
+import RoomView from '@/components/Room/RoomView'
 
 Vue.use(Router)
 
@@ -70,38 +70,38 @@ const router = new Router({
             path: '/changehotel/:id?',
             props: true,
             name: 'CreateEditHotel',
-            component: CreateEditHotel,
+            component: HotelForm,
             beforeEnter: isAuthenticated
         },
         {
             path: '/hotel/:id',
             props: true,
             name: 'Hotel',
-            component: Hotel
+            component: HotelView
         },
         {
             path: '/changecompany',
             name: 'CreateEditCompany',
-            component: CreateEditCompany,
+            component: CompanyForm,
             beforeEnter: isAuthenticated
         },
         {
             path: '/company',
             name: 'Company',
-            component: Company
+            component: CompanyView
         },
         {
             path: '/changeroom/:id?',
             props: true,
             name: 'CreateEditRoom',
-            component: CreateEditRoom,
+            component: RoomForm,
             beforeEnter: isAuthenticated
         },
         {
             path: '/room/:id',
             props: true,
             name: 'Room',
-            component: Room
+            component: RoomView
         }
     ]
 })
@@ -110,7 +110,7 @@ const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
     const token = store.getters['user/getAccessToken']
     if (token && !axios.defaults.headers.common.Authorization) {
-        if (new Date().getTime() - store.getters['user/getLastRefreshSince'] < accessTokenLifetime) {
+        if (new Date().getTime() - store.getters['user/getLastRefreshSince'] < ACCESS_TOKEN_LIFETIME) {
             axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
             store.dispatch('user/set_timeout', new Date().getTime() - store.getters['user/getLastRefreshSince'])
         } else {

@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card grey color="grey lighten-5" style="border-radius: 20px;">
-                    <v-card-title class="justify-center">{{ exists ? 'Edit company' : 'Create company' }}</v-card-title>
+                    <v-card-title class="justify-center">{{ exists ? "Edit company" : "Create company" }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
@@ -58,7 +58,6 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        name: "CreateCompany",
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
@@ -85,7 +84,7 @@
             ],
           }),
         mounted() {
-            this.$store.dispatch('company/getusercompany')
+            this.$store.dispatch('company/get_user_company')
         },
         methods: {
               validate () {
@@ -97,7 +96,7 @@
               async changeCompany() {
                     const data = { name: this.company.name, phone: this.company.phone,
                            pib: this.company.pib, city: this.company.city, address: this.company.address }
-                    await this.$store.dispatch('company/setusercompany', data)
+                    await this.$store.dispatch('company/set_user_company', data)
                     this.$router.push({ name: 'User' })
               }
           },

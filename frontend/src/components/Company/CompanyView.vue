@@ -31,13 +31,12 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        name: "Company",
         computed: mapGetters({
             company: 'company/getCompanyData',
             userIsLoggedIn: 'user/isLoggedIn'
         }),
         mounted() {
-            this.$store.dispatch('company/getusercompany')
+            this.$store.dispatch('company/get_user_company')
         },
         methods: {
             editCompany () {

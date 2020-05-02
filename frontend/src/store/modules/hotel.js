@@ -1,4 +1,4 @@
-import hotelserv from '@/services/hotelserv'
+import service from '@/services/hotel'
 
 export default {
     namespaced: true,
@@ -57,23 +57,23 @@ export default {
         getHotelData: state => state.data
     },
     actions: {
-        async userhotels({ commit }, id) {
-            const response = await hotelserv.userhotels(id)
+        async get_user_hotels({ commit }, id) {
+            const response = await service.get_user_hotels(id)
             commit('SET_HOTELS', response.data)
         },
-        async createhotel({ commit }, data) {
-            const response = await hotelserv.createhotel(data)
+        async create_hotel({ commit }, data) {
+            const response = await service.create_hotel(data)
             commit('ADD_HOTEL', response.data)
         },
-        async gethotel({ commit }, id) {
-            const response = await hotelserv.gethotel(id)
+        async get_hotel({ commit }, id) {
+            const response = await service.get_hotel(id)
             commit('SET_HOTEL', response.data)
         },
-        async updatehotel({ commit }, params) {
-            const response = await hotelserv.updatehotel(params.id, params.data)
+        async update_hotel({ commit }, params) {
+            const response = await service.update_hotel(params.id, params.data)
             commit('SET_HOTEL', response.data)
         },
-        clearhotel({ commit }) {
+        clear_hotel({ commit }) {
             commit('CLEAR_HOTEL')
         }
     }
