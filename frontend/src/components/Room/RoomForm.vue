@@ -6,19 +6,32 @@
                     <v-card-title class="justify-center">{{ id ? "Edit room" : "Create new room" }}</v-card-title>
                     <v-form>
                         <v-card-text>
-                            <v-text-field
-                                label="Choice"
-                                v-model="room.choice"
+                            <v-combobox
+                                v-model="room.roomType"
+                                :items="types"
+                                item-text="name"
+                                return-object
                                 prepend-icon="mdi-pencil-outline"
+                                :rules="[rules.selected]"
+                                @input="validate"
+                                label="Room type"
+                            ></v-combobox>
+                            <v-text-field
+                                v-if="room.roomType.value === 'AP'"
+                                label="Number of rooms"
+                                v-model="room.roomCount"
+                                prepend-icon="mdi-bed"
+                                type="number"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-text-field
-                                label="Bed number"
+                                label="Number of beds"
                                 v-model="room.bedsNumber"
                                 prepend-icon="mdi-bed"
-                                :rules="[rules.required, rules.digitsOnly]"
+                                type="number"
+                                :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
@@ -26,7 +39,8 @@
                                 label="Floor number"
                                 v-model="room.floorNumber"
                                 prepend-icon="mdi-format-list-bulleted"
-                                :rules="[rules.required, rules.digitsOnly]"
+                                type="number"
+                                :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
@@ -38,37 +52,15 @@
                                 @input="validate"
                                 validate-on-blur
                             />
-                            <v-text-field
-                                label="Room number"
-                                v-model="room.roomNumber"
-                                prepend-icon="mdi-numeric"
-                                :rules="[rules.required, rules.digitsOnly]"
-                                @input="validate"
-                                validate-on-blur
-                            />
-                            <v-text-field
-                                label="Room size"
-                                v-model="room.roomSize"
-                                prepend-icon="mdi-pencil-outline"
-                                :rules="[rules.required]"
-                                @input="validate"
-                                validate-on-blur
-                            />
-                            <v-row>
-                                <v-col><v-checkbox v-model="room.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility"></v-checkbox></v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col><v-checkbox v-model="room.terrace" :label="`Terrace`" prepend-icon="mdi-flower"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner"></v-checkbox></v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col><v-checkbox v-model="room.tv" :label="`TV`" prepend-icon="mdi-television-classic"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off"></v-checkbox></v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col><v-checkbox v-model="room.heating" :label="`Heating`" prepend-icon="mdi-radiator"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware"></v-checkbox></v-col>
+                            <v-row justify="space-around">
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.terrace" :label="`Terrace`" prepend-icon="mdi-flower" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.tv" :label="`TV`" prepend-icon="mdi-television-classic" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.heating" :label="`Heating`" prepend-icon="mdi-radiator" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="room.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware" hide-details @change="valid === null && validate()"/></v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
@@ -87,15 +79,18 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                digitsOnly: v => /^\d+$/.test(v) || 'Just digits.',
+                selected: () => this.room.type.value || "Required.",
             }},
             ...mapGetters({
-                room: 'room/getRoomData',
-                hotel: 'hotel/getHotelData'
+                room: 'room/getRoomData'
             })
         },
         data: () => ({
-            valid: false,
+            valid: null,
+            types: [
+                { name: "Studio", value: 'ST' },
+                { name: "Apartment", value: 'AP' },
+            ],
         }),
         mounted() {
             if (this.id) {
@@ -106,15 +101,13 @@
         },
         methods: {
               validate () {
-                    this.valid = this.rules.required(this.room.choice) === true && this.rules.required(this.room.bedsNumber) === true &&
-                                 this.rules.required(this.room.floorNumber) === true && this.rules.required(this.room.price) === true &&
-                                 this.rules.required(this.room.roomNumber) === true && this.rules.required(this.room.roomSize) === true &&
-                                 this.rules.digitsOnly(this.room.bedsNumber) === true && this.rules.digitsOnly(this.room.floorNumber) === true &&
-                                 this.rules.digitsOnly(this.room.roomNumber) === true
+                    this.valid = this.rules.selected(this.room.roomType) === true && this.rules.required(this.room.bedsNumber) === true &&
+                                 this.rules.required(this.room.roomCount) === true && this.rules.required(this.room.floorNumber) === true &&
+                                 this.rules.required(this.room.price) === true
               },
               async changeRoom() {
-                    const data = { hotel: this.hotel, choice: this.room.choice, beds_number: this.room.bedsNumber,
-                            floor_number: this.room.floorNumber, price: this.room.price, smoking_allowed: this.room.smokingAllowed,
+                    const data = { hotel: this.room.hotel, type: this.room.roomType.value, beds_number: this.room.bedsNumber,
+                            floor_number: this.room.floorNumber, room_count: this.room.roomCount, price: this.room.price, smoking_allowed: this.room.smokingAllowed,
                             people_with_disabilities_adapted: this.room.peopleWithDisabilitiesAdapted, room_number: this.room.roomNumber,
                             room_size: this.room.roomSize, terrace: this.room.terrace, air_conditioning: this.room.airConditioning,
                             tv: this.room.tv, sound_isolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }

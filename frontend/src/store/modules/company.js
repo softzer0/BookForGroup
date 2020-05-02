@@ -48,6 +48,7 @@ export default {
             } catch (e) {
                 commit('CLEAR_COMPANY')
             }
-        }
+        },
+        reset({ commit }) { commit('CLEAR_COMPANY') }
     }
 }
