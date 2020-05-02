@@ -7,13 +7,13 @@ export default {
         data: {
             id: null,
             hotel: null,
-            choice: '',
-            bedsNumber: '',
-            floorNumber: '',
+            floorNumber: 0,
+            roomCount: 0,
+            roomType: '',
+            bedsNumber: 0,
             price: '',
             smokingAllowed: false,
             peopleWithDisabilitiesAdapted: false,
-            roomNumber: '',
             roomSize: '',
             terrace: false,
             airConditioning: false,
@@ -25,19 +25,36 @@ export default {
     },
     mutations: {
         SET_ROOMS: (state, data) => {
-            state.list = data
+            data.forEach(room => {
+                state.list.push({
+                    id: room.pk,
+                    hotel: room.hotel.pk,
+                    floorNumber: room.floor_number,
+                    roomCount: room.room_count,
+                    roomType: room.room_type,
+                    bedsNumber: room.beds_number,
+                    price: room.price,
+                    smokingAllowed: room.smoking_allowed,
+                    peopleWithDisabilitiesAdapted: room.people_with_disabilities_adapted,
+                    terrace: data.term,
+                    airConditioning: data.air_conditioning,
+                    tv: data.tv,
+                    soundIsolation: data.sound_isolation,
+                    heating: data.heating,
+                    kitchen: data.kitchen
+                })
+            })
         },
         SET_ROOM: (state, data) => {
             state.data.id = data.pk
             state.data.hotel = data.hotel.pk
-            state.data.choice = data.choice
-            state.data.bedsNumber = data.beds_number
             state.data.floorNumber = data.floor_number
+            state.data.roomCount = data.room_count
+            state.data.roomType = data.room_type
+            state.data.bedsNumber = data.beds_number
             state.data.price = data.price
             state.data.smokingAllowed = data.smoking_allowed
             state.data.peopleWithDisabilitiesAdapted = data.people_with_disabilities_adapted
-            state.data.roomNumber = data.room_number
-            state.data.roomSize = data.room_size
             state.data.terrace = data.terrace
             state.data.airConditioning = data.air_conditioning
             state.data.tv = data.tv
@@ -48,9 +65,10 @@ export default {
         CLEAR_ROOM: (state) => {
             state.data.id = null
             state.data.hotel = null
-            state.data.choice = ''
-            state.data.bedsNumber = ''
-            state.data.floorNumber = ''
+            state.data.floorNumber = 0
+            state.data.roomCount = 0
+            state.data.roomType = ''
+            state.data.bedsNumber = 0
             state.data.price = ''
             state.data.smokingAllowed = false
             state.data.peopleWithDisabilitiesAdapted = false
@@ -90,6 +108,10 @@ export default {
         },
         clear_room({ commit }) {
             commit('CLEAR_ROOM')
+        },
+        reset({ commit }) {
+            commit('CLEAR_ROOM')
+            commit('SET_ROOMS', [])
         }
     }
 }

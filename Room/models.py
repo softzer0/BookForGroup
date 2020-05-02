@@ -15,6 +15,8 @@ class Room(models.Model):
     )
     beds_number = models.IntegerField(default=1)
     price = models.FloatField()
+    reserved_from = models.DateTimeField()
+    reserved_until = models.DateTimeField()
     smoking_allowed = models.BooleanField(default=False)
     people_with_disabilities_adapted = models.BooleanField(default=False)
     terrace = models.BooleanField(default=False)

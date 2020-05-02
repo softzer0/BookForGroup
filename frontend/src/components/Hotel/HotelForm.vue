@@ -40,29 +40,26 @@
                             />
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.freeWifi" :label="`Wifi`" prepend-icon="mdi-wifi">
-                                    </v-checkbox>
+                                    <v-checkbox v-model="hotel.freeWifi" :label="`Wifi`" prepend-icon="mdi-wifi" hide-details @change="valid === null && validate()"/>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.freeParking" :label="`Parking`" prepend-icon="mdi-parking">
-                                    </v-checkbox>
+                                    <v-checkbox v-model="hotel.freeParking" :label="`Parking`" prepend-icon="mdi-parking" hide-details @change="valid === null && validate()"/>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.breakfast" :label="`Breakfast`" prepend-icon="mdi-food-variant">
-                                    </v-checkbox>
+                                    <v-checkbox v-model="hotel.breakfast" :label="`Breakfast`" prepend-icon="mdi-food-variant" hide-details @change="valid === null && validate()"/>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.swimmingPool" :label="`Swimming pool`" prepend-icon="mdi-swim">
+                                    <v-checkbox v-model="hotel.swimmingPool" :label="`Swimming pool`" prepend-icon="mdi-swim" hide-details @change="valid === null && validate()">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.spa" :label="`Spa`" prepend-icon="mdi-spa">
+                                    <v-checkbox v-model="hotel.spa" :label="`Spa`" prepend-icon="mdi-spa" hide-details @change="valid === null && validate()">
                                     </v-checkbox>
                                 </v-col>
                                 <v-col>
-                                    <v-checkbox v-model="hotel.gym" :label="`Gym`" prepend-icon="mdi-dumbbell">
+                                    <v-checkbox v-model="hotel.gym" :label="`Gym`" prepend-icon="mdi-dumbbell" hide-details @change="valid === null && validate()">
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
@@ -88,7 +85,7 @@
             ...mapGetters({ hotel: 'hotel/getHotelData' })
         },
         data: () => ({
-            valid: false,
+            valid: null,
             cities: [
               'Beograd',
               'Vranje',
@@ -99,7 +96,15 @@
               'Kotor',
               'Tivat',
             ],
-          }),
+        }),
+        watchers: {
+            hotel: {
+                deep: true,
+                handler(newHotel) {
+                    this.$store.dispatch('hotel/model_changed', newHotel)
+                }
+            }
+        },
         mounted() {
             if (this.id) {
                 this.$store.dispatch('hotel/get_hotel', this.id)
@@ -113,14 +118,10 @@
                                  this.rules.required(this.hotel.webSite) === true && this.rules.selected() === true
               },
               async changeHotel() {
-                    const data = { name: this.hotel.name, city: this.hotel.city,
-                           address: this.hotel.address, web_site: this.hotel.webSite, free_parking: this.hotel.freeParking,
-                           free_wifi: this.hotel.freeWifi, breakfast: this.hotel.breakfast, swimming_pool: this.hotel.swimmingPool,
-                           spa: this.hotel.spa, gym: this.hotel.gym }
                     if (this.id) {
-                        await this.$store.dispatch('hotel/update_hotel', { id: this.id, data })
+                        await this.$store.dispatch('hotel/update_hotel')
                     } else {
-                        await this.$store.dispatch('hotel/create_hotel', data)
+                        await this.$store.dispatch('hotel/create_hotel')
                     }
                     this.$router.push({ name: 'User' })
               }

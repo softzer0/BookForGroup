@@ -1,4 +1,5 @@
 import service from '@/services/auth'
+import store from '@/store'
 import axios, { ACCESS_TOKEN_LIFETIME } from '@/plugins/axios'
 
 export default {
@@ -47,11 +48,17 @@ export default {
             commit('SET_TOKENS', response.data)
             dispatch('set_timeout_for_refresh')
         },
+        reset_all_services() {
+            for (const service of ['company', 'hotel', 'room']) {
+                store.dispatch(`${service}/reset`)
+            }
+        },
         set_data ({ commit, dispatch }, response) {
             // console.log(await service.user_info())
             commit('SET_USER', response.data.user)
             commit('SET_TOKENS', response.data)
             dispatch('set_timeout_for_refresh')
+            dispatch('reset_all_services')
         },
         async login ({ dispatch }, data) {
             const response = await service.login(data)
@@ -74,6 +81,7 @@ export default {
                 console.error(error)
             }
             dispatch('clear_auth')
+            dispatch('reset_all_services')
         },
         async update_user({ commit }, data) {
             const response = await service.update(data)
