@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const baseURL = 'http://localhost:8000/'
+export default axios.create({baseURL: 'http://localhost:8000/'})
 
-export default axios.create({ baseURL })
-
-export const accessTokenLifetime = 5 * 60 * 1000
+export const BASE_API_PATH = '/main/', ACCESS_TOKEN_LIFETIME = 5 * 60 * 1000

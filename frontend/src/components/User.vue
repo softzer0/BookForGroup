@@ -69,9 +69,9 @@
             }
         },
         mounted() {
-            this.$store.dispatch('hotel/userhotels', this.user.id)
+            this.$store.dispatch('hotel/get_user_hotels', this.user.id)
             if (!this.companyExists) {
-                this.$store.dispatch('company/getusercompany')
+                this.$store.dispatch('company/get_user_company')
             }
         }
     }

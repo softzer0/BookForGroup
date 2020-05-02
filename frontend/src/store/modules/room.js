@@ -1,4 +1,4 @@
-import room from '@/services/room'
+import service from '@/services/room'
 
 export default {
     namespaced: true,
@@ -72,23 +72,23 @@ export default {
         getRoomData: state => state.data
     },
     actions: {
-        async hotelrooms({ commit }, id) {
-            const response = await room.hotelrooms(id)
+        async get_hotel_rooms({ commit }, id) {
+            const response = await service.get_hotel_rooms(id)
             commit('SET_ROOMS', response.data)
         },
-        async createroom({ commit }, data) {
-            const response = await room.createroom(data)
+        async create_room({ commit }, data) {
+            const response = await service.create_room(data)
             commit('ADD_ROOM', response.data)
         },
-        async getroom({ commit }, id) {
-            const response = await room.getroom(id)
+        async get_room({ commit }, id) {
+            const response = await service.get_room(id)
             commit('SET_ROOM', response.data)
         },
-        async updateroom({ commit }, params) {
-            const response = await room.updateroom(params.id, params.data)
+        async update_room({ commit }, params) {
+            const response = await service.update_room(params.id, params.data)
             commit('SET_ROOM', response.data)
         },
-        clearroom({ commit }) {
+        clear_room({ commit }) {
             commit('CLEAR_ROOM')
         }
     }

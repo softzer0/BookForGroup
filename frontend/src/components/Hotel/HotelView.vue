@@ -67,8 +67,8 @@
             rooms: 'room/getRoomList'
         }),
         mounted() {
-            this.$store.dispatch('hotel/gethotel', this.id)
-            this.$store.dispatch('room/hotelrooms', this.id)
+            this.$store.dispatch('hotel/get_hotel', this.id)
+            this.$store.dispatch('room/get_hotel_rooms', this.id)
         },
         methods: {
             editHotel () {

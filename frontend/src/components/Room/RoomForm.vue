@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card grey color="grey lighten-5" style="border-radius: 20px;">
-                    <v-card-title class="justify-center">{{ id ? 'Edit room' : 'Create new room' }}</v-card-title>
+                    <v-card-title class="justify-center">{{ id ? "Edit room" : "Create new room" }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
@@ -83,7 +83,6 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        name: "CreateEditRoom",
         props: ['id'],
         computed: {
             rules() { return {
@@ -100,9 +99,9 @@
         }),
         mounted() {
             if (this.id) {
-                this.$store.dispatch('room/getroom', this.id)
+                this.$store.dispatch('room/get_room', this.id)
             } else {
-                this.$store.dispatch('room/clearroom')
+                this.$store.dispatch('room/clear_room')
             }
         },
         methods: {
@@ -120,9 +119,9 @@
                             room_size: this.room.roomSize, terrace: this.room.terrace, air_conditioning: this.room.airConditioning,
                             tv: this.room.tv, sound_isolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }
                     if (this.id) {
-                        await this.$store.dispatch('room/updateroom', { id: this.id, data })
+                        await this.$store.dispatch('room/update_room', { id: this.id, data })
                     } else {
-                        await this.$store.dispatch('room/createroom', data)
+                        await this.$store.dispatch('room/create_room', data)
                     }
                     this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
               }

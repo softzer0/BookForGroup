@@ -1,10 +1,10 @@
-import axios from '@/plugins/axios'
+import axios, { BASE_API_PATH } from '@/plugins/axios'
 
-const BASE_PATH = '/main/'
+const BASE_PATH = `${BASE_API_PATH}room/`
 
 export default {
-    hotelrooms: id => axios.get(`${BASE_PATH}room/?hotel=${id}`),
-    createroom: data => axios.post(`${BASE_PATH}room/`, data),
-    getroom: id => axios.get(`${BASE_PATH}room/${id}/`),
-    updateroom: (id, data) => axios.patch(`${BASE_PATH}room/${id}/`, data)
+    get_hotel_rooms: id => axios.get(`${BASE_PATH}?hotel=${id}`),
+    create_room: data => axios.post(`${BASE_PATH}`, data),
+    get_room: id => axios.get(`${BASE_PATH}${id}/`),
+    update_room: (id, data) => axios.patch(`${BASE_PATH}${id}/`, data)
 }

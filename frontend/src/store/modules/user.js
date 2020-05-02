@@ -1,5 +1,5 @@
-import auth from '@/services/auth'
-import axios, { accessTokenLifetime } from '@/plugins/axios'
+import service from '@/services/auth'
+import axios, { ACCESS_TOKEN_LIFETIME } from '@/plugins/axios'
 
 export default {
     namespaced: true,
@@ -36,7 +36,6 @@ export default {
         isLoggedIn: state => !!(state.accessToken),
         getLastRefreshSince: state => state.since,
         getAccessToken: state => state.accessToken,
-        getRefreshToken: state => state.refreshToken,
         getUserData: state => state.data
     },
     actions: {
@@ -44,40 +43,40 @@ export default {
             state.timeoutRef = setTimeout(() => { dispatch('refresh_token') }, timeout)
         },
         async refresh_token ({ commit, state, dispatch }) {
-            const response = await auth.refresh_token(state.refreshToken)
+            const response = await service.refresh_token(state.refreshToken)
             commit('SET_TOKENS', response.data)
-            dispatch('set_timeout', accessTokenLifetime)
+            dispatch('set_timeout', ACCESS_TOKEN_LIFETIME)
         },
         set_data ({ commit, dispatch }, response) {
-            // console.log(await auth.userInfo())
+            // console.log(await service.user_info())
             commit('SET_USER', response.data.user)
             commit('SET_TOKENS', response.data)
-            dispatch('set_timeout', accessTokenLifetime)
+            dispatch('set_timeout', ACCESS_TOKEN_LIFETIME)
         },
         async login ({ dispatch }, data) {
-            const response = await auth.login(data)
+            const response = await service.login(data)
             dispatch('set_data', response)
         },
         async register ({ dispatch }, data) {
-            const response = await auth.register(data)
+            const response = await service.register(data)
             dispatch('set_data', response)
         },
-        clear_auth ({ commit }) {
+        clear_auth ({ commit, state }) {
             axios.defaults.headers.common = {}
             commit('CLEAR_DATA')
+            clearTimeout(state.timeoutRef)
         },
         async logout ({ state, dispatch }) {
             try {
-                await auth.logout(state.refreshToken)
+                await service.logout(state.refreshToken)
             } catch (error) {
                 // for whatever the reason backend fails do to it, we'll ignore it nevertheless
                 console.error(error)
             }
             dispatch('clear_auth')
-            clearTimeout(state.timeoutRef)
         },
         async update_user({ commit }, data) {
-            const response = await auth.update(data)
+            const response = await service.update(data)
             commit('SET_USER', response.data)
         }
     }

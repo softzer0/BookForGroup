@@ -1,4 +1,4 @@
-import companyserv from '@/services/companyserv'
+import service from '@/services/company'
 
 export default {
     namespaced: true,
@@ -35,15 +35,15 @@ export default {
         getCompanyData: state => state.data
     },
     actions: {
-        async setusercompany({ commit, state }, data) {
+        async set_user_company({ commit, state }, data) {
             const response = await (state.exists ?
-                companyserv.updateusercompany(data) :
-                companyserv.createusercompany(data))
+                service.update_user_company(data) :
+                service.create_user_company(data))
             commit('SET_COMPANY', response.data)
         },
-        async getusercompany({ commit }) {
+        async get_user_company({ commit }) {
             try {
-                const response = await companyserv.getusercompany()
+                const response = await service.get_user_company()
                 commit('SET_COMPANY', response.data)
             } catch (e) {
                 commit('CLEAR_COMPANY')
