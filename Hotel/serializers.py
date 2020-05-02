@@ -10,7 +10,7 @@ class HotelSerializer(serializers.ModelSerializer):
         model = Hotel
         fields = ('pk', 'user', 'name', 'city', 'address', 'web_site', 'image', 'free_parking', 'free_wifi',
                   'breakfast', 'swimming_pool', 'spa', 'gym')
-    
+
     def create(self, validated_data):
         return self.context['request'].user.hotels.create(**validated_data)
 

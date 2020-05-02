@@ -3,8 +3,10 @@ from Hotel.models import Hotel
 from django.core.validators import validate_comma_separated_integer_list
 
 
-class AbstractRoom(models.Model):
+class Room(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='room_collections')
     floor_number = models.IntegerField(default=0)
+    room_numbers = models.CharField(validators=[validate_comma_separated_integer_list], max_length=240)
     room_type = models.CharField(
         max_length=2,
         choices=[
@@ -24,20 +26,4 @@ class AbstractRoom(models.Model):
     kitchen = models.BooleanField(default=False)
 
     class Meta:
-        abstract = True
-
-
-class RoomCollection(AbstractRoom):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='room_collections')
-    room_numbers = models.CharField(validators=[validate_comma_separated_integer_list], max_length=240)
-
-    class Meta:
         ordering = ['floor_number']
-
-
-class Room(AbstractRoom):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name="hotel_rooms")
-    room_number = models.IntegerField()
-
-    class Meta:
-        ordering = ['room_number', 'floor_number']

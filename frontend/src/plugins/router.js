@@ -88,7 +88,8 @@ const router = new Router({
         {
             path: '/company',
             name: 'Company',
-            component: CompanyView
+            component: CompanyView,
+            beforeEnter: isAuthenticated
         },
         {
             path: '/changeroom/:id?',
