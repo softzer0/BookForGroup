@@ -114,11 +114,11 @@
                                  this.rules.digitsOnly(this.room.roomNumber) === true
               },
               async changeRoom() {
-                    const data = { hotel: this.hotel.id, choice: this.room.choice, bedNumber: this.room.bedNumber,
-                            floorNumber: this.room.floorNumber, price: this.room.price, smokingAllowed: this.room.smokingAllowed,
-                            peopleWithDisabilitiesAdapted: this.room.peopleWithDisabilitiesAdapted, roomNumber: this.room.roomNumber,
-                            roomSize: this.room.roomSize, terrace: this.room.terrace, airConditioning: this.room.airConditioning,
-                            tv: this.room.tv, soundIsolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }
+                    const data = { hotel: this.hotel, choice: this.room.choice, bed_number: this.room.bedNumber,
+                            floor_number: this.room.floorNumber, price: this.room.price, smoking_allowed: this.room.smokingAllowed,
+                            people_with_disabilities_adapted: this.room.peopleWithDisabilitiesAdapted, room_number: this.room.roomNumber,
+                            room_size: this.room.roomSize, terrace: this.room.terrace, air_conditioning: this.room.airConditioning,
+                            tv: this.room.tv, sound_isolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }
                     if (this.id) {
                         await this.$store.dispatch('room/updateroom', { id: this.id, data })
                     } else {
