@@ -9,8 +9,8 @@
             <v-col>{{ this.room.choice }}</v-col>
         </v-row>
         <v-row>
-            <v-col>Bed number:</v-col>
-            <v-col>{{ this.room.bedNumber }}</v-col>
+            <v-col>Number of beds:</v-col>
+            <v-col>{{ this.room.bedsNumber }}</v-col>
         </v-row>
         <v-row>
             <v-col>Price:</v-col>
@@ -19,16 +19,12 @@
         <br>
         <br>
         <v-row>
-            <v-col v-if="room.smokingAllowed">Smoking allowed</v-col>
-            <v-col v-else>Smoking is not allowed</v-col>
-            <v-col v-if="room.airConditioning">Air conditioning</v-col>
-            <v-col v-else>No air conditioning</v-col>
+            <v-col>{{ room.smokingAllowed ? "Smoking allowed" : "Smoking is not allowed" }}</v-col>
+            <v-col>{{ room.airConditioning ? "Air conditioning" : "No air conditioning" }}</v-col>
         </v-row>
         <v-row>
-            <v-col v-if="room.tv">TV</v-col>
-            <v-col v-else>No TV</v-col>
-            <v-col v-if="room.soundIsolation">Sound isolation</v-col>
-            <v-col v-else>No sound isolation</v-col>
+            <v-col>{{ room.tv ? "TV" : "No TV" }}</v-col>
+            <v-col>{{ room.soundIsolation ? "Sound isolation" : "No sound isolation" }}</v-col>
         </v-row>
         <br>
         <v-row>
