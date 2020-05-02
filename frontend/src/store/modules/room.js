@@ -29,7 +29,7 @@ export default {
         },
         SET_ROOM: (state, data) => {
             state.data.id = data.pk
-            state.data.hotel = data.hotel
+            state.data.hotel = data.hotel.pk
             state.data.choice = data.choice
             state.data.bedNumber = data.bed_number
             state.data.floorNumber = data.floor_number
