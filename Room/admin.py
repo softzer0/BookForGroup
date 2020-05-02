@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import RoomCollection
+from .models import Room
 
 
-class RoomCollectionAdmin(admin.ModelAdmin):
+class RoomAdmin(admin.ModelAdmin):
     list_display = ('hotel', 'beds_number', 'floor_number')
 
 
-admin.site.register(RoomCollection, RoomCollectionAdmin)
+admin.site.register(Room, RoomAdmin)
