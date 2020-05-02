@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card grey color="grey lighten-5" style="border-radius: 20px;">
-                    <v-card-title class="justify-center">{{ pk ? 'Edit room' : 'Create new room' }}</v-card-title>
+                    <v-card-title class="justify-center">{{ id ? 'Edit room' : 'Create new room' }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
@@ -16,7 +16,7 @@
                             />
                             <v-text-field
                                 label="Bed number"
-                                v-model="room.bed_numbers"
+                                v-model="room.bedNumber"
                                 prepend-icon="mdi-bed"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
@@ -24,7 +24,7 @@
                             />
                             <v-text-field
                                 label="Floor number"
-                                v-model="room.floor_number"
+                                v-model="room.floorNumber"
                                 prepend-icon="mdi-format-list-bulleted"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
@@ -40,7 +40,7 @@
                             />
                             <v-text-field
                                 label="Room number"
-                                v-model="room.room_number"
+                                v-model="room.roomNumber"
                                 prepend-icon="mdi-numeric"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
@@ -48,23 +48,23 @@
                             />
                             <v-text-field
                                 label="Room size"
-                                v-model="room.room_size"
+                                v-model="room.roomSize"
                                 prepend-icon="mdi-pencil-outline"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-row>
-                                <v-col><v-checkbox v-model="room.smoking_allowed" :label="`Smoking`" prepend-icon="mdi-smoking"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.people_with_disabilities_adapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility"></v-checkbox></v-col>
                             </v-row>
                             <v-row>
                                 <v-col><v-checkbox v-model="room.terrace" :label="`Terrace`" prepend-icon="mdi-flower"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.air_conditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner"></v-checkbox></v-col>
                             </v-row>
                             <v-row>
                                 <v-col><v-checkbox v-model="room.tv" :label="`TV`" prepend-icon="mdi-television-classic"></v-checkbox></v-col>
-                                <v-col><v-checkbox v-model="room.sound_isolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off"></v-checkbox></v-col>
+                                <v-col><v-checkbox v-model="room.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off"></v-checkbox></v-col>
                             </v-row>
                             <v-row>
                                 <v-col><v-checkbox v-model="room.heating" :label="`Heating`" prepend-icon="mdi-radiator"></v-checkbox></v-col>
@@ -80,11 +80,11 @@
 </template>
 
 <script>
-    import { mapGetters } from "vuex"
+    import { mapGetters } from 'vuex'
 
     export default {
         name: "CreateEditRoom",
-        props: ['pk'],
+        props: ['id'],
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
@@ -99,32 +99,32 @@
             valid: false,
         }),
         mounted() {
-            if (this.pk) {
-                this.$store.dispatch('room/getroom', this.pk)
+            if (this.id) {
+                this.$store.dispatch('room/getroom', this.id)
             } else {
                 this.$store.dispatch('room/clearroom')
             }
         },
         methods: {
               validate () {
-                    this.valid = this.rules.required(this.room.choice) === true && this.rules.required(this.room.bed_numbers) === true &&
-                                 this.rules.required(this.room.floor_number) === true && this.rules.required(this.room.price) === true &&
-                                 this.rules.required(this.room.room_number) === true && this.rules.required(this.room.room_size) === true &&
-                                 this.rules.digitsOnly(this.room.bed_numbers) === true && this.rules.digitsOnly(this.room.floor_number) === true &&
-                                 this.rules.digitsOnly(this.room.room_number) === true
+                    this.valid = this.rules.required(this.room.choice) === true && this.rules.required(this.room.bedNumber) === true &&
+                                 this.rules.required(this.room.floorNumber) === true && this.rules.required(this.room.price) === true &&
+                                 this.rules.required(this.room.roomNumber) === true && this.rules.required(this.room.roomSize) === true &&
+                                 this.rules.digitsOnly(this.room.bedNumber) === true && this.rules.digitsOnly(this.room.floorNumber) === true &&
+                                 this.rules.digitsOnly(this.room.roomNumber) === true
               },
               async changeRoom() {
-                    const data = { hotel: this.hotel.pk, choice: this.room.choice, bed_numbers: this.room.bed_numbers,
-                            floor_number: this.room.floor_number, price: this.room.price, smoking_allowed: this.room.smoking_allowed,
-                            people_with_disabilities_adapted: this.room.people_with_disabilities_adapted, room_number: this.room.room_number,
-                            room_size: this.room.room_size, terrace: this.room.terrace, air_conditioning: this.room.air_conditioning,
-                            tv: this.room.tv, sound_isolation: this.room.sound_isolation, heating: this.room.heating, kitchen: this.room.kitchen }
-                    if (this.pk) {
-                        await this.$store.dispatch('room/updateroom', { pk: this.pk, data })
+                    const data = { hotel: this.hotel.id, choice: this.room.choice, bedNumber: this.room.bedNumber,
+                            floorNumber: this.room.floorNumber, price: this.room.price, smokingAllowed: this.room.smokingAllowed,
+                            peopleWithDisabilitiesAdapted: this.room.peopleWithDisabilitiesAdapted, roomNumber: this.room.roomNumber,
+                            roomSize: this.room.roomSize, terrace: this.room.terrace, airConditioning: this.room.airConditioning,
+                            tv: this.room.tv, soundIsolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }
+                    if (this.id) {
+                        await this.$store.dispatch('room/updateroom', { id: this.id, data })
                     } else {
                         await this.$store.dispatch('room/createroom', data)
                     }
-                    this.$router.push({ name: 'Hotel', params: { pk: this.hotel.pk } })
+                    this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
               }
           },
     }

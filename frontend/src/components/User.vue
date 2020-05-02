@@ -25,7 +25,7 @@
             <v-col>
                 <ul>
                     <li v-for="hotel in this.hotels" :key="hotel.name">
-                        <a href="javascript:" @click="showHotel(hotel.pk)">{{ hotel.name }}</a>
+                        <a href="javascript:" @click="showHotel(hotel.id)">{{ hotel.name }}</a>
                     </li>
                 </ul>
             </v-col>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-    import { mapGetters } from "vuex"
+    import { mapGetters } from 'vuex'
 
     export default {
         name: "User",
@@ -61,8 +61,8 @@
             createHotel () {
                 this.$router.push({ name: 'CreateEditHotel' })
             },
-            showHotel (pk) {
-                this.$router.push({ name: 'Hotel', params: { pk } })
+            showHotel (id) {
+                this.$router.push({ name: 'Hotel', params: { id } })
             },
             showCompany () {
                 this.$router.push({ name: 'Company' })
@@ -70,7 +70,9 @@
         },
         mounted() {
             this.$store.dispatch('hotel/userhotels', this.user.id)
-            this.$store.dispatch('company/getusercompany')
+            if (!this.companyExists) {
+                this.$store.dispatch('company/getusercompany')
+            }
         }
     }
 </script>

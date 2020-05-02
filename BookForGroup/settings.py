@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'rest_framework_simplejwt.token_blacklist',
     'authentication',
     'Arrangement',
     'Hotel',
@@ -164,8 +165,7 @@ REST_USE_JWT = True
 
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=5)
+    'ROTATE_REFRESH_TOKENS': True
 }
 
 ACCOUNT_EMAIL_REQUIRED = True

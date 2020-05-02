@@ -1,4 +1,4 @@
-import companyserv from "@/services/companyserv";
+import companyserv from '@/services/companyserv'
 
 export default {
     namespaced: true,

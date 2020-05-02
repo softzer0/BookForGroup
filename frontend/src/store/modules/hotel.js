@@ -5,7 +5,7 @@ export default {
     state: {
         list: [],
         data: {
-            pk: null,
+            id: null,
             name: '',
             city: '',
             address: '',
@@ -23,7 +23,7 @@ export default {
             state.list = data
         },
         SET_HOTEL: (state, data) => {
-            state.data.pk = data.pk
+            state.data.id = data.pk
             state.data.name = data.name
             state.data.city = data.city
             state.data.address = data.address
@@ -36,7 +36,7 @@ export default {
             state.data.gym = data.gym
         },
         CLEAR_HOTEL: (state) => {
-            state.data.pk = null
+            state.data.id = null
             state.data.name = ''
             state.data.city = ''
             state.data.address = ''
@@ -70,7 +70,7 @@ export default {
             commit('SET_HOTEL', response.data)
         },
         async updatehotel({ commit }, params) {
-            const response = await hotelserv.updatehotel(params.pk, params.data)
+            const response = await hotelserv.updatehotel(params.id, params.data)
             commit('SET_HOTEL', response.data)
         },
         clearhotel({ commit }) {

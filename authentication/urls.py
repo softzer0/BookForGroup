@@ -4,10 +4,17 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
-urlpatterns = [
+user_view = UserViewSet.as_view({
+    'get': 'list',
+    'post': 'create',
+    'put': 'update',
+    'patch': 'partial_update'
+})
+
+urlpatterns = format_suffix_patterns([
     # URLs that do not require a session or valid token
     path('password/reset/', PasswordResetView.as_view(),
          name='rest_password_reset'),
@@ -19,10 +26,8 @@ urlpatterns = [
     # URLs that require a user to be logged in with a valid session / token.
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('logout/', LogoutView.as_view(), name='rest_logout')
-]
+    path('logout/', LogoutView.as_view(), name='rest_logout'),
 
-router = DefaultRouter()
-router.register(r'user', UserViewSet)
+    path('user/', user_view)
+])
 
-urlpatterns += router.urls

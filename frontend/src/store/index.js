@@ -19,6 +19,11 @@ const vuexLocalStorage = new VuexPersist({
 })
 
 export default new Vuex.Store({
-    modules: { user, hotel, company, room },
+    modules: {
+        user,
+        hotel,
+        company,
+        room
+    },
     plugins: [vuexLocalStorage.plugin]
 })
