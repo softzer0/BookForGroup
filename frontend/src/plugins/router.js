@@ -113,7 +113,7 @@ const waitForStorageToBeReady = async (to, from, next) => {
     if (token && !axios.defaults.headers.common.Authorization) {
         if (new Date().getTime() - store.getters['user/getLastRefreshSince'] < ACCESS_TOKEN_LIFETIME) {
             axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
-            store.dispatch('user/set_timeout', new Date().getTime() - store.getters['user/getLastRefreshSince'])
+            store.dispatch('user/set_timeout_for_refresh', new Date().getTime() - store.getters['user/getLastRefreshSince'])
         } else {
             await store.dispatch('user/refresh_token')
         }
