@@ -39,19 +39,19 @@ export default {
         getUserData: state => state.data
     },
     actions: {
-        set_timeout ({ state, dispatch }, timeout) {
-            state.timeoutRef = setTimeout(() => { dispatch('refresh_token') }, timeout)
+        set_timeout_for_refresh ({ state, dispatch }, timeout) {
+            state.timeoutRef = setTimeout(() => { dispatch('refresh_token') }, timeout || ACCESS_TOKEN_LIFETIME)
         },
         async refresh_token ({ commit, state, dispatch }) {
             const response = await service.refresh_token(state.refreshToken)
             commit('SET_TOKENS', response.data)
-            dispatch('set_timeout', ACCESS_TOKEN_LIFETIME)
+            dispatch('set_timeout_for_refresh')
         },
         set_data ({ commit, dispatch }, response) {
             // console.log(await service.user_info())
             commit('SET_USER', response.data.user)
             commit('SET_TOKENS', response.data)
-            dispatch('set_timeout', ACCESS_TOKEN_LIFETIME)
+            dispatch('set_timeout_for_refresh')
         },
         async login ({ dispatch }, data) {
             const response = await service.login(data)

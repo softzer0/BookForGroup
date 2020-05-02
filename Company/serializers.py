@@ -8,7 +8,6 @@ PHONE_REGEX = re.compile(r'^\+?\d+$')
 
 class CompanySerializer(serializers.ModelSerializer):
     user = UserDetailsSerializer(default=serializers.CurrentUserDefault(), read_only=True)
-    phone = serializers.CharField(max_length=10)
 
     def validate_phone(self, value):
         if not PHONE_REGEX.match(value):
