@@ -36,12 +36,12 @@ export default {
                     price: room.price,
                     smokingAllowed: room.smoking_allowed,
                     peopleWithDisabilitiesAdapted: room.people_with_disabilities_adapted,
-                    terrace: data.term,
-                    airConditioning: data.air_conditioning,
-                    tv: data.tv,
-                    soundIsolation: data.sound_isolation,
-                    heating: data.heating,
-                    kitchen: data.kitchen
+                    terrace: room.term,
+                    airConditioning: room.air_conditioning,
+                    tv: room.tv,
+                    soundIsolation: room.sound_isolation,
+                    heating: room.heating,
+                    kitchen: room.kitchen
                 })
             })
         },
@@ -82,7 +82,23 @@ export default {
             state.data.kitchen = false
         },
         ADD_ROOM: (state, data) => {
-            state.list.push(data)
+            state.list.push({
+                id: data.pk,
+                hotel: data.hotel.pk,
+                floorNumber: data.floor_number,
+                roomCount: data.room_count,
+                roomType: data.room_type,
+                bedsNumber: data.beds_number,
+                price: data.price,
+                smokingAllowed: data.smoking_allowed,
+                peopleWithDisabilitiesAdapted: data.people_with_disabilities_adapted,
+                terrace: data.term,
+                airConditioning: data.air_conditioning,
+                tv: data.tv,
+                soundIsolation: data.sound_isolation,
+                heating: data.heating,
+                kitchen: data.kitchen
+            })
         }
     },
     getters: {
