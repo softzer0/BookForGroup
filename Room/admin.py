@@ -3,8 +3,7 @@ from .models import RoomCollection
 
 
 class RoomCollectionAdmin(admin.ModelAdmin):
-    list_display = ('hotel', 'bed_numbers', 'floor_number')
+    list_display = ('hotel', 'beds_number', 'floor_number')
 
 
 admin.site.register(RoomCollection, RoomCollectionAdmin)
-

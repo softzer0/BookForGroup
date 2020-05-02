@@ -16,7 +16,7 @@
                             />
                             <v-text-field
                                 label="Bed number"
-                                v-model="room.bedNumber"
+                                v-model="room.bedsNumber"
                                 prepend-icon="mdi-bed"
                                 :rules="[rules.required, rules.digitsOnly]"
                                 @input="validate"
@@ -106,14 +106,14 @@
         },
         methods: {
               validate () {
-                    this.valid = this.rules.required(this.room.choice) === true && this.rules.required(this.room.bedNumber) === true &&
+                    this.valid = this.rules.required(this.room.choice) === true && this.rules.required(this.room.bedsNumber) === true &&
                                  this.rules.required(this.room.floorNumber) === true && this.rules.required(this.room.price) === true &&
                                  this.rules.required(this.room.roomNumber) === true && this.rules.required(this.room.roomSize) === true &&
-                                 this.rules.digitsOnly(this.room.bedNumber) === true && this.rules.digitsOnly(this.room.floorNumber) === true &&
+                                 this.rules.digitsOnly(this.room.bedsNumber) === true && this.rules.digitsOnly(this.room.floorNumber) === true &&
                                  this.rules.digitsOnly(this.room.roomNumber) === true
               },
               async changeRoom() {
-                    const data = { hotel: this.hotel, choice: this.room.choice, bed_number: this.room.bedNumber,
+                    const data = { hotel: this.hotel, choice: this.room.choice, beds_number: this.room.bedsNumber,
                             floor_number: this.room.floorNumber, price: this.room.price, smoking_allowed: this.room.smokingAllowed,
                             people_with_disabilities_adapted: this.room.peopleWithDisabilitiesAdapted, room_number: this.room.roomNumber,
                             room_size: this.room.roomSize, terrace: this.room.terrace, air_conditioning: this.room.airConditioning,

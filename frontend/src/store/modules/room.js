@@ -8,7 +8,7 @@ export default {
             id: null,
             hotel: null,
             choice: '',
-            bedNumber: '',
+            bedsNumber: '',
             floorNumber: '',
             price: '',
             smokingAllowed: false,
@@ -31,7 +31,7 @@ export default {
             state.data.id = data.pk
             state.data.hotel = data.hotel.pk
             state.data.choice = data.choice
-            state.data.bedNumber = data.bed_number
+            state.data.bedsNumber = data.beds_number
             state.data.floorNumber = data.floor_number
             state.data.price = data.price
             state.data.smokingAllowed = data.smoking_allowed
@@ -49,7 +49,7 @@ export default {
             state.data.id = null
             state.data.hotel = null
             state.data.choice = ''
-            state.data.bedNumber = ''
+            state.data.bedsNumber = ''
             state.data.floorNumber = ''
             state.data.price = ''
             state.data.smokingAllowed = false
