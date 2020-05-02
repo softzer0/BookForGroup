@@ -1,16 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 
 from .permissions import IsOwnerOrReadOnly
-from .models import RoomCollection, Room
-from .serializers import RoomCollectionSerializer, RoomSerializer
+from .models import Room
+from .serializers import RoomSerializer
 from rest_framework.permissions import IsAuthenticated
-
-
-class RoomCollectionViewSet(ModelViewSet):
-    queryset = RoomCollection.objects.all()
-    serializer_class = RoomCollectionSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
-    filterset_fields = ['hotel']
 
 
 class RoomViewSet(ModelViewSet):
