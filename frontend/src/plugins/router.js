@@ -1,20 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import axios from '@/plugins/axios'
-
 import store from '@/store'
+import axios, { accessTokenLifetime } from '@/plugins/axios'
 
 import Home from '@/components/Home'
 import Login from '@/components/Login'
-import Register from "@/components/Register"
-import User from "@/components/User"
-import UserAttributes from "@/components/UserAttributes"
-import CreateEditHotel from "@/components/hotelComponents/CreateEditHotel"
-import Hotel from "@/components/hotelComponents/Hotel"
-import CreateEditCompany from "@/components/companyComponents/CreateEditCompany"
-import Company from "@/components/companyComponents/Company"
-import CreateEditRoom from "@/components/roomComponents/CreateEditRoom"
-import Room from "@/components/roomComponents/Room"
+import Register from '@/components/Register'
+import User from '@/components/User'
+import UserAttributes from '@/components/UserAttributes'
+import CreateEditHotel from '@/components/hotelComponents/CreateEditHotel'
+import Hotel from '@/components/hotelComponents/Hotel'
+import CreateEditCompany from '@/components/companyComponents/CreateEditCompany'
+import Company from '@/components/companyComponents/Company'
+import CreateEditRoom from '@/components/roomComponents/CreateEditRoom'
+import Room from '@/components/roomComponents/Room'
 
 Vue.use(Router)
 
@@ -68,14 +67,14 @@ const router = new Router({
             beforeEnter: isAuthenticated
         },
         {
-            path: '/changehotel/:pk?',
+            path: '/changehotel/:id?',
             props: true,
             name: 'CreateEditHotel',
             component: CreateEditHotel,
             beforeEnter: isAuthenticated
         },
         {
-            path: '/hotel/:pk',
+            path: '/hotel/:id',
             props: true,
             name: 'Hotel',
             component: Hotel
@@ -92,14 +91,14 @@ const router = new Router({
             component: Company
         },
         {
-            path: '/changeroom/:pk?',
+            path: '/changeroom/:id?',
             props: true,
             name: 'CreateEditRoom',
             component: CreateEditRoom,
             beforeEnter: isAuthenticated
         },
         {
-            path: '/room/:pk',
+            path: '/room/:id',
             props: true,
             name: 'Room',
             component: Room
@@ -110,11 +109,27 @@ const router = new Router({
 const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
     const token = store.getters['user/getAccessToken']
-    if (token) {
-        axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+    if (token && !axios.defaults.headers.common.Authorization) {
+        if (new Date().getTime() - store.getters['user/getLastRefreshSince'] < accessTokenLifetime) {
+            axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+            store.dispatch('user/set_timeout', new Date().getTime() - store.getters['user/getLastRefreshSince'])
+        } else {
+            await store.dispatch('user/refresh_token')
+        }
     }
     next()
 }
 router.beforeEach(waitForStorageToBeReady)
+
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response.data && error.response.data.code === 'token_not_valid') {
+            store.dispatch('user/clear_auth')
+            router.push({name: 'Login'})
+        }
+        return Promise.reject(error)
+    }
+)
 
 export default router

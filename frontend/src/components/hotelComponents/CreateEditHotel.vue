@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card grey color="grey lighten-5" style="border-radius: 20px;">
-                    <v-card-title class="justify-center">{{ pk ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
+                    <v-card-title class="justify-center">{{ id ? 'Edit hotel' : 'Create new hotel' }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-text-field
@@ -80,7 +80,7 @@
 
     export default {
         name: "CreateHotel",
-        props: ['pk'],
+        props: ['id'],
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
@@ -102,8 +102,8 @@
             ],
           }),
         mounted() {
-            if (this.pk) {
-                this.$store.dispatch('hotel/gethotel', this.pk)
+            if (this.id) {
+                this.$store.dispatch('hotel/gethotel', this.id)
             } else {
                 this.$store.dispatch('hotel/clearhotel')
             }
@@ -118,8 +118,8 @@
                            address: this.hotel.address, web_site: this.hotel.webSite, free_parking: this.hotel.freeParking,
                            free_wifi: this.hotel.freeWifi, breakfast: this.hotel.breakfast, swimming_pool: this.hotel.swimmingPool,
                            spa: this.hotel.spa, gym: this.hotel.gym }
-                    if (this.pk) {
-                        await this.$store.dispatch('hotel/updatehotel', { pk: this.pk, data })
+                    if (this.id) {
+                        await this.$store.dispatch('hotel/updatehotel', { id: this.id, data })
                     } else {
                         await this.$store.dispatch('hotel/createhotel', data)
                     }

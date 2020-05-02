@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col>Room number:</v-col>
-            <v-col>{{ this.room.room_number }}</v-col>
+            <v-col>{{ this.room.roomNumber }}</v-col>
         </v-row>
         <v-row>
             <v-col>Choice:</v-col>
@@ -10,7 +10,7 @@
         </v-row>
         <v-row>
             <v-col>Bed number:</v-col>
-            <v-col>{{ this.room.bed_numbers }}</v-col>
+            <v-col>{{ this.room.bedNumber }}</v-col>
         </v-row>
         <v-row>
             <v-col>Price:</v-col>
@@ -19,15 +19,15 @@
         <br>
         <br>
         <v-row>
-            <v-col v-if="room.smoking_allowed">Smoking allowed</v-col>
+            <v-col v-if="room.smokingAllowed">Smoking allowed</v-col>
             <v-col v-else>Smoking is not allowed</v-col>
-            <v-col v-if="room.air_conditioning">Air conditioning</v-col>
+            <v-col v-if="room.airConditioning">Air conditioning</v-col>
             <v-col v-else>No air conditioning</v-col>
         </v-row>
         <v-row>
             <v-col v-if="room.tv">TV</v-col>
             <v-col v-else>No TV</v-col>
-            <v-col v-if="room.sound_isolation">Sound isolation</v-col>
+            <v-col v-if="room.soundIsolation">Sound isolation</v-col>
             <v-col v-else>No sound isolation</v-col>
         </v-row>
         <br>
@@ -39,25 +39,25 @@
 </template>
 
 <script>
-    import { mapGetters } from "vuex"
+    import { mapGetters } from 'vuex'
 
     export default {
         name: "Room",
-        props: ['pk'],
+        props: ['id'],
         computed: mapGetters({
             room: 'room/getRoomData',
             userIsLoggedIn: 'user/isLoggedIn',
             hotel: 'hotel/getHotelData'
         }),
         mounted() {
-            this.$store.dispatch('room/getroom', this.pk)
+            this.$store.dispatch('room/getroom', this.id)
         },
         methods: {
             editRoom () {
-                this.$router.push({ name: 'CreateEditRoom', params: { pk: this.room.pk } })
+                this.$router.push({ name: 'CreateEditRoom', params: { id: this.room.id } })
             },
             goToHotelPage () {
-                this.$router.push({ name: 'Hotel', params: { pk: this.hotel.pk } })
+                this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
             }
         }
     }

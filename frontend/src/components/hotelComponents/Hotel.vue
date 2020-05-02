@@ -42,8 +42,8 @@
             <v-col>Rooms:</v-col>
             <v-col>
                 <ul>
-                    <li v-for="room in this.rooms" :key="room.room_number">
-                        <a href="javascript:" @click="showRoom(room.pk)">{{ room.room_number }}</a>
+                    <li v-for="room in this.rooms" :key="room.roomNumber">
+                        <a href="javascript:" @click="showRoom(room.id)">{{ room.roomNumber }}</a>
                     </li>
                 </ul>
             </v-col>
@@ -60,22 +60,22 @@
 
     export default {
         name: "Hotel",
-        props: ['pk'],
+        props: ['id'],
         computed: mapGetters({
             hotel: 'hotel/getHotelData',
             userIsLoggedIn: 'user/isLoggedIn',
             rooms: 'room/getRoomList'
         }),
         mounted() {
-            this.$store.dispatch('hotel/gethotel', this.pk)
-            this.$store.dispatch('room/hotelrooms', this.pk)
+            this.$store.dispatch('hotel/gethotel', this.id)
+            this.$store.dispatch('room/hotelrooms', this.id)
         },
         methods: {
             editHotel () {
-                this.$router.push({ name: 'CreateEditHotel', params: { pk: this.hotel.pk } })
+                this.$router.push({ name: 'CreateEditHotel', params: { id: this.hotel.id } })
             },
-            showRoom (pk) {
-                this.$router.push({ name: 'Room', params: { pk } })
+            showRoom (id) {
+                this.$router.push({ name: 'Room', params: { id } })
             },
             createRoom () {
                 this.$router.push({ name: 'CreateEditRoom'})

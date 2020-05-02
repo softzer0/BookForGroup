@@ -5,20 +5,20 @@ export default {
     state: {
         list: [],
         data: {
-            pk: null,
+            id: null,
             hotel: null,
             choice: '',
-            bed_numbers: '',
-            floor_number: '',
+            bedNumber: '',
+            floorNumber: '',
             price: '',
-            smoking_allowed: false,
-            people_with_disabilities_adapted: false,
-            room_number: '',
-            room_size: '',
+            smokingAllowed: false,
+            peopleWithDisabilitiesAdapted: false,
+            roomNumber: '',
+            roomSize: '',
             terrace: false,
-            air_conditioning: false,
+            airConditioning: false,
             tv: false,
-            sound_isolation: false,
+            soundIsolation: false,
             heating: false,
             kitchen: false
         }
@@ -28,38 +28,38 @@ export default {
             state.list = data
         },
         SET_ROOM: (state, data) => {
-            state.data.pk = data.pk
+            state.data.id = data.pk
             state.data.hotel = data.hotel
             state.data.choice = data.choice
-            state.data.bed_numbers = data.bed_numbers
-            state.data.floor_number = data.floor_number
+            state.data.bedNumber = data.bed_number
+            state.data.floorNumber = data.floor_number
             state.data.price = data.price
-            state.data.smoking_allowed = data.smoking_allowed
-            state.data.people_with_disabilities_adapted = data.people_with_disabilities_adapted
-            state.data.room_number = data.room_number
-            state.data.room_size = data.room_size
+            state.data.smokingAllowed = data.smoking_allowed
+            state.data.peopleWithDisabilitiesAdapted = data.people_with_disabilities_adapted
+            state.data.roomNumber = data.room_number
+            state.data.roomSize = data.room_size
             state.data.terrace = data.terrace
-            state.data.air_conditioning = data.air_conditioning
+            state.data.airConditioning = data.air_conditioning
             state.data.tv = data.tv
-            state.data.sound_isolation = data.sound_isolation
+            state.data.soundIsolation = data.sound_isolation
             state.data.heating = data.heating
             state.data.kitchen = data.kitchen
         },
         CLEAR_ROOM: (state) => {
-            state.data.pk = null
+            state.data.id = null
             state.data.hotel = null
             state.data.choice = ''
-            state.data.bed_numbers = ''
-            state.data.floor_number = ''
+            state.data.bedNumber = ''
+            state.data.floorNumber = ''
             state.data.price = ''
-            state.data.smoking_allowed = false
-            state.data.people_with_disabilities_adapted = false
-            state.data.room_number = ''
-            state.data.room_size = ''
+            state.data.smokingAllowed = false
+            state.data.peopleWithDisabilitiesAdapted = false
+            state.data.roomNumber = ''
+            state.data.roomSize = ''
             state.data.terrace = false
-            state.data.air_conditioning = false
+            state.data.airConditioning = false
             state.data.tv = false
-            state.data.sound_isolation = false
+            state.data.soundIsolation = false
             state.data.heating = false
             state.data.kitchen = false
         },
@@ -85,7 +85,7 @@ export default {
             commit('SET_ROOM', response.data)
         },
         async updateroom({ commit }, params) {
-            const response = await room.updateroom(params.pk, params.data)
+            const response = await room.updateroom(params.id, params.data)
             commit('SET_ROOM', response.data)
         },
         clearroom({ commit }) {

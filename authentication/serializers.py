@@ -5,7 +5,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer as DefaultR
 import re
 from .models import User
 
-NAME_REGEX = re.compile(r'\d')
+NAME_REGEX = re.compile(r'^\w+$')
 
 
 class NoUsername:
@@ -25,7 +25,7 @@ class RegisterSerializer(NoUsername, DefaultRegisterSerializer):
 
     def validate(self, data):
         super().validate(data)
-        if NAME_REGEX.match(data['first_name']) or NAME_REGEX.match(data['last_name']):
+        if not NAME_REGEX.match(data['first_name']) or not NAME_REGEX.match(data['last_name']):
             raise serializers.ValidationError("Invalid name!")
         return data
 
