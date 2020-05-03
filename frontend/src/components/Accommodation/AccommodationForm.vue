@@ -152,8 +152,10 @@
         mounted() {
             if (this.id) {
                 this.$store.dispatch('accommodation/get_accommodation', this.id)
+            } else if (this.$route.query['hotel-id']) {
+                this.$store.dispatch('accommodation/reset_accommodation', this.$route.query['hotel-id'])
             } else {
-                this.$store.dispatch('accommodation/reset_accommodation', this.$route.query.hotelId)
+                this.$router.push({ name: 'User' })
             }
         },
         methods: {

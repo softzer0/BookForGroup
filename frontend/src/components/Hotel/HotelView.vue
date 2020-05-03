@@ -43,7 +43,7 @@
             <v-col>
                 <ul>
                     <li v-for="accommodation in this.accommodations" :key="accommodation.id">
-                        <a href="javascript:" @click="showAccommodation(accommodation.id)">{{ accommodation.type.name }}</a>
+                        <a href="javascript:" @click="showAccommodation(accommodation.id)">{{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} beds<span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} rooms</span></a>
                     </li>
                 </ul>
             </v-col>
@@ -78,7 +78,7 @@
                 this.$router.push({ name: 'Accommodation', params: { id } })
             },
             createAccommodation () {
-                this.$router.push({ name: 'CreateEditAccommodation', query: { hotelId: this.hotel.id } })
+                this.$router.push({ name: 'CreateEditAccommodation', query: { 'hotel-id': this.hotel.id } })
             }
         }
     }

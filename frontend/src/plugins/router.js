@@ -61,13 +61,13 @@ const router = new Router({
             beforeEnter: isAuthenticated
         },
         {
-            path: '/completeUser',
+            path: '/complete-user',
             name: 'UserAttributes',
             component: UserAttributes,
             beforeEnter: isAuthenticated
         },
         {
-            path: '/changehotel/:id?',
+            path: '/change-hotel/:id?',
             props: true,
             name: 'CreateEditHotel',
             component: HotelForm,
@@ -80,7 +80,7 @@ const router = new Router({
             component: HotelView
         },
         {
-            path: '/changecompany',
+            path: '/change-company',
             name: 'CreateEditCompany',
             component: CompanyForm,
             beforeEnter: isAuthenticated
@@ -92,7 +92,7 @@ const router = new Router({
             beforeEnter: isAuthenticated
         },
         {
-            path: '/changeaccommodation/:id?',
+            path: '/change-accommodation/:id?',
             props: true,
             name: 'CreateEditAccommodation',
             component: AccommodationForm,
