@@ -28,7 +28,7 @@ export default {
             state.data = {}
         },
         SET_USER: (state, data) => {
-            state.data.id = data.pk
+            state.data.id = data.id
             state.data.firstName = data.first_name
             state.data.lastName = data.last_name
         }
