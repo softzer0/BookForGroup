@@ -5,7 +5,7 @@ from Hotel.models import Hotel
 class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='room_collections')
     floor_number = models.IntegerField(default=0)
-    room_count = models.IntegerField()
+    room_count = models.IntegerField(default=1)
     room_type = models.CharField(
         max_length=2,
         choices=[
@@ -14,7 +14,8 @@ class Room(models.Model):
         ],
     )
     beds_number = models.IntegerField(default=1)
-    price = models.FloatField()
+    price_per_adult = models.FloatField()
+    price_per_child = models.FloatField()
     reserved_from = models.DateTimeField()
     reserved_until = models.DateTimeField()
     smoking_allowed = models.BooleanField(default=False)
