@@ -1,104 +1,26 @@
 import service from '@/services/room'
+import Room from '@/models/room'
 
 export default {
     namespaced: true,
     state: {
         list: [],
-        data: {
-            id: null,
-            hotel: null,
-            floorNumber: 0,
-            roomCount: 0,
-            roomType: '',
-            bedsNumber: 0,
-            price: '',
-            smokingAllowed: false,
-            peopleWithDisabilitiesAdapted: false,
-            roomSize: '',
-            terrace: false,
-            airConditioning: false,
-            tv: false,
-            soundIsolation: false,
-            heating: false,
-            kitchen: false
-        }
+        data: new Room()
     },
     mutations: {
         SET_ROOMS: (state, data) => {
-            data.forEach(room => {
-                state.list.push({
-                    id: room.pk,
-                    hotel: room.hotel.pk,
-                    floorNumber: room.floor_number,
-                    roomCount: room.room_count,
-                    roomType: room.room_type,
-                    bedsNumber: room.beds_number,
-                    price: room.price,
-                    smokingAllowed: room.smoking_allowed,
-                    peopleWithDisabilitiesAdapted: room.people_with_disabilities_adapted,
-                    terrace: room.term,
-                    airConditioning: room.air_conditioning,
-                    tv: room.tv,
-                    soundIsolation: room.sound_isolation,
-                    heating: room.heating,
-                    kitchen: room.kitchen
-                })
+            state.list = []
+            data.forEach(room => { state.list.push(new Room(room) )
             })
         },
         SET_ROOM: (state, data) => {
-            state.data.id = data.pk
-            state.data.hotel = data.hotel.pk
-            state.data.floorNumber = data.floor_number
-            state.data.roomCount = data.room_count
-            state.data.roomType = data.room_type
-            state.data.bedsNumber = data.beds_number
-            state.data.price = data.price
-            state.data.smokingAllowed = data.smoking_allowed
-            state.data.peopleWithDisabilitiesAdapted = data.people_with_disabilities_adapted
-            state.data.terrace = data.terrace
-            state.data.airConditioning = data.air_conditioning
-            state.data.tv = data.tv
-            state.data.soundIsolation = data.sound_isolation
-            state.data.heating = data.heating
-            state.data.kitchen = data.kitchen
+            state.data = new Room(data)
         },
         CLEAR_ROOM: (state) => {
-            state.data.id = null
-            state.data.hotel = null
-            state.data.floorNumber = 0
-            state.data.roomCount = 0
-            state.data.roomType = ''
-            state.data.bedsNumber = 0
-            state.data.price = ''
-            state.data.smokingAllowed = false
-            state.data.peopleWithDisabilitiesAdapted = false
-            state.data.roomNumber = ''
-            state.data.roomSize = ''
-            state.data.terrace = false
-            state.data.airConditioning = false
-            state.data.tv = false
-            state.data.soundIsolation = false
-            state.data.heating = false
-            state.data.kitchen = false
+            state.data = new Room()
         },
         ADD_ROOM: (state, data) => {
-            state.list.push({
-                id: data.pk,
-                hotel: data.hotel.pk,
-                floorNumber: data.floor_number,
-                roomCount: data.room_count,
-                roomType: data.room_type,
-                bedsNumber: data.beds_number,
-                price: data.price,
-                smokingAllowed: data.smoking_allowed,
-                peopleWithDisabilitiesAdapted: data.people_with_disabilities_adapted,
-                terrace: data.term,
-                airConditioning: data.air_conditioning,
-                tv: data.tv,
-                soundIsolation: data.sound_isolation,
-                heating: data.heating,
-                kitchen: data.kitchen
-            })
+            state.list.push(new Room(data))
         }
     },
     getters: {
