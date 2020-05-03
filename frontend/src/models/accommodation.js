@@ -2,7 +2,7 @@ import { parseISO, formatISO, format } from 'date-fns'
 
 export default class Accommodation {
     constructor (data = {}) {
-        this.id = data.pk || null
+        this.id = data.id || null
         this.hotelId = data.hotel
         this.quantity = data.quantity || 1
         this.floorNumber = data.floor_number || 0
