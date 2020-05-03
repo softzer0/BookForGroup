@@ -28,7 +28,7 @@ export default {
             state.data = {}
         },
         SET_USER: (state, data) => {
-            state.data.id = data.pk
+            state.data.id = data.id
             state.data.firstName = data.first_name
             state.data.lastName = data.last_name
         }
@@ -49,7 +49,7 @@ export default {
             dispatch('set_timeout_for_refresh')
         },
         reset_all_services() {
-            for (const service of ['company', 'hotel', 'room']) {
+            for (const service of ['company', 'hotel', 'accommodation']) {
                 store.dispatch(`${service}/reset`)
             }
         },

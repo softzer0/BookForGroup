@@ -39,18 +39,18 @@
         <br>
         <br>
         <v-row>
-            <v-col>Rooms:</v-col>
+            <v-col>Accommodations:</v-col>
             <v-col>
                 <ul>
-                    <li v-for="room in this.rooms" :key="room.roomNumber">
-                        <a href="javascript:" @click="showRoom(room.id)">{{ room.roomNumber }}</a>
+                    <li v-for="accommodation in this.accommodations" :key="accommodation.id">
+                        <a href="javascript:" @click="showAccommodation(accommodation.id)">{{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)<span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span></a>
                     </li>
                 </ul>
             </v-col>
         </v-row>
         <v-row>
             <v-col><v-btn v-if="userIsLoggedIn" @click="editHotel()">Edit hotel</v-btn></v-col>
-            <v-col><v-btn @click="createRoom()">Create room</v-btn></v-col>
+            <v-col><v-btn @click="createAccommodation()">Create accommodation</v-btn></v-col>
         </v-row>
     </v-container>
 </template>
@@ -64,21 +64,21 @@
         computed: mapGetters({
             hotel: 'hotel/getHotelData',
             userIsLoggedIn: 'user/isLoggedIn',
-            rooms: 'room/getRoomList'
+            accommodations: 'accommodation/getAccommodationList'
         }),
         mounted() {
             this.$store.dispatch('hotel/get_hotel', this.id)
-            this.$store.dispatch('room/get_hotel_rooms', this.id)
+            this.$store.dispatch('accommodation/get_hotel_accommodations', this.id)
         },
         methods: {
             editHotel () {
                 this.$router.push({ name: 'CreateEditHotel', params: { id: this.hotel.id } })
             },
-            showRoom (id) {
-                this.$router.push({ name: 'Room', params: { id } })
+            showAccommodation (id) {
+                this.$router.push({ name: 'Accommodation', params: { id } })
             },
-            createRoom () {
-                this.$router.push({ name: 'CreateEditRoom'})
+            createAccommodation () {
+                this.$router.push({ name: 'CreateEditAccommodation', query: { 'hotel-id': this.hotel.id } })
             }
         }
     }

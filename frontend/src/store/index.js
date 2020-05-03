@@ -5,7 +5,7 @@ import VuexPersist from 'vuex-persist'
 import user from './modules/user'
 import hotel from './modules/hotel'
 import company from './modules/company'
-import room from './modules/room'
+import accommodation from './modules/accommodation'
 
 Vue.use(Vuex)
 
@@ -23,7 +23,7 @@ export default new Vuex.Store({
         user,
         hotel,
         company,
-        room
+        accommodation
     },
     plugins: [vuexLocalStorage.plugin]
 })

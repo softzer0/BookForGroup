@@ -64,19 +64,19 @@
                             </v-col>
                             <v-col cols="4" sm="6" md="4">
                                 <v-text-field
-                                    v-model="collection.bedsNumber"
+                                    v-model="collection.bedCount"
                                     type="number"
                                     :min="1"
                                     label="Number of beds"
                                     @input="setBedrooms(collection)"
                                 />
                             </v-col>
-                            <v-col cols="4" sm="6" md="4" v-if="collection.value === 'AP' && collection.bedsNumber > 1">
+                            <v-col cols="4" sm="6" md="4" v-if="collection.value === 'AP' && collection.bedCount > 1">
                                 <v-text-field
                                     v-model="collection.bedroomsNumber"
                                     type="number"
                                     :min="1"
-                                    :max="collection.bedsNumber"
+                                    :max="collection.bedCount"
                                     label="Number of bedrooms"
                                 />
                             </v-col>
@@ -139,7 +139,7 @@
                 const collection = {
                     value: this.type.value,
                     quantity: 1,
-                    bedsNumber: 1,
+                    bedCount: 1,
                     smokingAllowed: false,
                     peopleWithDisabilitiesAdapted: false,
                     terrace: false,
@@ -158,7 +158,7 @@
                 this.collections.splice(this.collections.indexOf(collection), 1)
             },
             setBedrooms(collection) {
-                if (collection.value === 'AP' && collection.bedroomsNumber > collection.bedsNumber) collection.bedroomsNumber = collection.bedsNumber
+                if (collection.value === 'AP' && collection.bedroomsNumber > collection.bedCount) collection.bedroomsNumber = collection.bedCount
             }
         },
     }

@@ -1,6 +1,6 @@
 export default class Hotel {
     constructor (data = {}) {
-        this.id = data.pk || null
+        this.id = data.id || null
         this.name = data.name || ''
         this.city = data.city || ''
         this.address = data.address || ''
@@ -15,7 +15,6 @@ export default class Hotel {
 
     prepareForRequest() {
         return {
-            id: this.id,
             name: this.name,
             city: this.city,
             address: this.address,
