@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from Hotel.models import Hotel
-from .models import Room
+from .models import Accommodation
 
 
-class RoomSerializer(serializers.ModelSerializer):
+class AccommodationSerializer(serializers.ModelSerializer):
     hotel = serializers.PrimaryKeyRelatedField(queryset=Hotel.objects.all())
 
     class Meta:
-        model = Room
+        model = Accommodation
         fields = '__all__'

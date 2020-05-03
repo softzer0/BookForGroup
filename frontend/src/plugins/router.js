@@ -12,8 +12,8 @@ import HotelForm from '@/components/Hotel/HotelForm'
 import HotelView from '@/components/Hotel/HotelView'
 import CompanyForm from '@/components/Company/CompanyForm'
 import CompanyView from '@/components/Company/CompanyView'
-import RoomForm from '@/components/Room/RoomForm'
-import RoomView from '@/components/Room/RoomView'
+import AccommodationForm from '@/components/Accommodation/AccommodationForm'
+import AccommodationView from '@/components/Accommodation/AccommodationView'
 
 Vue.use(Router)
 
@@ -92,17 +92,17 @@ const router = new Router({
             beforeEnter: isAuthenticated
         },
         {
-            path: '/changeroom/:id?',
+            path: '/changeaccommodation/:id?',
             props: true,
-            name: 'CreateEditRoom',
-            component: RoomForm,
+            name: 'CreateEditAccommodation',
+            component: AccommodationForm,
             beforeEnter: isAuthenticated
         },
         {
-            path: '/room/:id',
+            path: '/accommodation/:id',
             props: true,
-            name: 'Room',
-            component: RoomView
+            name: 'Accommodation',
+            component: AccommodationView
         }
     ]
 })
