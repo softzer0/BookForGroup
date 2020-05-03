@@ -1,19 +1,21 @@
 from django.db import models
 from Hotel.models import Hotel
+from django.core.validators import MinValueValidator
 
 
-class Room(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='room_collections')
-    floor_number = models.IntegerField(default=0)
-    room_count = models.IntegerField(default=1)
-    room_type = models.CharField(
+class Accommodation(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='accommodation_collections')
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+    floor_number = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0)])
+    room_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
+    acco_type = models.CharField(
         max_length=2,
         choices=[
             ('ST', "Studio"),
             ('AP', "Apartment"),
         ],
     )
-    beds_number = models.IntegerField(default=1)
+    bed_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
     price_per_adult = models.FloatField()
     price_per_child = models.FloatField()
     reserved_from = models.DateTimeField()

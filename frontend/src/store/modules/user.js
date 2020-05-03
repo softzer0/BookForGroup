@@ -49,7 +49,7 @@ export default {
             dispatch('set_timeout_for_refresh')
         },
         reset_all_services() {
-            for (const service of ['company', 'hotel', 'room']) {
+            for (const service of ['company', 'hotel', 'accommodation']) {
                 store.dispatch(`${service}/reset`)
             }
         },

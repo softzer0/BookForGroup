@@ -3,32 +3,41 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card grey color="grey lighten-5" style="border-radius: 20px;">
-                    <v-card-title class="justify-center">{{ id ? "Edit room" : "Create new room" }}</v-card-title>
+                    <v-card-title class="justify-center">{{ id ? "Edit accommodation" : "Create new accommodation" }}</v-card-title>
                     <v-form>
                         <v-card-text>
                             <v-combobox
-                                v-model="room.roomType"
+                                v-model="accommodation.type"
                                 :items="types"
                                 item-text="name"
                                 return-object
                                 prepend-icon="mdi-pencil-outline"
                                 @input="validate"
-                                label="Room type"
+                                label="Accommodation type"
                             ></v-combobox>
                             <v-text-field
-                                v-if="room.roomType.value === 'AP'"
-                                label="Number of rooms"
-                                v-model="room.roomCount"
+                                v-if="accommodation.type.value === 'AP'"
+                                label="Number of accommodations"
+                                v-model="accommodation.roomCount"
                                 prepend-icon="mdi-bed"
                                 type="number"
-                                :min="1"
                                 :rules="[rules.roomCountRequired]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-text-field
+                                label="Quantity"
+                                v-model="accommodation.quantity"
+                                prepend-icon="mdi-numeric-1-box-multiple-outline"
+                                type="number"
+                                :min="1"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
+                            />
+                            <v-text-field
                                 label="Number of beds"
-                                v-model="room.bedsNumber"
+                                v-model="accommodation.bedCount"
                                 prepend-icon="mdi-bed"
                                 type="number"
                                 :min="1"
@@ -38,16 +47,17 @@
                             />
                             <v-text-field
                                 label="Floor number"
-                                v-model="room.floorNumber"
+                                v-model="accommodation.floorNumber"
                                 prepend-icon="mdi-format-list-bulleted"
                                 type="number"
+                                :min="0"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
                             <v-text-field
                                 label="Price per adult"
-                                v-model="room.pricePerAdult"
+                                v-model="accommodation.pricePerAdult"
                                 prepend-icon="mdi-cash"
                                 :min="1"
                                 :rules="[rules.required]"
@@ -56,7 +66,7 @@
                             />
                             <v-text-field
                                 label="Price per child"
-                                v-model="room.pricePerChild"
+                                v-model="accommodation.pricePerChild"
                                 prepend-icon="mdi-cash"
                                 :min="1"
                                 :rules="[rules.required]"
@@ -66,7 +76,7 @@
                             <v-dialog
                                 ref="dialog"
                                 v-model="modal"
-                                :return-value.sync="room.reservedPeriod"
+                                :return-value.sync="accommodation.reservedPeriod"
                                 persistent
                                 width="290px"
                             >
@@ -80,25 +90,25 @@
                                         v-on="on"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="room.reservedPeriod" range>
+                                <v-date-picker v-model="accommodation.reservedPeriod" range @change="validate">
                                   <v-spacer></v-spacer>
                                   <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
-                                  <v-btn text color="primary" @click="$refs.dialog.save(room.reservedPeriod)">OK</v-btn>
+                                  <v-btn text color="primary" @click="$refs.dialog.save(accommodation.reservedPeriod)">OK</v-btn>
                                 </v-date-picker>
                             </v-dialog>
                             <v-row justify="space-around">
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.terrace" :label="`Terrace`" prepend-icon="mdi-flower" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.tv" :label="`TV`" prepend-icon="mdi-television-classic" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.heating" :label="`Heating`" prepend-icon="mdi-radiator" hide-details @change="valid === null && validate()"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="room.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.terrace" :label="`Terrace`" prepend-icon="mdi-flower" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.tv" :label="`TV`" prepend-icon="mdi-television-classic" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.heating" :label="`Heating`" prepend-icon="mdi-radiator" hide-details @change="valid === null && validate()"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware" hide-details @change="valid === null && validate()"/></v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
-                    <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="changeRoom()">Complete</v-btn></v-card-actions>
+                    <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="changeAccommodation()">Complete</v-btn></v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -113,14 +123,14 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                roomCountRequired: value => this.room.roomType.value === 'ST' || !!value || "Required.",
-                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!."
+                roomCountRequired: value => this.accommodation.type.value === 'ST' || !!value || "Required.",
+                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!"
             }},
             ...mapGetters({
-                room: 'room/getRoomData'
+                accommodation: 'accommodation/getAccommodationData'
             }),
             dateRangeText () {
-                return this.room.reservedPeriod.join(' ~ ')
+                return this.accommodation.reservedPeriod.join(' ~ ')
             }
         },
         data: () => ({
@@ -132,33 +142,31 @@
             modal: false,
         }),
         watchers: {
-            room: {
+            accommodation: {
                 deep: true,
-                handler(newRoom) {
-                    this.$store.dispatch('room/model_changed', newRoom)
+                handler(newAccommodation) {
+                    this.$store.dispatch('accommodation/model_changed', newAccommodation)
                 }
             }
         },
         mounted() {
             if (this.id) {
-                this.$store.dispatch('room/get_room', this.id)
+                this.$store.dispatch('accommodation/get_accommodation', this.id)
             } else {
-                this.$store.dispatch('room/reset_room', this.$route.query.hotelId)
+                this.$store.dispatch('accommodation/reset_accommodation', this.$route.query.hotelId)
             }
         },
         methods: {
               validate () {
-                    this.valid = this.rules.required(this.room.bedsNumber) === true && this.rules.required(this.room.pricePerAdult) === true &&
-                                 this.rules.required(this.room.pricePerChild) === true && this.rules.required(this.room.floorNumber) === true &&
-                                 this.rules.roomCountRequired(this.room.roomCount) === true && this.rules.requiredPeriod(this.dateRangeText) === true
+                    this.valid = this.rules.requiredPeriod(this.dateRangeText) === true
               },
-              async changeRoom() {
+              async changeAccommodation() {
                     if (this.id) {
-                        await this.$store.dispatch('room/update_room')
+                        await this.$store.dispatch('accommodation/update_accommodation')
                     } else {
-                        await this.$store.dispatch('room/create_room')
+                        await this.$store.dispatch('accommodation/create_accommodation')
                     }
-                    this.$router.push({ name: 'Hotel', params: { id: this.room.hotelId } })
+                    this.$router.push({ name: 'Hotel', params: { id: this.accommodation.hotelId } })
               }
           },
     }

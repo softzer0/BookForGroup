@@ -1,17 +1,18 @@
 import { parseISO, formatISO, format } from 'date-fns'
 
-export default class Room {
+export default class Accommodation {
     constructor (data = {}) {
         this.id = data.pk || null
         this.hotelId = data.hotel
+        this.quantity = data.quantity || 1
         this.floorNumber = data.floor_number || 0
         this.roomCount = data.room_count || 1
-        this.roomType = data.room_type === 'AP' ? { name: "Apartment", value: "AP" } : { name: "Studio", value: "ST" }
-        this.bedsNumber = data.beds_number || 1
+        this.type = { name: data.acco_type === 'AP' ? "Apartment" : "Studio", value: data.acco_type || 'ST' }
+        this.bedCount = data.bed_count || 1
         this.pricePerAdult = data.price_per_adult || 1
         this.pricePerChild = data.price_per_child || 1
-        this.reservedPeriod = [ data.reserved_from && format(parseISO(data.reserved_from), 'yyyy-mm-dd') || '',
-                                data.reserved_until && format(parseISO(data.reserved_until), 'yyyy-mm-dd') || '']
+        this.reservedPeriod = [data.reserved_from && format(parseISO(data.reserved_from), 'yyyy-mm-dd') || '',
+                               data.reserved_until && format(parseISO(data.reserved_until), 'yyyy-mm-dd') || '']
         this.smokingAllowed = !!(data.smoking_allowed)
         this.peopleWithDisabilitiesAdapted = !!(data.people_with_disabilities_adapted)
         this.terrace = !!(data.terrace)
@@ -25,10 +26,11 @@ export default class Room {
     prepareForRequest() {
         return {
             hotel: this.hotelId,
+            quantity: this.quantity,
             floor_number: this.floorNumber,
             room_count: this.roomCount,
-            room_type: this.roomType.value,
-            beds_number: this.bedsNumber,
+            acco_type: this.type.value,
+            bed_count: this.bedCount,
             price_per_adult: this.pricePerAdult,
             price_per_child: this.pricePerChild,
             reserved_from: formatISO(parseISO(this.reservedPeriod[0])),
