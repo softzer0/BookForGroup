@@ -42,8 +42,8 @@
             <v-col>Rooms:</v-col>
             <v-col>
                 <ul>
-                    <li v-for="room in this.rooms" :key="room.roomNumber">
-                        <a href="javascript:" @click="showRoom(room.id)">{{ room.roomNumber }}</a>
+                    <li v-for="room in this.rooms" :key="room.pk">
+                        <a href="javascript:" @click="showRoom(room.id)">{{ room.roomType.name }}</a>
                     </li>
                 </ul>
             </v-col>
@@ -78,7 +78,7 @@
                 this.$router.push({ name: 'Room', params: { id } })
             },
             createRoom () {
-                this.$router.push({ name: 'CreateEditRoom'})
+                this.$router.push({ name: 'CreateEditRoom', query: { hotelId: this.hotel.id } })
             }
         }
     }

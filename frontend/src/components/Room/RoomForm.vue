@@ -12,7 +12,6 @@
                                 item-text="name"
                                 return-object
                                 prepend-icon="mdi-pencil-outline"
-                                :rules="[rules.selected]"
                                 @input="validate"
                                 label="Room type"
                             ></v-combobox>
@@ -22,7 +21,8 @@
                                 v-model="room.roomCount"
                                 prepend-icon="mdi-bed"
                                 type="number"
-                                :rules="[rules.required]"
+                                :min="1"
+                                :rules="[rules.roomCountRequired]"
                                 @input="validate"
                                 validate-on-blur
                             />
@@ -31,6 +31,7 @@
                                 v-model="room.bedsNumber"
                                 prepend-icon="mdi-bed"
                                 type="number"
+                                :min="1"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
@@ -45,13 +46,46 @@
                                 validate-on-blur
                             />
                             <v-text-field
-                                label="Price"
-                                v-model="room.price"
+                                label="Price per adult"
+                                v-model="room.pricePerAdult"
                                 prepend-icon="mdi-cash"
+                                :min="1"
                                 :rules="[rules.required]"
                                 @input="validate"
                                 validate-on-blur
                             />
+                            <v-text-field
+                                label="Price per child"
+                                v-model="room.pricePerChild"
+                                prepend-icon="mdi-cash"
+                                :min="1"
+                                :rules="[rules.required]"
+                                @input="validate"
+                                validate-on-blur
+                            />
+                            <v-dialog
+                                ref="dialog"
+                                v-model="modal"
+                                :return-value.sync="room.reservedPeriod"
+                                persistent
+                                width="290px"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-text-field
+                                        v-model="dateRangeText"
+                                        :rules="[rules.requiredPeriod]"
+                                        label="Date range"
+                                        prepend-icon="mdi-calendar-range"
+                                        readonly
+                                        v-on="on"
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="room.reservedPeriod" range>
+                                  <v-spacer></v-spacer>
+                                  <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+                                  <v-btn text color="primary" @click="$refs.dialog.save(room.reservedPeriod)">OK</v-btn>
+                                </v-date-picker>
+                            </v-dialog>
                             <v-row justify="space-around">
                                 <v-col class="flex-grow-0"><v-checkbox v-model="room.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details @change="valid === null && validate()"/></v-col>
                                 <v-col class="flex-grow-0"><v-checkbox v-model="room.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details @change="valid === null && validate()"/></v-col>
@@ -79,11 +113,15 @@
         computed: {
             rules() { return {
                 required: value => !!value || "Required.",
-                selected: () => this.room.type.value || "Required.",
+                roomCountRequired: value => this.room.roomType.value === 'ST' || !!value || "Required.",
+                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!."
             }},
             ...mapGetters({
                 room: 'room/getRoomData'
-            })
+            }),
+            dateRangeText () {
+                return this.room.reservedPeriod.join(' ~ ')
+            }
         },
         data: () => ({
             valid: null,
@@ -91,32 +129,36 @@
                 { name: "Studio", value: 'ST' },
                 { name: "Apartment", value: 'AP' },
             ],
+            modal: false,
         }),
+        watchers: {
+            room: {
+                deep: true,
+                handler(newRoom) {
+                    this.$store.dispatch('room/model_changed', newRoom)
+                }
+            }
+        },
         mounted() {
             if (this.id) {
                 this.$store.dispatch('room/get_room', this.id)
             } else {
-                this.$store.dispatch('room/clear_room')
+                this.$store.dispatch('room/reset_room', this.$route.query.hotelId)
             }
         },
         methods: {
               validate () {
-                    this.valid = this.rules.selected(this.room.roomType) === true && this.rules.required(this.room.bedsNumber) === true &&
-                                 this.rules.required(this.room.roomCount) === true && this.rules.required(this.room.floorNumber) === true &&
-                                 this.rules.required(this.room.price) === true
+                    this.valid = this.rules.required(this.room.bedsNumber) === true && this.rules.required(this.room.pricePerAdult) === true &&
+                                 this.rules.required(this.room.pricePerChild) === true && this.rules.required(this.room.floorNumber) === true &&
+                                 this.rules.roomCountRequired(this.room.roomCount) === true && this.rules.requiredPeriod(this.dateRangeText) === true
               },
               async changeRoom() {
-                    const data = { hotel: this.room.hotel, type: this.room.roomType.value, beds_number: this.room.bedsNumber,
-                            floor_number: this.room.floorNumber, room_count: this.room.roomCount, price: this.room.price, smoking_allowed: this.room.smokingAllowed,
-                            people_with_disabilities_adapted: this.room.peopleWithDisabilitiesAdapted, room_number: this.room.roomNumber,
-                            room_size: this.room.roomSize, terrace: this.room.terrace, air_conditioning: this.room.airConditioning,
-                            tv: this.room.tv, sound_isolation: this.room.soundIsolation, heating: this.room.heating, kitchen: this.room.kitchen }
                     if (this.id) {
-                        await this.$store.dispatch('room/update_room', { id: this.id, data })
+                        await this.$store.dispatch('room/update_room')
                     } else {
-                        await this.$store.dispatch('room/create_room', data)
+                        await this.$store.dispatch('room/create_room')
                     }
-                    this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
+                    this.$router.push({ name: 'Hotel', params: { id: this.room.hotelId } })
               }
           },
     }

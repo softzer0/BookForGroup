@@ -15,7 +15,6 @@ export default class Hotel {
 
     prepareForRequest() {
         return {
-            id: this.id,
             name: this.name,
             city: this.city,
             address: this.address,
