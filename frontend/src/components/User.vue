@@ -9,13 +9,22 @@
                     </v-card-title>
                     <v-divider inset></v-divider>
                     <v-list two-line>
-                        <v-list-item v-if="this.company" href="javascript:" @click="showCompany()">
+                        <v-list-item v-if="this.company.name" href="javascript:" @click="showCompany()">
                             <v-list-item-icon>
                                 <v-icon color="indigo">mdi-office-building</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>{{ this.company.name }}</v-list-item-title>
                                 <v-list-item-subtitle>Company name</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item v-else @click="createCompany()">
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-office-building</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Create company</v-list-item-title>
+                                <v-list-item-subtitle>This way you can create a new company</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                         <v-divider inset></v-divider>
@@ -37,17 +46,18 @@
                                     <v-list-item-subtitle>Hotel name</v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
+                            <v-list-item @click="createHotel()" link>
+                                <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-plus-circle-outline</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title>Create hotel</v-list-item-title>
+                                    <v-list-item-subtitle>This way you can create a new hotel</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
                         </v-list-group>
                     </v-list>
                     <v-divider inset></v-divider>
-                    <v-row>
-                        <v-col>
-                            <v-btn v-if="!this.companyExists" @click="createCompany()" class="indigo white--text">create company</v-btn>
-                        </v-col>
-                        <v-col>
-                            <v-btn @click="createHotel()" class="indigo white--text">create hotel</v-btn>
-                        </v-col>
-                    </v-row>
                 </v-card>
             </v-col>
         </v-row>
