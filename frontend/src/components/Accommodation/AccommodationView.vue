@@ -1,39 +1,107 @@
 <template>
     <v-container>
-        <v-row>
-            <v-col>Accommodation type:</v-col>
-            <v-col>{{ this.accommodation.type.name }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Quantity:</v-col>
-            <v-col>{{ this.accommodation.quantity }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Number of beds:</v-col>
-            <v-col>{{ this.accommodation.bedCount }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Price per adult:</v-col>
-            <v-col>{{ this.accommodation.pricePerAdult }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Price per child:</v-col>
-            <v-col>{{ this.accommodation.pricePerChild }}</v-col>
-        </v-row>
-        <br>
-        <br>
-        <v-row>
-            <v-col>{{ accommodation.smokingAllowed ? "Smoking allowed" : "Smoking is not allowed" }}</v-col>
-            <v-col>{{ accommodation.airConditioning ? "Air conditioning" : "No air conditioning" }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>{{ accommodation.tv ? "TV" : "No TV" }}</v-col>
-            <v-col>{{ accommodation.soundIsolation ? "Sound isolation" : "No sound isolation" }}</v-col>
-        </v-row>
-        <br>
-        <v-row>
-            <v-col><v-btn v-if="userIsLoggedIn" @click="editAccommodation()">Edit accommodation</v-btn></v-col>
-            <v-col><v-btn @click="goToHotelPage()">Go to hotel</v-btn></v-col>
+        <v-row justify="center">
+            <v-col xs="12" sm="6">
+                <v-card class="mx-auto" style="border-radius: 20px;">
+                    <v-row style="float: right">
+                        <v-spacer></v-spacer>
+                        <v-btn icon color="indigo" @click="goToHotelPage()">
+                            <v-icon>mdi-chevron-left</v-icon>
+                        </v-btn>
+                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click="editAccommodation()">
+                          <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+                    </v-row>
+                    <v-card-title class="justify-center">Accommodation</v-card-title>
+                    <v-divider inset></v-divider>
+                    <v-list two-line>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-bed</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)
+                                    <span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span>
+                                </v-list-item-title>
+                                <v-list-item-subtitle>Mean</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-format-list-bulleted</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ accommodation.floorNumber }}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>Floor number</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-cash</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ accommodation.pricePerAdult }}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>Price per adult</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-cash</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ accommodation.pricePerChild }}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>Price per child</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-calendar-range</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{ accommodation.reservedPeriod[0] }}~{{accommodation.reservedPeriod[1]}}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>Reserved period</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <br>
+                        <v-row style="margin-left: 2%" justify="space-around">
+                            <v-col v-if="accommodation.smokingAllowed"><v-icon color="green">mdi-smoking</v-icon>Smoking</v-col>
+                            <v-col v-else><v-icon color="red">mdi-smoking</v-icon>No smoking</v-col>
+                            <v-col v-if="accommodation.peopleWithDisabilitiesAdapted"><v-icon color="green">mdi-wheelchair-accessibility</v-icon>Disabilities adapted</v-col>
+                            <v-col v-else><v-icon color="red">mdi-wheelchair-accessibility</v-icon>No disabilities adapted</v-col>
+                            <v-col v-if="accommodation.terrace"><v-icon color="green">mdi-flower</v-icon>Terrace</v-col>
+                            <v-col v-else><v-icon color="red">mdi-flower</v-icon>No terrace</v-col>
+                        </v-row>
+                        <v-row style="margin-left: 2%" justify="space-around">
+                            <v-col v-if="accommodation.airConditioning"><v-icon color="green">mdi-air-conditioner</v-icon>Air conditioning</v-col>
+                            <v-col v-else><v-icon color="red">mdi-air-conditioner</v-icon>No air conditioning</v-col>
+                            <v-col v-if="accommodation.tv"><v-icon color="green">mdi-television-classic</v-icon>TV</v-col>
+                            <v-col v-else><v-icon color="red">mdi-television-classic</v-icon>No TV</v-col>
+                            <v-col v-if="accommodation.soundIsolation"><v-icon color="green">mdi-volume-off</v-icon>Sound isolation</v-col>
+                            <v-col v-else><v-icon color="red">mdi-volume-off</v-icon>No sound isolation</v-col>
+                        </v-row>
+                        <v-row style="margin-left: 2%" justify="space-around">
+                            <v-col v-if="accommodation.heating"><v-icon color="green">mdi-radiator</v-icon>Heating</v-col>
+                            <v-col v-else><v-icon color="red">mdi-radiator</v-icon>No heating</v-col>
+                            <v-col v-if="accommodation.kitchen"><v-icon color="green">mdi-silverware</v-icon>Kitchen</v-col>
+                            <v-col v-else><v-icon color="red">mdi-silverware</v-icon>No kitchen</v-col>
+                        </v-row>
+                    </v-list>
+                </v-card>
+            </v-col>
         </v-row>
     </v-container>
 </template>
