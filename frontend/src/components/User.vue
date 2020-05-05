@@ -1,44 +1,57 @@
 <template>
     <v-container>
-        <v-row>
-            <v-col>First name:</v-col>
-            <v-col>{{ user.firstName }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Last name:</v-col>
-            <v-col>{{ user.lastName }}</v-col>
-        </v-row>
-        <v-row v-if="user.city">
-            <v-col>City:</v-col>
-            <v-col>{{ user.city }}</v-col>
-        </v-row>
-        <v-row v-if="user.address">
-            <v-col>Address:</v-col>
-            <v-col>{{ user.address }}</v-col>
-        </v-row>
-        <v-row>
-            <v-col>Company:</v-col>
-            <v-col><a v-if="this.company" href="javascript:" @click="showCompany()">{{ this.company.name }}</a></v-col>
-        </v-row>
-        <v-row>
-            <v-col>Hotels:</v-col>
-            <v-col>
-                <ul>
-                    <li v-for="hotel in this.hotels" :key="hotel.name">
-                        <a href="javascript:" @click="showHotel(hotel.id)">{{ hotel.name }}</a>
-                    </li>
-                </ul>
+        <v-row justify="center">
+            <v-col xs="12" sm="6">
+                <v-card class="mx-auto" style="border-radius: 20px;">
+                    <v-card-title class="justify-center">
+                        {{ user.firstName }}
+                        {{ user.lastName }}
+                    </v-card-title>
+                    <v-divider inset></v-divider>
+                    <v-list two-line>
+                        <v-list-item v-if="this.company" href="javascript:" @click="showCompany()">
+                            <v-list-item-icon>
+                                <v-icon color="indigo">mdi-office-building</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ this.company.name }}</v-list-item-title>
+                                <v-list-item-subtitle>Company name</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-group>
+                            <v-icon slot="prependIcon" color="indigo">mdi-bed</v-icon>
+                            <template v-slot:activator>
+                                <v-list-item-title>Hotels</v-list-item-title>
+                            </template>
+                            <v-list-item
+                                v-for="hotel in this.hotels"
+                                :key="hotel.name"
+                                link
+                            >
+                                <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-chevron-right</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title href="javascript:" @click="showHotel(hotel.id)" v-text="hotel.name"></v-list-item-title>
+                                    <v-list-item-subtitle>Hotel name</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-group>
+                    </v-list>
+                    <v-divider inset></v-divider>
+                    <v-row>
+                        <v-col>
+                            <v-btn v-if="!this.companyExists" @click="createCompany()" class="indigo white--text">create company</v-btn>
+                        </v-col>
+                        <v-col>
+                            <v-btn @click="createHotel()" class="indigo white--text">create hotel</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card>
             </v-col>
         </v-row>
-        <br>
-        <v-row>
-            <v-col>
-                <v-btn v-if="!this.companyExists" @click="createCompany()">Create company</v-btn>
-            </v-col>
-            <v-col>
-                <v-btn @click="createHotel()" class="cyan darken-1 white--text">Create new hotel</v-btn>
-            </v-col>
-        </v-row>
+
     </v-container>
 </template>
 
