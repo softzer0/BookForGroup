@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card class="mx-auto" style="border-radius: 20px;">
-                    <v-row style="float: right">
+                    <v-row class="pr-1 pt-1">
                         <v-spacer></v-spacer>
                         <v-btn icon color="indigo" @click="goToUserPage()">
                             <v-icon>mdi-chevron-left</v-icon>

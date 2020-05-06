@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card class="mx-auto" style="border-radius: 20px;">
-                    <v-row style="float: right">
+                    <v-row class="pr-1 pt-1">
                         <v-spacer></v-spacer>
                         <v-btn icon color="indigo" @click="goToHotelPage()">
                             <v-icon>mdi-chevron-left</v-icon>
@@ -77,7 +77,7 @@
                         </v-list-item>
                         <v-divider inset></v-divider>
                         <br>
-                        <v-row style="margin-left: 2%" justify="space-around">
+                        <v-row class="ml-1">
                             <v-col v-if="accommodation.smokingAllowed"><v-icon color="green">mdi-smoking</v-icon>Smoking</v-col>
                             <v-col v-else><v-icon color="red">mdi-smoking</v-icon>No smoking</v-col>
                             <v-col v-if="accommodation.peopleWithDisabilitiesAdapted"><v-icon color="green">mdi-wheelchair-accessibility</v-icon>Disabilities adapted</v-col>
@@ -85,7 +85,7 @@
                             <v-col v-if="accommodation.terrace"><v-icon color="green">mdi-flower</v-icon>Terrace</v-col>
                             <v-col v-else><v-icon color="red">mdi-flower</v-icon>No terrace</v-col>
                         </v-row>
-                        <v-row style="margin-left: 2%" justify="space-around">
+                        <v-row class="ml-1">
                             <v-col v-if="accommodation.airConditioning"><v-icon color="green">mdi-air-conditioner</v-icon>Air conditioning</v-col>
                             <v-col v-else><v-icon color="red">mdi-air-conditioner</v-icon>No air conditioning</v-col>
                             <v-col v-if="accommodation.tv"><v-icon color="green">mdi-television-classic</v-icon>TV</v-col>
@@ -93,7 +93,7 @@
                             <v-col v-if="accommodation.soundIsolation"><v-icon color="green">mdi-volume-off</v-icon>Sound isolation</v-col>
                             <v-col v-else><v-icon color="red">mdi-volume-off</v-icon>No sound isolation</v-col>
                         </v-row>
-                        <v-row style="margin-left: 2%" justify="space-around">
+                        <v-row class="ml-6">
                             <v-col v-if="accommodation.heating"><v-icon color="green">mdi-radiator</v-icon>Heating</v-col>
                             <v-col v-else><v-icon color="red">mdi-radiator</v-icon>No heating</v-col>
                             <v-col v-if="accommodation.kitchen"><v-icon color="green">mdi-silverware</v-icon>Kitchen</v-col>
