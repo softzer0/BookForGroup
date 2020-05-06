@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col xs="12" sm="6">
                 <v-card class="mx-auto" style="border-radius: 20px;">
-                    <v-row style="float: right">
+                    <v-row class="pr-1 pt-1">
                         <v-spacer></v-spacer>
                         <v-btn icon color="indigo" @click="goToUserPage()">
                             <v-icon>mdi-chevron-left</v-icon>
@@ -76,7 +76,7 @@
                         </v-list-group>
                         <v-divider inset></v-divider>
                         <br>
-                        <v-row style="margin-left: 2%" justify="space-around">
+                        <v-row class="ml-2">
                             <v-col v-if="hotel.freeWifi"><v-icon color="green">mdi-wifi</v-icon>Free wifi</v-col>
                             <v-col v-else><v-icon color="red">mdi-wifi</v-icon>No free wifi</v-col>
                             <v-col v-if="hotel.freeParking"><v-icon color="green">mdi-parking</v-icon>Free parking</v-col>
@@ -84,7 +84,7 @@
                             <v-col v-if="hotel.breakfast"><v-icon color="green">mdi-food-variant</v-icon>Breakfast</v-col>
                             <v-col v-else><v-icon color="red">mdi-food-variant</v-icon>No breakfast</v-col>
                         </v-row>
-                        <v-row style="margin-left: 2%" justify="space-around">
+                        <v-row class="ml-2">
                             <v-col v-if="hotel.swimmingPool"><v-icon color="green">mdi-swim</v-icon>Swimming pool</v-col>
                             <v-col v-else><v-icon color="red">mdi-swim</v-icon>No swimming pool</v-col>
                             <v-col v-if="hotel.spa"><v-icon color="green">mdi-spa</v-icon>Spa</v-col>
