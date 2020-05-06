@@ -11,8 +11,8 @@ export default class Accommodation {
         this.bedCount = data.bed_count || 1
         this.pricePerAdult = data.price_per_adult || 1
         this.pricePerChild = data.price_per_child || 1
-        this.reservedPeriod = [data.reserved_from && format(parseISO(data.reserved_from), 'yyyy-mm-dd') || '',
-                               data.reserved_until && format(parseISO(data.reserved_until), 'yyyy-mm-dd') || '']
+        this.reservedPeriod = [data.reserved_from && format(parseISO(data.reserved_from), 'yyyy-MM-dd') || '',
+                               data.reserved_until && format(parseISO(data.reserved_until), 'yyyy-MM-dd') || '']
         this.smokingAllowed = !!(data.smoking_allowed)
         this.peopleWithDisabilitiesAdapted = !!(data.people_with_disabilities_adapted)
         this.terrace = !!(data.terrace)
