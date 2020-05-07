@@ -40,13 +40,13 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" sm="6" v-for="collection in collections" :key="collection.value">
+            <v-col cols="12" sm="6" v-for="(collection, index) in collections" :key="collection.value">
                 <v-card outlined>
                     <v-card-title>
                         <v-row justify="space-between">
                             <v-col>{{ collection.value === 'ST' ? "Studios" : "Apartments" }}</v-col>
                             <v-col class="flex-grow-0 flex-shrink-1">
-                                <v-btn icon @click="remove(collection)">
+                                <v-btn icon @click="remove(index)">
                                     <v-icon>mdi-close</v-icon>
                                 </v-btn>
                             </v-col>
@@ -73,7 +73,7 @@
                             </v-col>
                             <v-col cols="4" sm="6" md="4" v-if="collection.value === 'AP' && collection.bedCount > 1">
                                 <v-text-field
-                                    v-model="collection.bedroomsNumber"
+                                    v-model="collection.roomCount"
                                     type="number"
                                     :min="1"
                                     :max="collection.bedCount"
@@ -95,6 +95,7 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-btn class="mt-3" block>Search</v-btn>
     </v-container>
 </template>
 
@@ -150,15 +151,15 @@
                     kitchen: false
                 }
                 if (collection.value === 'AP') {
-                    collection.bedroomsNumber = 1
+                    collection.roomCount = 1
                 }
                 this.collections.push(collection)
             },
-            remove(collection) {
-                this.collections.splice(this.collections.indexOf(collection), 1)
+            remove(index) {
+                this.collections.splice(index, 1)
             },
             setBedrooms(collection) {
-                if (collection.value === 'AP' && collection.bedroomsNumber > collection.bedCount) collection.bedroomsNumber = collection.bedCount
+                if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
             }
         },
     }

@@ -1,13 +1,16 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_filters.backends import ComplexJSONFilterBackend
 
 from .permissions import IsOwnerOrReadOnly
 from .models import Accommodation
 from .serializers import AccommodationSerializer
-from rest_framework.permissions import IsAuthenticated
+from .filters import AccommodationFilter
 
 
 class AccommodationViewSet(ModelViewSet):
     queryset = Accommodation.objects.all()
     serializer_class = AccommodationSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
-    filterset_fields = ['hotel']
+    filter_backends = [ComplexJSONFilterBackend]
+    filterset_class = AccommodationFilter

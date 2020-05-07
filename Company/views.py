@@ -13,7 +13,6 @@ class CompanyViewSet(CreateModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = CompanyUser.objects.all()
     serializer_class = CompanySerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
-    filterset_fields = ['user']
 
     def get_object(self):
         obj = get_object_or_404(self.queryset, **{'user': self.request.user})
