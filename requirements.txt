@@ -6,3 +6,4 @@ djangorestframework
 dj-rest-auth
 djangorestframework-simplejwt
 django-filter
+git+https://github.com/ferrants/django-rest-framework-filters.git@json-filter

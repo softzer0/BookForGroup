@@ -47,10 +47,10 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_filters',
     'authentication',
     'Arrangement',
     'Hotel',
-    'django_filters',
     'Company',
     'Accommodation'
 ]
@@ -147,7 +147,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_FILTER_BACKENDS': ['rest_framework_filters.backends.RestFrameworkFilterBackend'],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication'
