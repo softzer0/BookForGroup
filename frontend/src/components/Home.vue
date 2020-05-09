@@ -123,12 +123,29 @@
             </v-col>
         </v-row>
         <v-btn class="mt-3" block @click="search()">Search</v-btn>
-        <ul>
-            <li v-for="accommodation in this.accommodations" :key="accommodation.id" link>
-                {{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)
-                <span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span>
-            </li>
-        </ul>
+        <br>
+        <v-row>
+            <v-col cols="12" sm="6" v-for="accommodation in this.accommodations" :key="accommodation.id">
+                <v-card outlined>
+                    <v-card-title>
+                        <v-row justify="space-between">
+                            <v-col class="flex-grow-0 flex-shrink-1">
+                                <v-icon>mdi-bed</v-icon>
+                            </v-col>
+                            <v-col>
+                                {{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)
+                                <span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span>
+                            </v-col>
+                            <v-col class="flex-grow-0 flex-shrink-1">
+                                <v-btn icon @click="showAccommodation(accommodation.id)">
+                                    <v-icon>mdi-chevron-right</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -214,6 +231,9 @@
             },
             search() {
                 this.$store.dispatch('search/get_filtered_accommodation', { rangeDate: this.date })
+            },
+            showAccommodation (id) {
+                this.$router.push({ name: 'Accommodation', params: { id } })
             }
         },
     }
