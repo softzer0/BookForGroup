@@ -213,17 +213,7 @@
                 if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
             },
             search() {
-                const data = {
-                    or: [
-                        {
-                            reserved_from__gt: this.date[1]
-                        },
-                        {
-                            reserved_until__lt: this.date[0]
-                        }
-                    ]
-                }
-                this.$store.dispatch('search/get_filtered_accommodation', data)
+                this.$store.dispatch('search/get_filtered_accommodation', { rangeDate: this.date })
             }
         },
     }
