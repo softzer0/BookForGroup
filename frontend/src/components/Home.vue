@@ -26,6 +26,33 @@
             </v-col>
         </v-row>
         <v-row>
+            <v-col>
+                <v-dialog
+                    ref="dialog"
+                    v-model="modal"
+                    :return-value.sync="date"
+                    persistent
+                    width="290px"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-text-field
+                            v-model="dateRangeText"
+                            :rules="[rules.requiredPeriod]"
+                            label="Date range"
+                            prepend-icon="mdi-calendar-range"
+                            readonly
+                            v-on="on"
+                        ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" range>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                    </v-date-picker>
+                </v-dialog>
+            </v-col>
+        </v-row>
+        <v-row>
             <v-col cols="12">
                 <v-autocomplete
                 v-model="type"
@@ -95,14 +122,35 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-btn class="mt-3" block>Search</v-btn>
+        <v-btn class="mt-3" block @click="search()">Search</v-btn>
+        <ul>
+            <li v-for="accommodation in this.accommodations" :key="accommodation.id" link>
+                {{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)
+                <span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span>
+            </li>
+        </ul>
     </v-container>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "Home",
+        computed: {
+            rules() {return {
+                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!"
+            }},
+            dateRangeText () {
+                return this.date.join(' ~ ')
+            },
+            ...mapGetters ({
+                accommodations: 'search/getAccommodationList'
+            })
+        },
         data: () => ({
+            date: [],
+            modal: false,
             cities: [
               { header: 'Srbija' },
               { name: 'Beograd' },
@@ -135,6 +183,9 @@
 
             collections: [],
         }),
+        mounted() {
+            this.$store.dispatch('search/reset')
+        },
         methods: {
             add() {
                 const collection = {
@@ -160,6 +211,19 @@
             },
             setBedrooms(collection) {
                 if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
+            },
+            search() {
+                const data = {
+                    or: [
+                        {
+                            reserved_from__gt: this.date[1]
+                        },
+                        {
+                            reserved_until__lt: this.date[0]
+                        }
+                    ]
+                }
+                this.$store.dispatch('search/get_filtered_accommodation', data)
             }
         },
     }

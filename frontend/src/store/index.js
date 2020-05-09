@@ -6,6 +6,7 @@ import user from './modules/user'
 import hotel from './modules/hotel'
 import company from './modules/company'
 import accommodation from './modules/accommodation'
+import search from './modules/search'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         user,
         hotel,
         company,
-        accommodation
+        accommodation,
+        search
     },
     plugins: [vuexLocalStorage.plugin]
 })
