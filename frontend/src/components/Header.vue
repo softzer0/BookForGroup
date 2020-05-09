@@ -5,7 +5,9 @@
     tile
   >
     <v-toolbar dense flat>
-      <v-toolbar-title>BookForGroup</v-toolbar-title>
+      <v-toolbar-title @click="home()">
+          <v-btn text>BookForGroup</v-btn>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -15,6 +17,10 @@
 
       <v-btn icon v-if="!userIsLoggedIn" @click="login()">
           <v-icon>mdi-login</v-icon>
+      </v-btn>
+
+      <v-btn icon v-if="userIsLoggedIn" @click="user()">
+          <v-icon>mdi-account-circle</v-icon>
       </v-btn>
 
       <v-btn icon v-if="userIsLoggedIn" @click="logout()">
@@ -40,6 +46,12 @@
             },
             async logout () {
                 await this.$store.dispatch('user/logout')
+                this.$router.push({ name: 'Home' })
+            },
+            user () {
+                this.$router.push({ name: 'User' })
+            },
+            home () {
                 this.$router.push({ name: 'Home' })
             }
         }
