@@ -17,7 +17,17 @@ export default {
     },
     actions: {
         async get_filtered_accommodation({ commit }, data) {
-            const response = await service.get_filtered_accommodation(encodeURIComponent(JSON.stringify(data)))
+            const jsonData = {
+                or: [
+                    {
+                        reserved_from__gt: data.rangeDate[1]
+                    },
+                    {
+                        reserved_until__lt: data.rangeDate[0]
+                    }
+                ]
+            }
+            const response = await service.get_filtered_accommodation(jsonData)
             commit('SET_ACCOMMODATIONS', response.data)
         },
         reset({ commit }) {
