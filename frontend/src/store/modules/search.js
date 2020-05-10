@@ -17,7 +17,7 @@ export default {
     },
     actions: {
         async get_filtered_accommodation({ commit }, data) {
-            const jsonData = {
+            const date = {
                 or: [
                     {
                         reserved_from__gt: data.rangeDate[1]
@@ -27,6 +27,12 @@ export default {
                     }
                 ]
             }
+            const jsonData = data.city ?{
+                and: [date,
+                {
+                    hotel__city: data.city.name
+                }
+            ]} : date
             const response = await service.get_filtered_accommodation(jsonData)
             commit('SET_ACCOMMODATIONS', response.data)
         },
