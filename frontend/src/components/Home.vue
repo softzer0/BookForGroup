@@ -5,11 +5,14 @@
                 <v-autocomplete
                     v-model="city"
                     :items="cities"
+                    :rules="[rules.required]"
                     item-text="name"
                     return-object
                     dense
                     filled
                     label="City"
+                    @input="validate"
+                    validate-on-blur
                 />
             </v-col>
             <v-col>
@@ -122,7 +125,7 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-btn class="mt-3" block @click="search()">Search</v-btn>
+        <v-btn class="mt-3" block :disabled="!valid" @click="search()">Search</v-btn>
         <br>
         <v-row>
             <v-col cols="12" sm="6" v-for="hotel in this.hotels" :key="hotel.id">
@@ -155,6 +158,7 @@
         name: "Home",
         computed: {
             rules() {return {
+                required: value => !! value || "Required.",
                 requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!"
             }},
             dateRangeText () {
@@ -166,6 +170,7 @@
         },
         data: () => ({
             date: [],
+            valid: false,
             modal: false,
             cities: [
               { header: 'Srbija' },
@@ -233,6 +238,9 @@
             },
             showHotel (id) {
                 this.$router.push({ name: 'Hotel', params: { id } })
+            },
+            validate () {
+                this.valid = this.rules.required(this.city) === true
             }
         },
     }
