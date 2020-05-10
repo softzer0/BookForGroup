@@ -47,17 +47,10 @@ export default {
                     }
                 ]
             }
-            let jsonData = data.city ?{
-                and: [date,
-                {
-                    city: data.city.name
-                }
-            ]} : {
-                and: [date
-            ]}
-            collections.forEach((item)=>{
-                jsonData.and.push(item)
-            })
+            let jsonData = {
+                and: [date, { city: data.city.name }]}
+
+            jsonData.and.push(...collections)
             const response = await service.get_filtered_hotel(jsonData)
             commit('SET_HOTELS', response.data)
         },
