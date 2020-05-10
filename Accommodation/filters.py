@@ -1,11 +1,10 @@
 from rest_framework_filters import FilterSet
 from rest_framework_filters.filters import RelatedFilter
-from Hotel.filters import HotelFilter
 from Hotel.models import Hotel
 from .models import Accommodation
 
 class AccommodationFilter(FilterSet):
-    hotel = RelatedFilter(HotelFilter, queryset=Hotel.objects.all())
+    hotel = RelatedFilter('Hotel.filters.HotelFilter', queryset=Hotel.objects.all())
 
     class Meta:
         model = Accommodation
