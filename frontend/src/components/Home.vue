@@ -125,7 +125,7 @@
         <v-btn class="mt-3" block @click="search()">Search</v-btn>
         <br>
         <v-row>
-            <v-col cols="12" sm="6" v-for="accommodation in this.accommodations" :key="accommodation.id">
+            <v-col cols="12" sm="6" v-for="hotel in this.hotels" :key="hotel.id">
                 <v-card outlined>
                     <v-card-title>
                         <v-row justify="space-between">
@@ -133,11 +133,10 @@
                                 <v-icon>mdi-bed</v-icon>
                             </v-col>
                             <v-col>
-                                {{ accommodation.quantity }}x {{ accommodation.type.name }} - {{ accommodation.bedCount }} bed(s)
-                                <span v-if="accommodation.type.value === 'AP'">, {{ accommodation.roomCount }} room(s)</span>
+                                {{ hotel.name }}
                             </v-col>
                             <v-col class="flex-grow-0 flex-shrink-1">
-                                <v-btn icon @click="showAccommodation(accommodation.id)">
+                                <v-btn icon @click="showHotel(hotel.id)">
                                     <v-icon>mdi-chevron-right</v-icon>
                                 </v-btn>
                             </v-col>
@@ -162,7 +161,7 @@
                 return this.date.join(' ~ ')
             },
             ...mapGetters ({
-                accommodations: 'search/getAccommodationList'
+                hotels: 'search/getHotelList'
             })
         },
         data: () => ({
@@ -230,10 +229,10 @@
                 if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
             },
             search() {
-                this.$store.dispatch('search/get_filtered_accommodation', { rangeDate: this.date, city: this.city })
+                this.$store.dispatch('search/get_filtered_hotel', { rangeDate: this.date, city: this.city, collections: this.collections })
             },
-            showAccommodation (id) {
-                this.$router.push({ name: 'Accommodation', params: { id } })
+            showHotel (id) {
+                this.$router.push({ name: 'Hotel', params: { id } })
             }
         },
     }
