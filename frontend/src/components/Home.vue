@@ -230,7 +230,7 @@
                 if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
             },
             search() {
-                this.$store.dispatch('search/get_filtered_accommodation', { rangeDate: this.date })
+                this.$store.dispatch('search/get_filtered_accommodation', { rangeDate: this.date, city: this.city })
             },
             showAccommodation (id) {
                 this.$router.push({ name: 'Accommodation', params: { id } })
