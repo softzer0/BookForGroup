@@ -39,8 +39,7 @@ const router = new Router({
         {
             path: '/',
             name: 'Home',
-            component: Home,
-            beforeEnter: isGuest
+            component: Home
         },
         {
             path: '/login',

@@ -5,11 +5,14 @@
                 <v-autocomplete
                     v-model="city"
                     :items="cities"
+                    :rules="[rules.required]"
                     item-text="name"
                     return-object
                     dense
                     filled
                     label="City"
+                    @input="validate"
+                    validate-on-blur
                 />
             </v-col>
             <v-col>
@@ -23,6 +26,33 @@
                     multiple
                     label="Position"
                 />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-dialog
+                    ref="dialog"
+                    v-model="modal"
+                    :return-value.sync="date"
+                    persistent
+                    width="290px"
+                >
+                    <template v-slot:activator="{ on }">
+                        <v-text-field
+                            v-model="dateRangeText"
+                            :rules="[rules.requiredPeriod]"
+                            label="Date range"
+                            prepend-icon="mdi-calendar-range"
+                            readonly
+                            v-on="on"
+                        ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" range>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+                      <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                    </v-date-picker>
+                </v-dialog>
             </v-col>
         </v-row>
         <v-row>
@@ -95,14 +125,53 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-btn class="mt-3" block>Search</v-btn>
+        <v-btn class="mt-3" block :disabled="!valid" @click="search()">Search</v-btn>
+        <br>
+        <v-row>
+            <v-col cols="12" sm="6" v-for="hotel in this.hotels" :key="hotel.id">
+                <v-card outlined>
+                    <v-card-title>
+                        <v-row justify="space-between">
+                            <v-col class="flex-grow-0 flex-shrink-1">
+                                <v-icon>mdi-bed</v-icon>
+                            </v-col>
+                            <v-col>
+                                {{ hotel.name }}
+                            </v-col>
+                            <v-col class="flex-grow-0 flex-shrink-1">
+                                <v-btn icon @click="showHotel(hotel.id)">
+                                    <v-icon>mdi-chevron-right</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "Home",
+        computed: {
+            rules() {return {
+                required: value => !! value || "Required.",
+                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!"
+            }},
+            dateRangeText () {
+                return this.date.join(' ~ ')
+            },
+            ...mapGetters ({
+                hotels: 'search/getHotelList'
+            })
+        },
         data: () => ({
+            date: [],
+            valid: false,
+            modal: false,
             cities: [
               { header: 'Srbija' },
               { name: 'Beograd' },
@@ -135,6 +204,9 @@
 
             collections: [],
         }),
+        mounted() {
+            this.$store.dispatch('search/reset')
+        },
         methods: {
             add() {
                 const collection = {
@@ -160,6 +232,15 @@
             },
             setBedrooms(collection) {
                 if (collection.value === 'AP' && collection.roomCount > collection.bedCount) collection.roomCount = collection.bedCount
+            },
+            search() {
+                this.$store.dispatch('search/get_filtered_hotel', { rangeDate: this.date, city: this.city, collections: this.collections })
+            },
+            showHotel (id) {
+                this.$router.push({ name: 'Hotel', params: { id } })
+            },
+            validate () {
+                this.valid = this.rules.required(this.city) === true
             }
         },
     }

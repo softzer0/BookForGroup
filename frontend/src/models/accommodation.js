@@ -1,4 +1,3 @@
-import { parseISO, formatISO, format } from 'date-fns'
 
 export default class Accommodation {
     constructor (data = {}) {
@@ -11,8 +10,7 @@ export default class Accommodation {
         this.bedCount = data.bed_count || 1
         this.pricePerAdult = data.price_per_adult || 1
         this.pricePerChild = data.price_per_child || 1
-        this.reservedPeriod = [data.reserved_from && format(parseISO(data.reserved_from), 'yyyy-MM-dd') || '',
-                               data.reserved_until && format(parseISO(data.reserved_until), 'yyyy-MM-dd') || '']
+        this.reservedPeriod = [data.reserved_from || '', data.reserved_until || '']
         this.smokingAllowed = !!(data.smoking_allowed)
         this.peopleWithDisabilitiesAdapted = !!(data.people_with_disabilities_adapted)
         this.terrace = !!(data.terrace)
@@ -33,8 +31,8 @@ export default class Accommodation {
             bed_count: this.bedCount,
             price_per_adult: this.pricePerAdult,
             price_per_child: this.pricePerChild,
-            reserved_from: formatISO(parseISO(this.reservedPeriod[0])),
-            reserved_until: formatISO(parseISO(this.reservedPeriod[1])),
+            reserved_from: this.reservedPeriod[0],
+            reserved_until: this.reservedPeriod[1],
             smoking_allowed: this.smokingAllowed,
             people_with_disabilities_adapted: this.peopleWithDisabilitiesAdapted,
             terrace: this.terrace,

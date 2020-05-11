@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 
 class Accommodation(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='accommodation_collections')
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='accommodations')
     quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     floor_number = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0)])
     room_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
@@ -18,8 +18,8 @@ class Accommodation(models.Model):
     bed_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
     price_per_adult = models.FloatField()
     price_per_child = models.FloatField()
-    reserved_from = models.DateTimeField()
-    reserved_until = models.DateTimeField()
+    reserved_from = models.DateField()
+    reserved_until = models.DateField()
     smoking_allowed = models.BooleanField(default=False)
     people_with_disabilities_adapted = models.BooleanField(default=False)
     terrace = models.BooleanField(default=False)
