@@ -7,6 +7,7 @@ import hotel from './modules/hotel'
 import company from './modules/company'
 import accommodation from './modules/accommodation'
 import search from './modules/search'
+import arrangement from './modules/arrangement'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
         hotel,
         company,
         accommodation,
+        arrangement,
         search
     },
     plugins: [vuexLocalStorage.plugin]

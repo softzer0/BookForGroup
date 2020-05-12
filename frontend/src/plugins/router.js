@@ -14,6 +14,8 @@ import CompanyForm from '@/components/Company/CompanyForm'
 import CompanyView from '@/components/Company/CompanyView'
 import AccommodationForm from '@/components/Accommodation/AccommodationForm'
 import AccommodationView from '@/components/Accommodation/AccommodationView'
+import ArrangementView from "@/components/Arrangement/ArrangementView"
+import ArrangementForm from "@/components/Arrangement/ArrangementForm"
 
 Vue.use(Router)
 
@@ -102,6 +104,19 @@ const router = new Router({
             props: true,
             name: 'Accommodation',
             component: AccommodationView
+        },
+        {
+            path: '/change-arrangement/:id?',
+            props: true,
+            name: 'CreateEditArrangement',
+            component: ArrangementForm,
+            beforeEnter: isAuthenticated
+        },
+        {
+            path: '/arrangement/:id',
+            props: true,
+            name: 'Arrangement',
+            component: ArrangementView
         }
     ]
 })

@@ -18,8 +18,6 @@ class Accommodation(models.Model):
     bed_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
     price_per_adult = models.FloatField()
     price_per_child = models.FloatField()
-    reserved_from = models.DateField()
-    reserved_until = models.DateField()
     smoking_allowed = models.BooleanField(default=False)
     people_with_disabilities_adapted = models.BooleanField(default=False)
     terrace = models.BooleanField(default=False)

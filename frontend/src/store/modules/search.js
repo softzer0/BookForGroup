@@ -40,10 +40,10 @@ export default {
             const date = {
                 or: [
                     {
-                        accommodations__reserved_from__gt: data.rangeDate[1]
+                        accommodations__arrangements__reserved_from__gt: data.rangeDate[1]
                     },
                     {
-                        accommodations__reserved_until__lt: data.rangeDate[0]
+                        accommodations__arrangements__reserved_until__lt: data.rangeDate[0]
                     }
                 ]
             }
