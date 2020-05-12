@@ -15,6 +15,7 @@ class HotelFilter(FilterSet):
             'name',
             'city',
             'address',
+            'position',
             'free_parking',
             'free_wifi',
             'breakfast',
