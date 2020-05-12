@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from authentication.serializers import UserDetailsSerializer
-from Accommodation.serializers import AccommodationSerializer
+from Accommodation.models import Accommodation
 from .models import Arrangement
+# from authentication.serializers import UserDetailsSerializer
 
 
 class ArrangementSerializer(serializers.ModelSerializer):
     # user = UserDetailsSerializer(default=serializers.CurrentUserDefault())
-    accommodation = AccommodationSerializer()
+    accommodation = serializers.PrimaryKeyRelatedField(queryset=Accommodation.objects.all())
 
     class Meta:
         model = Arrangement

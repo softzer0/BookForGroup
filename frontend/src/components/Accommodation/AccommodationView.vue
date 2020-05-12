@@ -64,17 +64,32 @@
                             </v-list-item-content>
                         </v-list-item>
                         <v-divider inset></v-divider>
-                        <v-list-item>
-                            <v-list-item-icon>
-                                <v-icon color="indigo">mdi-calendar-range</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    {{ accommodation.reservedPeriod[0] }}~{{accommodation.reservedPeriod[1]}}
-                                </v-list-item-title>
-                                <v-list-item-subtitle>Reserved period</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
+                        <v-list-group>
+                            <v-icon slot="prependIcon" color="indigo">mdi-bed</v-icon>
+                            <template v-slot:activator>
+                                <v-list-item-title>Arrangements</v-list-item-title>
+                            </template>
+                            <v-list-item v-for="arrangement in this.arrangements" :key="arrangement.id" link>
+                                <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-chevron-right</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title href="javascript:" @click="showArrangement(arrangement.id)">
+                                        {{ arrangement.reservedPeriod[0] }}~{{ arrangement.reservedPeriod[1] }}
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>Quantity: {{ arrangement.quantity }}</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item v-if="allowedQuantity() > 0" @click="createArrangement()" link>
+                                <v-list-item-icon>
+                                    <v-icon color="indigo">mdi-plus-circle-outline</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <v-list-item-title>Create arrangement</v-list-item-title>
+                                    <v-list-item-subtitle>This way you can create a new arrangement</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-group>
                         <v-divider inset></v-divider>
                         <br>
                         <v-row class="ml-1">
@@ -115,17 +130,30 @@
         computed: mapGetters({
             accommodation: 'accommodation/getAccommodationData',
             userIsLoggedIn: 'user/isLoggedIn',
-            hotel: 'hotel/getHotelData'
+            hotel: 'hotel/getHotelData',
+            arrangements: 'arrangement/getArrangementList'
         }),
         mounted() {
             this.$store.dispatch('accommodation/get_accommodation', this.id)
+            this.$store.dispatch('arrangement/get_accommodation_arrangements', this.id)
         },
         methods: {
             editAccommodation () {
                 this.$router.push({ name: 'CreateEditAccommodation', params: { id: this.accommodation.id } })
             },
+            showArrangement (id) {
+                this.$router.push({ name: 'Arrangement', params: { id } })
+            },
+            createArrangement () {
+                this.$router.push({ name: 'CreateEditArrangement', query: { 'accommodation-id': this.accommodation.id } })
+            },
             goToHotelPage () {
                 this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
+            },
+            allowedQuantity() {
+                let sumQuantity = this.accommodation.quantity
+                this.arrangements.forEach(function(item){ sumQuantity -= item.quantity })
+                return sumQuantity
             }
         }
     }
