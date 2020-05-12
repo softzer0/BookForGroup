@@ -47,8 +47,14 @@ export default {
                     }
                 ]
             }
+            const city = {
+                city: data.city.name
+            }
+            const position = {
+                position: data.position
+            }
             let jsonData = {
-                and: [date, { city: data.city.name }]}
+                and: [date, city, position]}
 
             jsonData.and.push(...collections)
             const response = await service.get_filtered_hotel(jsonData)
