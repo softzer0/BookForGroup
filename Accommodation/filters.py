@@ -10,7 +10,7 @@ class AccommodationFilter(FilterSet):
         model = Accommodation
         fields = {
             'hotel': ['exact'],
-            'floor_number': ['exact'],
+            'floors': ['exact'],
             'room_count': ['exact'],
             'acco_type': ['exact'],
             'bed_count': ['exact'],
