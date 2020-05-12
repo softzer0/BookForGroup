@@ -30,6 +30,16 @@
                                 @input="validate"
                                 validate-on-blur
                             />
+                            <v-combobox
+                                v-model="hotel.position"
+                                :items="positions"
+                                item-text="name"
+                                return-object
+                                prepend-icon="mdi-map-marker-radius-outline"
+                                :rules="[rules.selected]"
+                                @input="validate"
+                                label="Position"
+                            ></v-combobox>
                             <v-text-field
                                 label="Web site"
                                 v-model="hotel.webSite"
@@ -95,6 +105,13 @@
               'Bar',
               'Kotor',
               'Tivat',
+            ],
+            positions: [
+                { name: "Inner center", value: 1 },
+                { name: "Outer center", value: 2 },
+                { name: "Near airport", value: 3 },
+                { name: "Peripheral", value: 4 },
+                { name: "Near sports center", value: 5 }
             ],
         }),
         watchers: {

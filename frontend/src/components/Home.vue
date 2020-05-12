@@ -23,7 +23,6 @@
                     return-object
                     dense
                     filled
-                    multiple
                     label="Position"
                 />
             </v-col>
@@ -195,11 +194,11 @@
 
             position: null,
             positions: [
-                { name: "Inner center" },
-                { name: "Outer center" },
-                { name: "Near airport" },
-                { name: "Peripheral" },
-                { name: "Near sports center" }
+                { name: "Inner center", value: 1 },
+                { name: "Outer center", value: 2 },
+                { name: "Near airport", value: 3 },
+                { name: "Peripheral", value: 4 },
+                { name: "Near sports center", value: 5 }
             ],
 
             collections: [],

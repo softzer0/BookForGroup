@@ -39,6 +39,16 @@
                         <v-divider inset></v-divider>
                         <v-list-item>
                             <v-list-item-icon>
+                                <v-icon color="indigo">mdi-map-marker-radius-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ hotel.position.name }}</v-list-item-title>
+                                <v-list-item-subtitle>Position</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider inset></v-divider>
+                        <v-list-item>
+                            <v-list-item-icon>
                                 <v-icon color="indigo">mdi-web</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
