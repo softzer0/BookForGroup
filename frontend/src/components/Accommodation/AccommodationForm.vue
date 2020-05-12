@@ -46,8 +46,8 @@
                                 validate-on-blur
                             />
                             <v-text-field
-                                label="Floor number"
-                                v-model="accommodation.floorNumber"
+                                label="Floors"
+                                v-model="accommodation.floors"
                                 prepend-icon="mdi-format-list-bulleted"
                                 type="number"
                                 :min="0"

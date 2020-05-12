@@ -1,12 +1,12 @@
 from django.db import models
 from Hotel.models import Hotel
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, validate_comma_separated_integer_list
 
 
 class Accommodation(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='accommodations')
     quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
-    floor_number = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0)])
+    floors = models.CharField(max_length=83, validators=[validate_comma_separated_integer_list])
     room_count = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
     acco_type = models.CharField(
         max_length=2,
@@ -30,4 +30,4 @@ class Accommodation(models.Model):
     kitchen = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['floor_number']
+        ordering = ['floors']

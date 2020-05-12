@@ -4,7 +4,7 @@ export default class Accommodation {
         this.id = data.id || null
         this.hotelId = data.hotel
         this.quantity = data.quantity || 1
-        this.floorNumber = data.floor_number || 0
+        this.floors = data.floors || '0'
         this.roomCount = data.room_count || 1
         this.type = { name: data.acco_type === 'AP' ? "Apartment" : "Studio", value: data.acco_type || 'ST' }
         this.bedCount = data.bed_count || 1
@@ -25,7 +25,7 @@ export default class Accommodation {
         return {
             hotel: this.hotelId,
             quantity: this.quantity,
-            floor_number: this.floorNumber,
+            floors: this.floors,
             room_count: this.roomCount,
             acco_type: this.type.value,
             bed_count: this.bedCount,

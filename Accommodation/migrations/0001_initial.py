@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('hotel', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='accommodation_collections', to='Hotel.Hotel')),
             ],
             options={
-                'ordering': ['floor_number'],
+                'ordering': ['floors'],
             },
         ),
     ]

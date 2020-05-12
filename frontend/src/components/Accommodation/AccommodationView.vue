@@ -34,9 +34,9 @@
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
-                                    {{ accommodation.floorNumber }}
+                                    {{ accommodation.floors }}
                                 </v-list-item-title>
-                                <v-list-item-subtitle>Floor number</v-list-item-subtitle>
+                                <v-list-item-subtitle>Floors</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                         <v-divider inset></v-divider>
