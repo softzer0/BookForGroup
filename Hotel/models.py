@@ -9,6 +9,15 @@ class Hotel(models.Model):
     address = models.TextField(max_length=50)
     web_site = models.TextField(max_length=50, blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
+    position = models.IntegerField(
+        choices=[
+            (1, "Inner center"),
+            (2, "Outer center"),
+            (3, "Near airport"),
+            (4, "Peripheral"),
+            (5, "Near sports center")
+        ]
+    )
 
     # The parameters involved in the hotel
     #

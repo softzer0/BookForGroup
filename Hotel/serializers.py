@@ -8,7 +8,7 @@ class HotelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hotel
-        fields = ('id', 'user', 'name', 'city', 'address', 'web_site', 'image', 'free_parking', 'free_wifi',
+        fields = ('id', 'user', 'name', 'city', 'address', 'web_site', 'image', 'position', 'free_parking', 'free_wifi',
                   'breakfast', 'swimming_pool', 'spa', 'gym')
 
     def create(self, validated_data):
