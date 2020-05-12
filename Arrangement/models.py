@@ -1,15 +1,15 @@
+from django.core.validators import MinValueValidator
+import datetime
 from django.db import models
-from Hotel.models import Hotel
+from Accommodation.models import Accommodation
 from authentication.models import User
 
 
 class Arrangement(models.Model):
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='arrangements')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='arrangements')
-    number_of_people = models.IntegerField(default=1)
-    price = models.FloatField(default=0)
-    discount = models.FloatField(default=0)
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name='arrangements')
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+    reserved_from = models.DateField(default=datetime.date.today)
+    reserved_until = models.DateField(default=datetime.date.today)
 
     class Meta:
-        ordering = ['number_of_people']
-
+        ordering = ['quantity']

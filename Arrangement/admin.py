@@ -3,7 +3,7 @@ from .models import Arrangement
 
 
 class ArrangementAdmin(admin.ModelAdmin):
-    list_display = ('hotel', 'user', 'number_of_people', 'price', 'discount')
+    list_display = ('accommodation',)
 
 
 admin.site.register(Arrangement, ArrangementAdmin)

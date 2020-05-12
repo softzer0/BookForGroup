@@ -1,13 +1,13 @@
 from rest_framework import serializers
 from authentication.serializers import UserDetailsSerializer
-from Hotel.serializers import HotelSerializer
+from Accommodation.serializers import AccommodationSerializer
 from .models import Arrangement
 
 
 class ArrangementSerializer(serializers.ModelSerializer):
-    user = UserDetailsSerializer(default=serializers.CurrentUserDefault())
-    hotel = HotelSerializer()
+    # user = UserDetailsSerializer(default=serializers.CurrentUserDefault())
+    accommodation = AccommodationSerializer()
 
     class Meta:
         model = Arrangement
-        fields = ('hotel', 'user', 'number_of_people', 'price', 'discount')
+        fields = '__all__'
