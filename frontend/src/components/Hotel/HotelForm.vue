@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                <v-card grey color="grey lighten-5">
                     <v-card-title class="justify-center">{{ id ? "Edit hotel" : "Create new hotel" }}</v-card-title>
                     <v-form>
                         <v-card-text>

@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card class="mx-auto" style="border-radius: 20px;">
+                <v-card class="mx-auto">
                     <v-card-title class="justify-center">
                         {{ user.firstName }}
                         {{ user.lastName }}

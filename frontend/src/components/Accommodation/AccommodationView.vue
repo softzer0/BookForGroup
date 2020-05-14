@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card class="mx-auto" style="border-radius: 20px;">
+                <v-card class="mx-auto">
                     <v-row class="pr-1 pt-1">
                         <v-spacer></v-spacer>
                         <v-btn icon color="indigo" @click="goToHotelPage()">
@@ -80,7 +80,7 @@
                                     <v-list-item-subtitle>Quantity: {{ arrangement.quantity }}</v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
-                            <v-list-item v-if="allowedQuantity() > 0" @click="createArrangement()" link>
+                            <v-list-item v-if="this.allowedQuantity > 0" @click="createArrangement()" link>
                                 <v-list-item-icon>
                                     <v-icon color="indigo">mdi-plus-circle-outline</v-icon>
                                 </v-list-item-icon>
@@ -127,12 +127,19 @@
     export default {
         name: "Accommodation",
         props: ['id'],
-        computed: mapGetters({
+        computed: {
+            allowedQuantity() {
+                let sumQuantity = this.accommodation.quantity
+                this.arrangements.forEach((item) => { sumQuantity -= item.quantity })
+                return sumQuantity
+            },
+            ...mapGetters({
             accommodation: 'accommodation/getAccommodationData',
             userIsLoggedIn: 'user/isLoggedIn',
             hotel: 'hotel/getHotelData',
             arrangements: 'arrangement/getArrangementList'
-        }),
+        })
+        },
         mounted() {
             this.$store.dispatch('accommodation/get_accommodation', this.id)
             this.$store.dispatch('arrangement/get_accommodation_arrangements', this.id)
@@ -149,11 +156,6 @@
             },
             goToHotelPage () {
                 this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
-            },
-            allowedQuantity() {
-                let sumQuantity = this.accommodation.quantity
-                this.arrangements.forEach(function(item){ sumQuantity -= item.quantity })
-                return sumQuantity
             }
         }
     }

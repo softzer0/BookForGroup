@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col xs="12" sm="6">
-                <v-card grey color="grey lighten-5" style="border-radius: 20px;">
+                <v-card grey color="grey lighten-5">
                     <v-card-title class="justify-center">{{ id ? "Edit accommodation" : "Create new accommodation" }}</v-card-title>
                     <v-form>
                         <v-card-text>
@@ -43,7 +43,7 @@
                                 label="Floors"
                                 v-model="accommodation.floors"
                                 prepend-icon="mdi-format-list-bulleted"
-                                type="number"
+                                type="text"
                                 :min="0"
                                 validate-on-blur
                             />
@@ -62,14 +62,14 @@
                                 validate-on-blur
                             />
                             <v-row justify="space-around">
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.terrace" :label="`Terrace`" prepend-icon="mdi-flower" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.tv" :label="`TV`" prepend-icon="mdi-television-classic" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.heating" :label="`Heating`" prepend-icon="mdi-radiator" hide-details @change="valid === null"/></v-col>
-                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware" hide-details @change="valid === null"/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.smokingAllowed" :label="`Smoking`" prepend-icon="mdi-smoking" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.peopleWithDisabilitiesAdapted" :label="`Disabilities adapted`" prepend-icon="mdi-wheelchair-accessibility" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.terrace" :label="`Terrace`" prepend-icon="mdi-flower" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.airConditioning" :label="`Air conditioning`" prepend-icon="mdi-air-conditioner" hide-details/></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.tv" :label="`TV`" prepend-icon="mdi-television-classic" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.soundIsolation" :label="`Sound isolation`" prepend-icon="mdi-volume-off" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.heating" :label="`Heating`" prepend-icon="mdi-radiator" hide-details /></v-col>
+                                <v-col class="flex-grow-0"><v-checkbox v-model="accommodation.kitchen" :label="`Kitchen`" prepend-icon="mdi-silverware" hide-details /></v-col>
                             </v-row>
                         </v-card-text>
                     </v-form>
@@ -95,7 +95,6 @@
             })
         },
         data: () => ({
-            valid: null,
             types: [
                 { name: "Studio", value: 'ST' },
                 { name: "Apartment", value: 'AP' },
