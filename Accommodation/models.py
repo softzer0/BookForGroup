@@ -26,6 +26,3 @@ class Accommodation(models.Model):
     sound_isolation = models.BooleanField(default=False)
     heating = models.BooleanField(default=False)
     kitchen = models.BooleanField(default=False)
-
-    class Meta:
-        ordering = ['floors']

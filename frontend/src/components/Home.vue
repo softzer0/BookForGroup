@@ -29,29 +29,7 @@
         </v-row>
         <v-row>
             <v-col>
-                <v-dialog
-                    ref="dialog"
-                    v-model="modal"
-                    :return-value.sync="date"
-                    persistent
-                    width="290px"
-                >
-                    <template v-slot:activator="{ on }">
-                        <v-text-field
-                            v-model="dateRangeText"
-                            :rules="[rules.requiredPeriod]"
-                            label="Date range"
-                            prepend-icon="mdi-calendar-range"
-                            readonly
-                            v-on="on"
-                        ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="date" range>
-                      <v-spacer></v-spacer>
-                      <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
-                      <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
-                    </v-date-picker>
-                </v-dialog>
+                <DatePicker :date="date" @update-date="updateDate"/>
             </v-col>
         </v-row>
         <v-row>
@@ -151,26 +129,25 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapGetters} from "vuex"
+    import DatePicker from "./Partials/DatePicker"
 
     export default {
         name: "Home",
+        components: {
+            DatePicker,
+        },
         computed: {
             rules() {return {
                 required: value => !! value || "Required.",
-                requiredPeriod: value => value.indexOf('~') > 1 || "Invalid date range!"
             }},
-            dateRangeText () {
-                return this.date.join(' ~ ')
-            },
             ...mapGetters ({
                 hotels: 'search/getHotelList'
             })
         },
         data: () => ({
-            date: [],
             valid: false,
-            modal: false,
+            date: null,
             cities: [
               { header: 'Srbija' },
               { name: 'Beograd' },
@@ -192,7 +169,7 @@
             ],
             type: { name: "Studio", value: 'ST' },
 
-            position: null,
+            position: { name: "Inner center", value: 1 },
             positions: [
                 { name: "Inner center", value: 1 },
                 { name: "Outer center", value: 2 },
@@ -239,7 +216,11 @@
                 this.$router.push({ name: 'Hotel', params: { id } })
             },
             validate () {
-                this.valid = this.rules.required(this.city) === true
+                this.valid = this.rules.required(this.city) === true && this.date
+            },
+            updateDate(value) {
+                this.date = value
+                this.validate()
             }
         },
     }

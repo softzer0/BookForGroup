@@ -11,37 +11,22 @@ export default class Hotel {
         this.swimmingPool = !!(data.swimming_pool)
         this.spa = !!(data.spa)
         this.gym = !!(data.gym)
+        this.position = { value: data.position }
         switch (data.position) {
             case 1:
-                this.position = {
-                    name: "Inner center",
-                    value: 1
-                }
+                this.position.name = "Inner center"
                 break
             case 2:
-                this.position = {
-                    name: "Outer center",
-                    value: 2
-                }
+                this.position.name = "Outer center"
                 break
             case 3:
-                this.position = {
-                    name: "Near airport",
-                    value: 3
-                }
+                this.position.name = "Near airport"
                 break
             case 4:
-                this.position = {
-                    name: "Peripheral",
-                    value: 4
-                }
+                this.position.name = "Peripheral"
                 break
             case 5:
-                this.position = {
-                    name: "Near sports center",
-                    value: 5
-                }
-                break
+                this.position.name = "Near sports center"
         }
     }
 
