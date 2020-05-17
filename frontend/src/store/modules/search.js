@@ -17,47 +17,31 @@ export default {
     },
     actions: {
         async get_filtered_hotel({ commit }, data) {
-            let collections = []
+            const jsonData = {and: [{
+                hotel__city: data.city.name,
+                hotel__position: data.position
+            }]}
             data.collections.forEach(function(item) {
-                let collection = {
-                    accommodations__acco_type: item.value,
-                    accommodations__quantity: item.quantity,
-                    accommodations__bed_count: item.bedCount,
-                    accommodations__smoking_allowed: item.smokingAllowed,
-                    accommodations__people_with_disabilities_adapted: item.peopleWithDisabilitiesAdapted,
-                    accommodations__terrace: item.terrace,
-                    accommodations__air_conditioning: item.airConditioning,
-                    accommodations__tv: item.tv,
-                    accommodations__sound_isolation: item.soundIsolation,
-                    accommodations__heating: item.heating,
-                    accommodations__kitchen: item.kitchen
+                const collection = {
+                    acco_type: item.value,
+                    quantity__gte: item.quantity,
+                    bed_count: item.bedCount,
+                    smoking_allowed: item.smokingAllowed,
+                    people_with_disabilities_adapted: item.peopleWithDisabilitiesAdapted,
+                    terrace: item.terrace,
+                    air_conditioning: item.airConditioning,
+                    tv: item.tv,
+                    sound_isolation: item.soundIsolation,
+                    heating: item.heating,
+                    kitchen: item.kitchen
                 }
                 if(item.value == 'AP' && item.bedCount > 1){
-                    collection.accommodations__room_count = item.roomCount
+                    collection.room_count = item.roomCount
                 }
-                collections.push(collection)
+                jsonData.and.push(collection)
             })
-            const date = {
-                or: [
-                    {
-                        accommodations__arrangements__reserved_from__gt: data.rangeDate[1]
-                    },
-                    {
-                        accommodations__arrangements__reserved_until__lt: data.rangeDate[0]
-                    }
-                ]
-            }
-            const city = {
-                city: data.city.name
-            }
-            const position = {
-                position: data.position
-            }
-            let jsonData = {
-                and: [date, city, position]}
 
-            jsonData.and.push(...collections)
-            const response = await service.get_filtered_hotel(jsonData)
+            const response = await service.get_filtered_hotel(data.rangeDate[0], data.rangeDate[1], jsonData)
             commit('SET_HOTELS', response.data)
         },
         reset({ commit }) {

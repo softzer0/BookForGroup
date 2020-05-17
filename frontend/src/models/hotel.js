@@ -11,7 +11,7 @@ export default class Hotel {
         this.swimmingPool = !!(data.swimming_pool)
         this.spa = !!(data.spa)
         this.gym = !!(data.gym)
-        this.position = { value: data.position }
+        this.position = data.position ? { value: data.position } : null
         switch (data.position) {
             case 1:
                 this.position.name = "Inner center"

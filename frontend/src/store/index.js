@@ -8,6 +8,7 @@ import company from './modules/company'
 import accommodation from './modules/accommodation'
 import search from './modules/search'
 import arrangement from './modules/arrangement'
+import dialogs from "./modules/dialogs"
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ const vuexLocalStorage = new VuexPersist({
 
 export default new Vuex.Store({
     modules: {
+        dialogs,
         user,
         hotel,
         company,
