@@ -130,7 +130,7 @@
 
 <script>
     import {mapGetters} from "vuex"
-    import DatePicker from "./Partials/DatePicker"
+    import DatePicker from "./partials/DatePicker"
 
     export default {
         name: "Home",
