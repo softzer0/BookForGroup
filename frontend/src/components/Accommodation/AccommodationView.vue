@@ -129,9 +129,7 @@
         props: ['id'],
         computed: {
             allowedQuantity() {
-                let sumQuantity = this.accommodation.quantity
-                this.arrangements.forEach((item) => { sumQuantity -= item.quantity })
-                return sumQuantity
+                return this.accommodation.quantity - this.arrangements.reduce((sum, item) => sum + item.quantity, 0)
             },
             ...mapGetters({
             accommodation: 'accommodation/getAccommodationData',

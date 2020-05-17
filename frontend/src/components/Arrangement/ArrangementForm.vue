@@ -12,7 +12,6 @@
                                 prepend-icon="mdi-numeric-1-box-multiple-outline"
                                 type="number"
                                 :min="1"
-                                :max="this.allowedQuantity"
                             />
                             <DatePicker :date="arrangement.reservedPeriod" @update-date="updateDate"/>
                         </v-card-text>
@@ -26,7 +25,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import DatePicker from "../Partials/DatePicker"
+    import DatePicker from "../partials/DatePicker"
 
     export default {
         name: 'CreateEditArrangement',
@@ -38,11 +37,6 @@
             rules() { return {
                 required: value => !!value || "Required."
             }},
-            allowedQuantity() {
-                let sumQuantity = this.accommodation.quantity
-                this.arrangements.forEach((item) => { return sumQuantity -= item.quantity })
-                return sumQuantity
-            },
             ...mapGetters({
                 arrangement: 'arrangement/getArrangementData',
                 arrangements: 'arrangement/getArrangementList',
@@ -84,7 +78,7 @@
                 this.$router.push({ name: 'Accommodation', params: { id: this.arrangement.accommodationId } })
             },
             updateDate(value) {
-                this.arrangement.reservedPeriod = value
+                this.arrangement.reservedPeriod = value || ['', '']
                 this.validate()
             }
           },
