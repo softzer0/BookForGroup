@@ -39,7 +39,8 @@
                                 prepend-icon="mdi-lock-outline"
                                 :append-icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
                                 @click:append="showPassword = !showPassword"
-                                :rules="[rules.required]"
+                                :rules="[rules.required, rules.passwordLength]"
+                                :error-messages="passwordErrorMessages"
                                 @input="validate"
                                 validate-on-blur
                             />
@@ -72,6 +73,7 @@
                 email: value => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value) || "Invalid e-mail.",
                 lettersOnly: v => /^\w+$/.test(v) || 'Name contains just letters!',
                 nameLength: v => v.length <= 20 || 'Name must be less than 20 characters!',
+                passwordLength: v => v.length >= 8 || 'Password must contain at least 8 characters!',
                 confirmPassword: v => v === this.password || 'Passwords must match!'
             }}
         },
@@ -83,7 +85,8 @@
             confirmPassword: '',
             showPassword: false,
             showConfirmPassword: false,
-            valid: false
+            valid: false,
+            passwordErrorMessages: []
         }),
         methods: {
             validate () {
@@ -92,13 +95,21 @@
                              this.rules.required(this.confirmPassword) === true && this.rules.confirmPassword(this.confirmPassword) === true &&
                              this.rules.lettersOnly(this.firstName) === true && this.rules.lettersOnly(this.lastName) === true &&
                              this.rules.nameLength(this.firstName) === true && this.rules.nameLength(this.lastName) === true &&
-                             this.rules.email(this.email) === true
+                             this.rules.email(this.email) === true && this.rules.passwordLength(this.password) === true
             },
             async register () {
-                await this.$store.dispatch('user/register', { email: this.email, password1: this.password,
-                                                                            password2: this.confirmPassword, first_name: this.firstName,
-                                                                            last_name: this.lastName })
-                this.$router.push({ name: 'User' })
+                try {
+                    await this.$store.dispatch('user/register', { email: this.email, password1: this.password,
+                                                                              password2: this.confirmPassword, first_name: this.firstName,
+                                                                              last_name: this.lastName })
+                    this.$router.push({ name: 'User' })
+                } catch (response) {
+                    if (response.password1) {
+                        this.passwordErrorMessages = response.password1
+                    } else {
+                        this.$store.dispatch('dialogs/show_error', response)
+                    }
+                }
             }
         }
     }

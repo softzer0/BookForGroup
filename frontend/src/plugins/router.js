@@ -139,9 +139,13 @@ router.beforeEach(waitForStorageToBeReady)
 axios.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.data && error.response.data.code === 'token_not_valid') {
-            store.dispatch('user/clear_auth')
-            router.push({name: 'Login'})
+        if (error.response.data) {
+            if (error.response.data.code === 'token_not_valid') {
+                store.dispatch('user/clear_auth')
+                router.push({name: 'Login'})
+            } else {
+                return Promise.reject(error.response.data)
+            }
         }
         return Promise.reject(error)
     }
