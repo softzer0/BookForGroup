@@ -12,12 +12,11 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-
-                <v-btn
-                    text
-                    @click="close()"
-                >
-                    OK
+                <v-btn text @click="close()">
+                    Close
+                </v-btn>
+                <v-btn v-if="deleteBox" text @click="deleteResponse()">
+                    Delete
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -33,11 +32,17 @@
             ...mapGetters({
                 dialog: 'dialogs/getDialogState',
                 dialogParams: 'dialogs/getDialogParams'
-            })
+            }),
+            deleteBox() {
+                return this.dialogParams.title.localeCompare('Delete') === 0
+            }
         },
         methods: {
             close() {
                 this.$store.dispatch('dialogs/close_dialog')
+            },
+            deleteResponse() {
+                this.$store.dispatch('dialogs/set_delete_response')
             }
         }
     }

@@ -121,10 +121,11 @@
             async changeAccommodation() {
                 if (this.id) {
                     await this.$store.dispatch('accommodation/update_accommodation')
+                    this.$router.push({ name: 'Accommodation', params: { id: this.accommodation.id } })
                 } else {
                     await this.$store.dispatch('accommodation/create_accommodation')
+                    this.$router.push({ name: 'Hotel', params: { id: this.accommodation.hotelId } })
                 }
-                this.$router.push({ name: 'Hotel', params: { id: this.accommodation.hotelId } })
             }
           },
     }

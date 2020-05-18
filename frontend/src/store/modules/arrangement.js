@@ -17,6 +17,9 @@ export default {
         },
         ADD_ARRANGEMENT: (state, data) => {
             state.list.push(new Arrangement(data))
+        },
+        REMOVE_ARRANGEMENT: (state, data) => {
+            state.list.splice(state.list.indexOf(data), 1)
         }
     },
     getters: {
@@ -39,6 +42,10 @@ export default {
         async update_arrangement({ commit , state }) {
             const response = await service.update_arrangement(state.data.id, state.data.prepareForRequest())
             commit('SET_ARRANGEMENT', response.data)
+        },
+        async delete_arrangement({ commit }, data){
+            await service.delete_arrangement(data.id)
+            commit('REMOVE_ARRANGEMENT', data)
         },
         reset_arrangement({ commit }, accommodationId) {
             commit('SET_ARRANGEMENT', { accommodation: accommodationId })
