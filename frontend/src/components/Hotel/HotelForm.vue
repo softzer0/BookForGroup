@@ -92,7 +92,10 @@
                 required: value => !!value || "Required.",
                 selected: () => !!this.hotel.city || "Required.",
             }},
-            ...mapGetters({ hotel: 'hotel/getHotelData' })
+            ...mapGetters({
+                hotel: 'hotel/getHotelData' ,
+                userIsLoggedIn: 'user/isLoggedIn'
+            })
         },
         data: () => ({
             valid: null,
@@ -137,10 +140,11 @@
               async changeHotel() {
                     if (this.id) {
                         await this.$store.dispatch('hotel/update_hotel')
+                        this.$router.push({ name: 'Hotel', params: {id: this.hotel.id}})
                     } else {
                         await this.$store.dispatch('hotel/create_hotel')
+                        this.$router.push({ name: 'User', params: {id: this.userIsLoggedIn.id}})
                     }
-                    this.$router.push({ name: 'User' })
               }
           },
     }

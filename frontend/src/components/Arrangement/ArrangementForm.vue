@@ -73,10 +73,12 @@
                 try {
                     if (this.id) {
                         await this.$store.dispatch('arrangement/update_arrangement')
+                        this.$router.push({name: 'Arrangement', params: {id: this.arrangement.id}})
                     } else {
                         await this.$store.dispatch('arrangement/create_arrangement')
+                        this.$router.push({name: 'Accommodation', params: {id: this.accommodation.id}})
                     }
-                    this.$router.push({name: 'Accommodation', params: {id: this.arrangement.accommodationId}})
+
                 } catch (response) {
                     if (response.non_field_errors) {
                         this.$store.dispatch('dialogs/show_error', response.non_field_errors.join(' '))

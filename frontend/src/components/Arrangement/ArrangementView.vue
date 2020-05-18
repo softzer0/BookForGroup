@@ -8,8 +8,11 @@
                         <v-btn icon color="indigo" @click="goToAccommodationPage()">
                             <v-icon>mdi-chevron-left</v-icon>
                         </v-btn>
-                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click="editArrangement()">
+                        <v-btn icon color="indigo" v-if="userIsLoggedIn" @click="editArrangement()">
                           <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click="deleteArrangement()">
+                          <v-icon>mdi-delete-forever-outline</v-icon>
                         </v-btn>
                     </v-row>
                     <v-card-title class="justify-center">Arrangement</v-card-title>
@@ -62,6 +65,13 @@
         methods: {
             editArrangement () {
                 this.$router.push({ name: 'CreateEditArrangement', params: { id: this.arrangement.id } })
+            },
+            deleteArrangement () {
+                this.$store.dispatch('dialogs/show_delete_dialog')
+                if(this.$store.getters['dialogs/getDialogDeleteResponse']){
+                    this.$store.dispatch('arrangement/delete_arrangement', this.arrangement)
+                    this.$router.push({name: 'Accommodation', params: {id: this.accommodation.id}})
+                }
             },
             goToAccommodationPage () {
                 this.$router.push({ name: 'Accommodation', params: { id: this.accommodation.id } })

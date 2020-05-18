@@ -97,7 +97,7 @@
                     const data = { name: this.company.name, phone: this.company.phone,
                            pib: this.company.pib, city: this.company.city, address: this.company.address }
                     await this.$store.dispatch('company/set_user_company', data)
-                    this.$router.push({ name: 'User' })
+                    this.$router.push({ name: 'Company', params: {id: this.company.id}})
               }
           },
     }
