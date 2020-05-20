@@ -8,8 +8,11 @@
                         <v-btn icon color="indigo" @click="goToUserPage()">
                             <v-icon>mdi-chevron-left</v-icon>
                         </v-btn>
-                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click="editHotel()">
+                        <v-btn icon color="indigo" v-if="userIsLoggedIn" @click="editHotel()">
                           <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click.native.prevent="deleteHotel()">
+                          <v-icon>mdi-delete-forever-outline</v-icon>
                         </v-btn>
                     </v-row>
                     <v-card-title class="justify-center">
@@ -133,6 +136,14 @@
             },
             createAccommodation () {
                 this.$router.push({ name: 'CreateEditAccommodation', query: { 'hotel-id': this.hotel.id } })
+            },
+            deleteHotel () {
+                this.$store.dispatch('dialogs/show_delete_dialog').then((value) => {
+                    if(value) {
+                        this.$store.dispatch('hotel/delete_hotel', this.hotel)
+                        this.$router.push({name: 'User', params: {id: this.userIsLoggedIn.id}})
+                    }
+                })
             },
             goToUserPage () {
                 this.$router.push({ name: 'User' })

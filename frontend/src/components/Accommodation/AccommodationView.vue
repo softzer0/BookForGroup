@@ -8,8 +8,11 @@
                         <v-btn icon color="indigo" @click="goToHotelPage()">
                             <v-icon>mdi-chevron-left</v-icon>
                         </v-btn>
-                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click="editAccommodation()">
+                        <v-btn icon color="indigo" v-if="userIsLoggedIn" @click="editAccommodation()">
                           <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon color="indigo" class="mr-4" v-if="userIsLoggedIn" @click.native.prevent="deleteAccommodation()">
+                          <v-icon>mdi-delete-forever-outline</v-icon>
                         </v-btn>
                     </v-row>
                     <v-card-title class="justify-center">Accommodation</v-card-title>
@@ -80,7 +83,7 @@
                                     <v-list-item-subtitle>Quantity: {{ arrangement.quantity }}</v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
-                            <v-list-item v-if="this.allowedQuantity > 0" @click="createArrangement()" link>
+                            <v-list-item @click="createArrangement()" link>
                                 <v-list-item-icon>
                                     <v-icon color="indigo">mdi-plus-circle-outline</v-icon>
                                 </v-list-item-icon>
@@ -128,9 +131,6 @@
         name: "Accommodation",
         props: ['id'],
         computed: {
-            allowedQuantity() {
-                return this.accommodation.quantity - this.arrangements.reduce((sum, item) => sum + item.quantity, 0)
-            },
             ...mapGetters({
             accommodation: 'accommodation/getAccommodationData',
             userIsLoggedIn: 'user/isLoggedIn',
@@ -154,6 +154,14 @@
             },
             goToHotelPage () {
                 this.$router.push({ name: 'Hotel', params: { id: this.hotel.id } })
+            },
+            deleteAccommodation() {
+                this.$store.dispatch('dialogs/show_delete_dialog').then((value) => {
+                    if(value) {
+                        this.$store.dispatch('accommodation/delete_accommodation', this.accommodation)
+                        this.$router.push({name: 'Hotel', params: {id: this.hotel.id}})
+                    }
+                })
             }
         }
     }

@@ -2,7 +2,7 @@ export default {
     namespaced: true,
     state: {
         show: false,
-        deleteResponse: false,
+        resolve: null,
         params: {
             title: '',
             text: null
@@ -13,29 +13,21 @@ export default {
             state.params.title = data.title
             state.params.text = data.text
             state.show = true
+            state.resolve = null
         },
-        SET_DATA_FOR_DELETE: (state) => {
-            state.params.title = 'Delete'
-            state.params.text = 'Are you sure you want to delete this object?'
-            state.deleteResponse = false
+        SET_DATA_FOR_DELETE: (state, resolve) => {
+            state.params.title = 'Delete Item'
+            state.params.text = 'Are you sure you want to delete this item?'
             state.show = true
+            state.resolve = resolve
         },
-        SET_DELETE_RESPONSE_AND_CLOSE: (state) => {
-            state.deleteResponse = true
+        SET_RESPONSE: (state, response) => {
             state.show = false
-            state.params.title = ''
-            state.params.text = null
-        },
-        RESET_DATA: (state) => {
-            state.show = false
-            state.deleteResponse = false
-            state.params.title = ''
-            state.params.text = null
+            state.resolve(response)
         }
     },
     getters: {
         getDialogState: state => state.show,
-        getDialogDeleteResponse: state => state.deleteResponse,
         getDialogParams: state => state.params
     },
     actions: {
@@ -43,13 +35,12 @@ export default {
             commit('SET_DATA', {title: "Error", text})
         },
         show_delete_dialog({ commit }) {
-            commit('SET_DATA_FOR_DELETE')
+            return new Promise((resolve) => {
+                commit('SET_DATA_FOR_DELETE', resolve)
+            })
         },
-        set_delete_response({ commit }) {
-            commit('SET_DELETE_RESPONSE_AND_CLOSE')
-        },
-        close_dialog({ commit }) {
-            commit('RESET_DATA')
+        set_dialog_response({ commit }, response) {
+            commit('SET_RESPONSE', response)
         }
     }
 }

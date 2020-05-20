@@ -13,7 +13,7 @@
                                 type="number"
                                 :min="1"
                             />
-                            <DatePicker :date="arrangement.reservedPeriod" @update-date="updateDate"/>
+                            <DatePicker :date="id ? arrangement.reservedPeriod : ['', '']" @update-date="updateDate"/>
                         </v-card-text>
                     </v-form>
                     <v-card-actions class="justify-center"><v-btn :disabled="!valid" @click="changeArrangement()">Complete</v-btn></v-card-actions>

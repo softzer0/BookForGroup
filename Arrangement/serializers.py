@@ -30,5 +30,5 @@ class ArrangementSerializer(serializers.ModelSerializer):
         kwargs.pop('fields', None)
         super().__init__(*args, **kwargs)
 
-        if self.context['request'].method != 'GET':
-            self.fields['accommodation'] = serializers.PrimaryKeyRelatedField(queryset=Accommodation.objects.all())
+        if self.context['view'].action != 'retrieve':
+            self.fields['accommodation'] = serializers.PrimaryKeyRelatedField(queryset=Accommodation.objects.all(), required=True)

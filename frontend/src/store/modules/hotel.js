@@ -20,6 +20,9 @@ export default {
         },
         ADD_HOTEL: (state, data) => {
             state.list.push(new Hotel(data))
+        },
+        REMOVE_HOTEL: (state, data) => {
+            state.list.splice(state.list.indexOf(data), 1)
         }
     },
     getters: {
@@ -42,6 +45,10 @@ export default {
         async update_hotel({ commit, state }) {
             const response = await service.update_hotel(state.data.id, state.data.prepareForRequest())
             commit('SET_HOTEL', response.data)
+        },
+        async delete_hotel({ commit }, data){
+            await service.delete_hotel(data.id)
+            commit('REMOVE_HOTEL', data)
         },
         clear_hotel({ commit }) {
             commit('CLEAR_HOTEL')
