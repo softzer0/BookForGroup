@@ -48,7 +48,7 @@ export default {
             commit('REMOVE_ARRANGEMENT', data)
         },
         reset_arrangement({ commit }, accommodationId) {
-            commit('SET_ARRANGEMENT', { accommodation: accommodationId })
+            commit('SET_ARRANGEMENT', { accommodation: { id: accommodationId }})
         },
         reset({ commit }) {
             commit('SET_ARRANGEMENT')

@@ -2,7 +2,7 @@
 export default class Accommodation {
     constructor (data = {}) {
         this.id = data.id || null
-        this.hotelId = data.hotel
+        this.hotelId = data.hotel ? data.hotel.id : null
         this.quantity = data.quantity || 1
         this.floors = data.floors || '0'
         this.roomCount = data.room_count || 1

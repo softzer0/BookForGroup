@@ -7,5 +7,6 @@ export default {
     get_filtered_accommodation: data => axios.get(`${BASE_PATH}?json_filters=${encodeURIComponent(JSON.stringify(data))}`),
     get_accommodation: id => axios.get(`${BASE_PATH}${id}/`),
     create_accommodation: data => axios.post(`${BASE_PATH}`, data),
-    update_accommodation: (id, data) => axios.patch(`${BASE_PATH}${id}/`, data)
+    update_accommodation: (id, data) => axios.patch(`${BASE_PATH}${id}/`, data),
+    delete_accommodation: id => axios.delete(`${BASE_PATH}${id}/`)
 }

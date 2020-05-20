@@ -17,6 +17,9 @@ export default {
         },
         ADD_ACCOMMODATION: (state, data) => {
             state.list.push(new Accommodation(data))
+        },
+        REMOVE_ACCOMMODATION: (state, data) => {
+            state.list.splice(state.list.indexOf(data), 1)
         }
     },
     getters: {
@@ -40,8 +43,12 @@ export default {
             const response = await service.update_accommodation(state.data.id, state.data.prepareForRequest())
             commit('SET_ACCOMMODATION', response.data)
         },
+        async delete_accommodation({ commit }, data){
+            await service.delete_accommodation(data.id)
+            commit('REMOVE_ACCOMMODATION', data)
+        },
         reset_accommodation({ commit }, hotelId) {
-            commit('SET_ACCOMMODATION', { hotel: hotelId })
+            commit('SET_ACCOMMODATION', { hotel: { id: hotelId }})
         },
         reset({ commit }) {
             commit('SET_ACCOMMODATION')

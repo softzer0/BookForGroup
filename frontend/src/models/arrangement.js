@@ -2,7 +2,7 @@
 export default class Arrangement{
     constructor(data = {}) {
         this.id = data.id || null
-        this.accommodationId = data.accommodation
+        this.accommodationId = data.accommodation ? data.accommodation.id : null
         this.quantity = data.quantity || 1
         this.reservedPeriod = [data.reserved_from || '', data.reserved_until || '']
     }
